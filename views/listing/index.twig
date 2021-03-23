@@ -1,0 +1,98 @@
+<div data-page-type="listing">
+
+	<div class="comments" style="display: none;">
+		<div class="content_block" data-listing-title>
+
+			{{ this.render('//components/generic/title.twig', {'count':count, 'seo':seo}) | raw }}
+			
+		</div>
+	</div>
+
+	<div class="comments" style="display: none;">
+		{{ this.render('//components/generic/slice.twig', {menu:menu, main_flag:main_flag}) | raw }}
+	</div>
+
+	<div class="comments" style="display: none;">
+		<div class="content_block filter_listing">
+			{{filter | raw }}
+		</div>
+	</div>
+
+	{# <div class="content_block" data-listing-text-top>
+		<div class="seo_text" data-seo-text>
+			{{seo.text_top | raw }}
+			<div class="seo_text_control" data-seo-control>
+				<p class="_link">Показать полностью</p>
+			</div>
+		</div>
+	</div> #}
+
+	<div class="comments" style="display: none;">
+		<div class="content_block pagination"> 
+			<div data-pagination-wrapper>
+				{{pagination | raw }}
+			</div>
+		</div>
+	</div>
+
+	<div class="content_block" data-listing-title>
+        {{ this.render('//components/generic/item_title.twig', {'seo':seo}) | raw }}
+    </div>
+
+	<div class="content_block listing_paragraph">
+
+		{{ this.render('//components/generic/listing_title.twig', {'count':count, 'seo':seo}) | raw }}
+		
+	</div>
+
+	<div class="listing_and_filter_wrapper">
+
+		<div class="filter_plug"></div>
+
+		<div class="items_list_listing" data-listing-wrapper>
+			<div class="items_list" data-listing-list>
+
+				{{ this.render('//components/generic/listing1.twig', {'items':items, 'img_alt':seo.img_alt}) | raw }}
+
+			</div>
+		</div>
+	</div>
+
+	<div class="content_block"> 
+		<div data-pagination-wrapper>
+			{{pagination | raw }}
+		</div>
+	</div>
+
+	<div class="comments" style="display: none;">
+		<!-- <div class="map_title">
+			<h2>Все площадки на карте</h2>
+		</div> -->
+	</div>
+
+	<div class="content_block map listing" data-map-api-subid="{{ subid }}"></div>
+
+
+	<div class="content_block listing_paragraph" data-listing-text-bottom>
+		<div class="seo_text" data-seo-text>
+			{{seo.text_bottom | raw }}
+			<div class="seo_text_control" data-seo-control>
+				<p class="_link">Показать полностью</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- <div class="content_block form_callback_wrapper"> 
+		<div >
+			{{ this.render('//components/generic/form_callback.twig') | raw }}
+		</div>
+	</div> -->
+
+	<div class="content_block form_booking_wrapper">
+
+        {{ this.render('//components/generic/form_booking1.twig', {'items':other_rooms}) | raw }}
+
+    </div>
+
+	<div class="content_loading"></div>
+</div>

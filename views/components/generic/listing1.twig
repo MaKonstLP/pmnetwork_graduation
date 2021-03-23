@@ -1,0 +1,104 @@
+{% for item in items %}
+    <a href="/ploshhadki/{{item.id}}/" class="item swiper-slide {{type}}">
+        <div class="item_img">
+            <img src="{{item.restaurant_images[0].subpath}}=w440-h302-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/>
+
+            {#<div class="item_date-availability">
+                <span>Свободно 12 декабря</span>
+            </div>#}
+
+        </div>
+        <div class="item_info">
+            <div class="item_info_top">
+                <p class="item_name">{{item.restaurant_name}}</p>
+
+                {% if type != 'other' %}
+                    <p class="item_district">{{item.restaurant_address}}</p>
+                {% endif %}
+
+                <p class="item_address">{{item.restaurant_address}}</p>
+
+                <!-- <hr class="item_horizontal_raw"> -->
+                    
+                <div class="item_meta">
+
+                    {% if item.restaurant_min_capacity != item.restaurant_max_capacity %}
+                        <div class="item_meta_item">
+                            <span class="item_meta_label">Вместимость: </span><span class="item_meta_text">{{item.restaurant_min_capacity}} - {{item.restaurant_max_capacity}} чел.</span>
+                        </div>
+                    {% else %}
+                        <div class="item_meta_item">
+                            <span class="item_meta_label">Вместимость: </span><span class="item_meta_text">{{item.restaurant_min_capacity}} чел.</span>
+                        </div>
+                    {% endif %}
+
+                    {% if item.restaurant_price %}
+                        <div class="item_meta_item">
+                            <span class="item_meta_label">Стоимость: </span><span class="item_meta_text">от {{item.restaurant_price}} ₽/чел.</span>
+                        </div>
+                    {% endif %}
+
+                </div>
+
+                <div class="item_row restaurant_own">
+                    {% if item.restaurant_own_alcohol %}
+                        <div>Со своей едой</div>
+                        {% if item.restaurant_own_alcohol %}
+                            <div class="gray_circle"></div>
+                            <div>Со своим алкоголем</div>
+                        {% endif %}
+                        {% if item.restaurant_firework %}
+                            <div class="gray_circle"></div>
+                            <div>Фейерверк</div>
+                        {% endif %}
+                        {% elseif item.restaurant_own_alcohol %}
+                            <div>Со своим алкоголем</div>
+                            {% if item.restaurant_firework %}
+                                <div class="gray_circle"></div>
+                                <div>Фейерверк</div>
+                            {% endif %}
+                            {% elseif item.restaurant_firework %}
+                                <div>Фейерверк</div>
+                    {% endif %}
+                </div>
+
+                <div class="item_row restaurant_price">
+                    от {{item.restaurant_price}}
+                        {% set lowestPrice = 10000 %}
+                        {% for room in item.rooms %}
+                            {% if room.price < lowestPrice %}
+                                {% set lowestPrice = room.price %}
+                            {% endif %}
+                        {% endfor %}
+                        {{lowestPrice}}
+                    &#8381;/чел.
+                </div>
+
+            </div>
+        </div>
+        <div class="item_additional-info">
+
+            {% if item.id > 50 %}
+                <div class="object_benefit">
+                    <div class="object_benefit_img"></div>
+                    <div class="object_benefit_text">Получи подарок за бронь!</div>
+                </div>
+            {% else %}
+                <div class="object_reservation">
+                    <div class="object_reservation_img"></div>
+                    <div class="object_reservation_text">Успей забронировать!</div>
+                </div>
+            {% endif %}
+
+            <!-- <div class="item_gift-for-early-reservation">
+                    <span>Подарок за бронирование</span>
+                </div> -->
+            <!-- {% if item.restaurant_firework %}
+            <div class="item_fireworks-availability">
+                <span>Возможность фейерверка</span>
+            </div>
+            {% endif %} -->
+
+        </div>
+    </a>
+{% endfor %}

@@ -1,0 +1,158 @@
+<div class="short_listing_item">
+
+    <div class="short_listing_img">
+
+        <img src="{{item.restaurant_images.0.subpath}}=w710-h472-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+
+        <div class="object_benefit">
+            <div class="object_benefit_img">
+            </div>
+            <div class="object_benefit_text">Получи подарок за бронь!</div>
+        </div>
+
+    </div>
+
+    <div class="short_listing_description">
+
+        <div class="short_listing_description_row restaurant_name">
+            {{item.restaurant_name}}
+        </div>
+
+        <div class="short_listing_description_row restaurant_district">
+            {{item.restaurant_district}}
+        </div>
+        
+        <div class="short_listing_description_row restaurant_address">
+            <a href="#">{{item.restaurant_address}}</a>
+        </div>
+
+        <div class="short_listing_description_row restaurant_capacity">
+            {% for type in item.restaurant_types %}
+                {% if loop.first %}
+                    {{type.name}}
+                {% else %}
+                    , {{type.name}}
+                {% endif %}
+            {% endfor %}
+            на <span>{{item.restaurant_max_capacity}} человек</span>
+        </div>
+
+        <div class="short_listing_description_row restaurant_own">
+            {% if item.restaurant_own_alcohol %}
+                <div>Со своей едой</div>
+                {% if item.restaurant_own_alcohol %}
+                    <div class="gray_circle"></div>
+                    <div>Со своим алкоголем</div>
+                {% endif %}
+                {% if item.restaurant_firework %}
+                    <div class="gray_circle"></div>
+                    <div>Фейерверк</div>
+                {% endif %}
+                {% elseif item.restaurant_own_alcohol %}
+                    <div>Со своим алкоголем</div>
+                    {% if item.restaurant_firework %}
+                        <div class="gray_circle"></div>
+                        <div>Фейерверк</div>
+                    {% endif %}
+                    {% elseif item.restaurant_firework %}
+                        <div>Фейерверк</div>
+            {% endif %}
+
+                
+        </div>
+
+        <div class="short_listing_description_row restaurant_price">
+            от {{item.restaurant_price}}
+                {% set lowestPrice = 10000 %}
+                {% for room in item.rooms %}
+                    {% if room.price < lowestPrice %}
+                        {% set lowestPrice = room.price %}
+                    {% endif %}
+                {% endfor %}
+                {{lowestPrice}}
+            &#8381;/чел.
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="short_listing_item">
+
+    <div class="short_listing_img">
+
+        <img src="{{item.restaurant_images.0.subpath}}=w710-h472-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+
+        <div class="object_benefit">
+            <div class="object_benefit_img">
+            </div>
+            <div class="object_benefit_text">Получи подарок за бронь!</div>
+        </div>
+
+    </div>
+
+    <div class="short_listing_description">
+
+        <div class="short_listing_description_row restaurant_name">
+            {{item.restaurant_name}}
+        </div>
+
+        <div class="short_listing_description_row restaurant_district">
+            {{item.restaurant_district}}
+        </div>
+        
+        <div class="short_listing_description_row restaurant_address">
+            <a href="#">{{item.restaurant_address}}</a>
+        </div>
+
+        <div class="short_listing_description_row restaurant_capacity">
+            {% for type in item.restaurant_types %}
+                {% if loop.first %}
+                    {{type.name}}
+                {% else %}
+                    , {{type.name}}
+                {% endif %}
+            {% endfor %}
+            на <span>{{item.restaurant_max_capacity}} человек</span>
+        </div>
+
+        <div class="short_listing_description_row restaurant_own">
+            {% if item.restaurant_own_alcohol %}
+                <div>Со своей едой</div>
+                {% if item.restaurant_own_alcohol %}
+                    <div class="gray_circle"></div>
+                    <div>Со своим алкоголем</div>
+                {% endif %}
+                {% if item.restaurant_firework %}
+                    <div class="gray_circle"></div>
+                    <div>Фейерверк</div>
+                {% endif %}
+                {% elseif item.restaurant_own_alcohol %}
+                    <div>Со своим алкоголем</div>
+                    {% if item.restaurant_firework %}
+                        <div class="gray_circle"></div>
+                        <div>Фейерверк</div>
+                    {% endif %}
+                    {% elseif item.restaurant_firework %}
+                        <div>Фейерверк</div>
+            {% endif %}
+
+                
+        </div>
+
+        <div class="short_listing_description_row restaurant_price">
+            от {{item.restaurant_price}}
+                {% set lowestPrice = 10000 %}
+                {% for room in item.rooms %}
+                    {% if room.price < lowestPrice %}
+                        {% set lowestPrice = room.price %}
+                    {% endif %}
+                {% endfor %}
+                {{lowestPrice}}
+            &#8381;/чел.
+        </div>
+
+    </div>
+
+</div>
