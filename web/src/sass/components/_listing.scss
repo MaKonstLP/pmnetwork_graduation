@@ -12,6 +12,8 @@
         margin-bottom: 8px;
 
         @include for-laptop {
+            width: 70%;
+            margin: auto;
             font-size: 28px;
             font-weight: 700;
             line-height: 36px;
@@ -179,7 +181,7 @@
             justify-content: space-between;
             flex-direction: column;
             flex: 1;
-            min-height: 224px;
+            // min-height: 224px;
 
             @include for-laptop {
                 padding: 16px;
@@ -383,7 +385,7 @@
         @include for-notdesc {
             flex-flow: row wrap;
             width: 87%;
-            min-height: 40px;
+            // min-height: 40px;
             align-content: space-between;
             letter-spacing: 0.02em;
         }
@@ -393,6 +395,7 @@
         font-size: 20px;
         font-weight: 700;
         line-height: 24px;
+        margin-top: 8px;
     }
 
 
