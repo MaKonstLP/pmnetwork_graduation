@@ -47,7 +47,12 @@
 
 	<div class="listing_and_filter_wrapper">
 
-		<div class="filter_plug"></div>
+		<div class="filter_plug" style="
+    position: relative;
+    z-index: 1;
+">
+			{{filter | raw }}
+		</div>
 
 		<div class="items_list_listing" data-listing-wrapper>
 			<div class="items_list" data-listing-list>

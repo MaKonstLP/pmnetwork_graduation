@@ -6,6 +6,9 @@ use common\models\Restaurants;
 use common\models\RestaurantsTypes;
 use yii\helpers\ArrayHelper;
 use common\models\Subdomen;
+use common\models\RestaurantsSpec;
+use common\models\RestaurantsSpecial;
+use common\models\RestaurantsExtra;
 
 class ElasticItems extends \yii\elasticsearch\ActiveRecord
 {
@@ -28,6 +31,7 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
             'restaurant_latitude',
             'restaurant_longitude',
             'restaurant_own_alcohol',
+            'restaurant_own_alcohol_id',
             'restaurant_cuisine',
             'restaurant_parking',
             'restaurant_extra_services',
@@ -39,12 +43,16 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
             'restaurant_types',
             'restaurant_location',
             'restaurant_price',
+            'restaurant_spec',
+            'restaurant_specials',
+            'restaurant_extra',
+            'restaurant_slug',
             'rooms',
         ];
     }
 
     public static function index() {
-        return 'pmn_ny_restaurants';
+        return 'pmn_graduation_restaurants';
     }
     
     public static function type() {
@@ -76,6 +84,7 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
                     'restaurant_latitude'           => ['type' => 'text'],
                     'restaurant_longitude'          => ['type' => 'text'],
                     'restaurant_own_alcohol'        => ['type' => 'text'],
+                    'restaurant_own_alcohol_id'     => ['type' => 'integer'],
                     'restaurant_cuisine'            => ['type' => 'text'],
                     'restaurant_parking'            => ['type' => 'integer'],
                     'restaurant_extra_services'     => ['type' => 'text'],
@@ -83,7 +92,20 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
                     'restaurant_special'            => ['type' => 'text'],
                     'restaurant_phone'              => ['type' => 'text'],
                     'restaurant_commission'         => ['type' => 'integer'],
+                    'restaurant_slug'               => ['type' => 'keyword'],
                     'restaurant_types'              => ['type' => 'nested', 'properties' =>[
+                        'id'                            => ['type' => 'integer'],
+                        'name'                          => ['type' => 'text'],
+                    ]],
+                    'restaurant_spec'               => ['type' => 'nested', 'properties' => [
+                        'id'                            => ['type' => 'integer'],
+                        'name'                          => ['type' => 'text'],
+                    ]],
+                    'restaurant_specials'           => ['type' => 'nested', 'properties' =>[
+                        'id'                            => ['type' => 'integer'],
+                        'name'                          => ['type' => 'text'],
+                    ]],
+                    'restaurant_extra'           => ['type' => 'nested', 'properties' =>[
                         'id'                            => ['type' => 'integer'],
                         'name'                          => ['type' => 'text'],
                     ]],
@@ -173,8 +195,8 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
         $res = self::createIndex();
         $connection = new \yii\db\Connection([
             'dsn'       => 'mysql:host=localhost;dbname=pmn_graduation',
-            'username'  => 'pmnetwork',
-            'password'  => 'P2t8wdBQbczLNnVT',
+            'username'  => 'root',
+            'password'  => 'Gkcfmdsop',
             'charset'   => 'utf8',
         ]);
         $connection->open();
@@ -190,20 +212,61 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
         $restaurants_types = RestaurantsTypes::find()
             ->limit(100000)
             ->asArray()
-            ->all();
+            ->all($connection);
         //$subdomens = Subdomen::find()->all();
         $restaurants_types = ArrayHelper::index($restaurants_types, 'value');
+
+        $restaurants_specials = RestaurantsSpecial::find()
+            ->limit(100000)
+            ->asArray()
+            ->all($connection);
+        //$subdomens = Subdomen::find()->all();
+        $restaurants_specials = ArrayHelper::index($restaurants_specials, 'value');
+
+        $restaurants_extra = RestaurantsExtra::find()
+            ->limit(100000)
+            ->asArray()
+            ->all($connection);
+        //$subdomens = Subdomen::find()->all();
+        $restaurants_extra = ArrayHelper::index($restaurants_extra, 'value');
+
+        $restaurants_spec = RestaurantsSpec::find()
+            ->limit(100000)
+            ->asArray()
+            ->all($connection);
+
+        $restaurants_spec = ArrayHelper::index($restaurants_spec, 'id');
         //echo '<pre>';
         //print_r($restaurants_types);
         //exit;
         foreach ($restaurants as $restaurant) {
-            $res = self::addRecord($restaurant, $restaurants_types);   
-            $all_res .= $res.'<br><br><br><br><br><br><br><br><br><br><br><br>';
+            $res = self::addRecord($restaurant, $restaurants_types, $restaurants_spec, $restaurants_specials ,$restaurants_extra);   
+            //$all_res .= $res.'<br><br><br><br><br><br><br><br><br><br><br><br>';
         }
         echo 'Обновление индекса '. self::index().' '. self::type() .' завершено<br>'.$all_res;
     }
 
-    public static function addRecord($restaurant, $restaurants_types){
+    public static function getTransliterationForUrl($name)
+    {
+        $latin = array('-', "Sch", "sch", 'Yo', 'Zh', 'Kh', 'Ts', 'Ch', 'Sh', 'Yu', 'ya', 'yo', 'zh', 'kh', 'ts', 'ch', 'sh', 'yu', 'ya', 'A', 'B', 'V', 'G', 'D', 'E', 'Z', 'I', 'Y', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'F', '', 'Y', '', 'E', 'a', 'b', 'v', 'g', 'd', 'e', 'z', 'i', 'y', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'f', '', 'y', '', 'e');
+        $cyrillic = array(' ', "Щ", "щ", 'Ё', 'Ж', 'Х', 'Ц', 'Ч', 'Ш', 'Ю', 'я', 'ё', 'ж', 'х', 'ц', 'ч', 'ш', 'ю', 'я', 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Ь', 'Ы', 'Ъ', 'Э', 'а', 'б', 'в', 'г', 'д', 'е', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'ь', 'ы', 'ъ', 'э');
+        return trim(
+            preg_replace(
+                "/(.)\\1+/",
+                "$1",
+                strtolower(
+                    preg_replace(
+                        "/[^a-zA-Z0-9-]/",
+                        '',
+                        str_replace($cyrillic, $latin, $name)
+                    )
+                )
+            ),
+            '-'
+        );
+    }
+
+    public static function addRecord($restaurant, $restaurants_types, $restaurants_spec, $restaurants_specials ,$restaurants_extra){
         $isExist = false;
         
         try{
@@ -247,6 +310,7 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
         $record->restaurant_latitude = $restaurant->latitude;
         $record->restaurant_longitude = $restaurant->longitude;
         $record->restaurant_own_alcohol = $restaurant->own_alcohol;
+        $record->restaurant_own_alcohol_id = $restaurant->alcohol;
         $record->restaurant_cuisine = $restaurant->cuisine;
         $record->restaurant_parking = $restaurant->parking;
         $record->restaurant_extra_services = $restaurant->extra_services;
@@ -268,6 +332,19 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
         }
         $record->restaurant_images = $images;
 
+        //Тип мероприятия
+        $restaurant_spec = [];
+        $restaurant_spec_rest = explode(',', $restaurant->restaurants_spec);
+        
+        foreach ($restaurant_spec_rest as $key => $value) {
+            $restaurant_spec_arr = [];
+            $restaurant_spec_arr['id'] = $value;
+            $restaurant_spec_arr['name'] = isset($restaurants_spec[$value]['name']) ? $restaurants_spec[$value]['name'] : '';
+            array_push($restaurant_spec, $restaurant_spec_arr);
+        }
+
+        $record->restaurant_spec = $restaurant_spec;
+
         //Тип помещения
         $restaurant_types = [];
         $restaurant_types_rest = explode(',', $restaurant->type);
@@ -279,6 +356,28 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
         }
         $record->restaurant_types = $restaurant_types;
 
+        //Особенности
+        $restaurant_specials = [];
+        $restaurant_specials_rest = explode(',', $restaurant->special_ids);
+        foreach ($restaurant_specials_rest as $key => $value) {
+            $restaurant_specials_arr = [];
+            $restaurant_specials_arr['id'] = $value;
+            $restaurant_specials_arr['name'] = isset($restaurants_specials[$value]['text']) ? $restaurants_specials[$value]['text'] : '';
+            array_push($restaurant_specials, $restaurant_specials_arr);
+        }
+        $record->restaurant_specials = $restaurant_specials;
+
+        //Extra
+        $restaurant_extra = [];
+        $restaurant_extra_rest = explode(',', $restaurant->extra_services_ids);
+        foreach ($restaurant_extra_rest as $key => $value) {
+            $restaurant_extra_arr = [];
+            $restaurant_extra_arr['id'] = $value;
+            $restaurant_extra_arr['name'] = isset($restaurants_extra[$value]['text']) ? $restaurants_extra[$value]['text'] : '';
+            array_push($restaurant_extra, $restaurant_extra_arr);
+        }
+        $record->restaurant_extra = $restaurant_extra;
+
         //Тип локации
         $restaurant_location = [];
         $restaurant_location_rest = explode(',', $restaurant->location);
@@ -288,6 +387,13 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
             array_push($restaurant_location, $restaurant_location_arr);
         }
         $record->restaurant_location = $restaurant_location;
+
+        if ($row = (new \yii\db\Query())->select('slug')->from('restaurant_slug')->where(['gorko_id' => $restaurant->gorko_id])->one()) {
+            $record->restaurant_slug = $row['slug'];
+        } else {
+            $record->restaurant_slug = self::getTransliterationForUrl($restaurant->name);
+            \Yii::$app->db->createCommand()->insert('restaurant_slug', ['gorko_id' => $restaurant->gorko_id, 'slug' =>  $record->restaurant_slug])->execute();
+        }
 
         //Св-ва залов
         $rooms = [];

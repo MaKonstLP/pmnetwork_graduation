@@ -29,8 +29,8 @@ export default class Listing{
 		self.filter.promise.then(
 			response => {
 				//console.log(response);
-				ym(66603799,'reachGoal','filter');
-				dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Search', 'eventAction' : 'Filter'});
+				//ym(66603799,'reachGoal','filter');
+				//dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Search', 'eventAction' : 'Filter'});
 				$('[data-listing-list]').html(response.listing);
 				$('[data-listing-title]').html(response.title);
 				$('[data-listing-text-top]').html(response.text_top);

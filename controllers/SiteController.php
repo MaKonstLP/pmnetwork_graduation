@@ -22,6 +22,9 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        //ElasticItems::refreshIndex();
+        //exit;
+
         $filter_model = Filter::find()->with('items')->where(['active' => 1])->orderBy(['sort' => SORT_ASC])->all();
         $slices_model = Slices::find()->all();
         $seo = $this->getSeo('index');

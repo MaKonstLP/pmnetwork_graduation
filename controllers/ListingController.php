@@ -177,7 +177,7 @@ class ListingController extends Controller
 		}
 
 		return  json_encode([
-			'listing' => $this->renderPartial('//components/generic/listing.twig', array(
+			'listing' => $this->renderPartial('//components/generic/listing1.twig', array(
 				'items' => $items->items,
 				'img_alt' => $seo['img_alt'],
 			)),
