@@ -893,7 +893,7 @@ body._overflow .main_wrap {
 
 .content_block.map.listing {
   width: 100%;
-  height: 500px;
+  height: 480px;
   margin: 0 0 48px;
 
   @include for-pad {
@@ -1337,6 +1337,10 @@ body._overflow .main_wrap {
     [data-listing-title] {
       // padding: 0 0 20px 0;
       padding: 0 0 24px 0;
+
+      @include for-laptop {
+        padding: 0 0 16px 0;
+      }
     }
 
     .content_block.pagination {
@@ -1864,7 +1868,7 @@ h3 {
   justify-content: center;
   width: 100%;
   font-weight: 500;
-  padding: 24px 0;
+  padding: 24px 0 0;
 
   .breadcrumbs_item {
     position: relative;
@@ -1970,9 +1974,9 @@ h3 {
     }
   }
 
-  // @include for-mobile{
-  //     display: none;
-  // }
+  @include for-laptop {
+      padding: 16px 0 0;
+  }
 }
 
 .form_policy.checkbox_item {

@@ -1748,7 +1748,7 @@
 
 .content_block.form_booking_wrapper {
   margin: 0;
-  padding: 60px 0 60px;
+  padding: 60px 0 48px;
   width: 100%;
   overflow: hidden;
   //background: url("/img/index_page_form_star_bg.png");
@@ -1804,6 +1804,18 @@
     &:after {
       content: none;
     }
+  }
+}
+
+[data-page-type=index] .content_block.form_booking_wrapper {
+  padding: 84px 0 60px;
+
+  @include for-notdesc {
+    padding: 40px 0 40px;
+  }
+
+  @include for-mobile {
+    padding-bottom: 0;
   }
 }
 
