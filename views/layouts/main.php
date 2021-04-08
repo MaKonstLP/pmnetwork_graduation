@@ -60,10 +60,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </div> -->
                     
                     <div class="city_select_search_wrapper _hide">
+                    <!-- <div class="city_select_search_wrapper"> -->
                         
-                        <!-- <p class="back_to_header_menu">Назад в меню</p> -->
+                        <p class="back_to_header_menu">
+                            <span>Назад в меню</span>
+                        </p>
 
                         <h4>Выберите город</h4>
+
+                        <div class="city_name_input">
+                            <input type="text" placeholder="Название города">
+                        </div>
 
                         <?php /*<div class="input_search_wrapper">
 
@@ -115,6 +122,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 }
 
                                 createCityList($subdomen_list);
+                            ?>
+
+                            <?php
+                                // $subdomen_list = Subdomen::find()
+                                //     ->where(['active' => 1])
+                                //     ->orderBy(['name' => SORT_ASC])
+                                //     ->all();
+
+                                // function createCityNameLine($city){
+                                //     if($city->alias){
+                                //         $newLine = "<p><a href='https://$city->alias.graduation.ru'>$city->name</a></p>";
+                                //     }
+                                //     else{
+                                //         $newLine = "<p><a href='https://graduation.ru'>$city->name</a></p>";
+                                //     }
+                                //     return $newLine;
+                                // }
+
+                                // function createLetterBlock($letter){
+                                //     $newBlock = "<div class='city_select_letter_block' data-first-letter=$letter>";
+                                //     return $newBlock;
+                                // }
+
+                                // function createCityList($subdomen_list){
+                                //     $citiesListResult = "";
+                                //     $currentLetterBlock = "";
+
+                                //     foreach ($subdomen_list as $key => $subdomen){
+                                //         $currentFirstLetter = substr($subdomen->name, 0, 1);
+                                //         if ($currentFirstLetter !== $currentLetterBlock){
+                                //             $currentLetterBlock = $currentFirstLetter;
+                                //             $citiesListResult .= "</div>";
+                                //             $citiesListResult .= createLetterBlock($currentLetterBlock);
+                                //             $citiesListResult .= createCityNameLine($subdomen);
+                                //         } else {
+                                //             $citiesListResult .= createCityNameLine($subdomen);
+                                //         }
+                                //     }
+                                        
+                                //     $citiesListResult .= "</div>";
+                                //     echo substr($citiesListResult, 6);
+                                // }
+
+                                // createCityList($subdomen_list);
                             ?>
 
                         </div>

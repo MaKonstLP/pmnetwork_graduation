@@ -122,6 +122,7 @@ export default class Item{
 			});
 			
 			let galleryRoomTop = new Swiper($(e).find('.gallery-top'), {
+				slidesPerView: 1,
 				spaceBetween: 10,
 
 				navigation: {

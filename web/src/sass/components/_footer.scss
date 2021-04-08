@@ -161,7 +161,8 @@ footer {
 
             @include for-mobile {
               // margin-bottom: 8px;
-              margin-bottom: 4px;
+              // margin-bottom: 4px;
+              margin: 0 auto 4px 12px;
             }
           }
 

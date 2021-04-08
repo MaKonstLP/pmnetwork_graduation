@@ -32,9 +32,9 @@
         <span class="bold">Аренда без еды:</span>
         <!-- Нет. -->
         {% if room.rent_only == 1 %}
-            Да
+            да
             {% else %}
-            Нет
+            нет
         {% endif %}
     </p>
 
@@ -46,18 +46,18 @@
     <p class="object_parameters_item">
         <span class="bold">Светлый зал:</span>
         {% if room.bright_room == 1 %}
-            Да
+            да
             {% else %}
-            Нет
+            нет
         {% endif %}
     </p>
 
     <p class="object_parameters_item">
         <span class="bold">Отдельный вход:</span>
         {% if room.separate_entrance == 1 %}
-            Да
+            да
             {% else %}
-            Нет
+            нет
         {% endif %}
     </p>
 

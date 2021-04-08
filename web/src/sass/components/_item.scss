@@ -39,6 +39,13 @@
     }
   }
 
+  .breadcrumbs {
+    @include for-mobile {
+      padding: 16px 0;
+      margin-bottom: 0;
+    }
+  }
+
   @include for-pad {
     // .title{
     //     padding: 17px 0 0 0;
@@ -248,7 +255,7 @@
       @include for-mobile {
         left: 12px;
         top: auto;
-        bottom: 25%;
+        bottom: 44%;
       }
     }
 
@@ -256,7 +263,7 @@
       @include for-mobile {
         right: 12px;
         top: auto;
-        bottom: 25%;
+        bottom: 44%;
       }
     }
 
@@ -273,6 +280,10 @@
       left: 50%;
       transform: translateX(-50%);
       width: 200px;
+
+      @include for-laptop {
+        top: calc(100% - 24px);
+      }
     }
   }
 }
@@ -701,6 +712,10 @@
         @include for-notdesc {
           height: 380px;
         }
+
+        @include for-mobile {
+          height: auto;
+        }
       }
     }
 
@@ -721,6 +736,10 @@
         @include for-notdesc {
           display: block;
         }
+
+        @include for-laptop {
+          top: calc(100% - 16px);
+        }
       }
 
       @include for-notdesc {
@@ -728,9 +747,14 @@
         margin-bottom: 8px;
       }
 
+      @include for-laptop {
+        height: 380px;
+        margin-bottom: 16px;
+      }
+
       @include for-mobile {
         // margin-bottom: 32px;
-        margin-bottom: 16px;
+        margin-bottom: 32px;
       }
     }
 
@@ -1807,17 +1831,17 @@
   }
 }
 
-[data-page-type=index] .content_block.form_booking_wrapper {
-  padding: 84px 0 60px;
+// [data-page-type=index] .content_block.form_booking_wrapper {
+//   padding: 84px 0 60px;
 
-  @include for-notdesc {
-    padding: 40px 0 40px;
-  }
+//   @include for-notdesc {
+//     padding: 40px 0 40px;
+//   }
 
-  @include for-mobile {
-    padding-bottom: 0;
-  }
-}
+//   @include for-mobile {
+//     padding-bottom: 0;
+//   }
+// }
 
 [data-page-type="index"] .content_block.form_booking_wrapper {
   padding: 84px 0 48px;
@@ -1828,6 +1852,18 @@
 
   @include for-mobile {
     padding-bottom: 0;
+  }
+}
+
+[data-page-type="item"] .content_block.form_booking_wrapper {
+  padding: 60px 0 60px;
+
+  @include for-laptop {
+    padding: 40px 0 40px;
+  }
+
+  @include for-mobile {
+    padding: 0;
   }
 }
 
@@ -2314,6 +2350,11 @@
                 // }
               }
 
+              @include for-laptop {
+                max-width: 310px;
+                min-width: unset;
+              }
+
               @include for-mobile {
                 width: 100%;
               }
@@ -2324,6 +2365,10 @@
               flex-flow: column wrap;
               height: 128px;
               justify-content: flex-start;
+            }
+
+            @include for-laptop {
+              align-content: space-between;
             }
 
             @include for-mobile {
@@ -2386,9 +2431,9 @@
     padding: 24px 0 16px;
   }
 
-  // @include for-mobile {
-  //     padding: 24px 0 16px;
-  // }
+  @include for-mobile {
+    padding: 24px 0 0;
+  }
 }
 
 // .form_wrapper_booking1 {

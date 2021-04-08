@@ -27,17 +27,16 @@ export default class Index{
 				prevEl: '.top-swiper-button-prev',
 			},
 
+			pagination: {
+				el: '.top-swiper-pagination',
+				clickable: true,
+			},
+
 			breakpoints: {
 
 				1200: {
 					width: 768,
 				},
-
-				// 767: {
-					// width: 'auto',
-					// slidesPerView: 1,
-					// spaceBetween: 0,
-				// },
 			},
 
 		});

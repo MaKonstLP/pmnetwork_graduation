@@ -36,12 +36,58 @@ export default class Main{
 			}
 		}, {passive: true});
 
+		$('.header_callback_button').on('click', function(){
+			bookingPopupOpenClose();
+		});
+
+		$('.popup_form_close').on('click', function(){
+			bookingPopupOpenClose();
+		});
+
+		$('.footer_callback_button').on('click', function(){
+			bookingPopupOpenClose();
+		});
+
+		function bookingPopupOpenClose() {
+			$('.form_booking_wrapper').toggleClass('popup_form');
+			$('.popup_form_close').toggleClass('_hide');
+			$('body').toggleClass('overflow')
+		}
+
+		// function bookingPopupClose() {
+		// 	$('.form_booking_wrapper').removeClass('popup_form');
+		// 	$('.popup_form_close').addClass('_hide');
+		// 	$('body').removeClass('overflow')
+		// }
+
 		function load_other() {
 			setTimeout(function() {
 				self.init();
 			}, 100);
 		}
-		//console.log("конструктор");
+		function citySelectListBlockHeight() {
+			let windowHeight = +window.innerHeight;
+			let windowWidth = +window.innerWidth;
+
+			if (windowWidth < 1651) {
+				let height = windowHeight - 250;
+
+				if (windowWidth < 1441 && windowWidth > 1024) {
+					height = windowHeight - 244;
+				}
+
+				if (windowWidth < 1025 && windowWidth > 767) {
+					height = windowHeight - 220;
+				}
+
+				if (windowWidth < 768) {
+					height = windowHeight - 212; //(30)
+				}
+
+				document.querySelector(".city_select_list").style.height = height + 'px';
+			}			
+		}
+		citySelectListBlockHeight();
 	}
 
 
@@ -54,6 +100,8 @@ export default class Main{
 		//	})(window,document,'script','dataLayer','GTM-PTTPDSK');
 		//}, 100);
 
+		
+
 		$(".header_phone_button").on("click", this.helpWhithBookingButtonHandler);
 		$(".footer_phone_button").on("click", this.helpWhithBookingButtonHandler);
 		$(".header_form_popup").on("click", this.closePopUpHandler);
@@ -61,6 +109,8 @@ export default class Main{
 		$(".header_city_select").on("click", this.citySelectHandler);
 		$(document).mouseup(this.closeCitySelectHandler);
 		//$(document).mouseup(this.closeBurgerHandler);
+		
+		$(".show_filter_button").on("click", this.showFilterButtonHandler);
 	
 		/* Настройка формы в окне popup */
 		var $inputs = $(".header_form_popup .input_wrapper");
@@ -109,11 +159,27 @@ export default class Main{
 	}
 
 	burgerHandler(e) {
-		if($('header').hasClass('_active')){
+		if($('header').hasClass('_active') || $('header').hasClass('filter_active')){
 			$('header').removeClass('_active');
 		}
 		else{
 			$('header').addClass('_active');
+		}
+
+		if($('header').hasClass('filter_active')){
+			$('header').removeClass('filter_active');
+		}
+
+		$(".filter_wrapper").removeClass("active");
+
+		$(".header_menu_item").css("pointer-events", "auto");
+
+		if (window.innerWidth < 768 && $("body").css("overflow") != "hidden") {
+			$("body").css("max-height", "100vh");
+			$("body").css("overflow", "hidden");
+		} else if (window.innerWidth < 768 && $("body").css("overflow") == "hidden") {
+			$("body").css("max-height", "none");
+			$("body").css("overflow", "visible");
 		}
 	}
 
@@ -163,6 +229,21 @@ export default class Main{
 		if ( $backButton.is($target)){
 			$cityList.addClass("_hide");
 			$button.removeClass("_active");
+		}
+	}
+
+	showFilterButtonHandler() {
+		$(".filter_wrapper").toggleClass("active");
+
+		if(!$("header").hasClass("_active")) {
+			$("header").toggleClass("filter_active")
+		}
+		
+		// console.log(window.innerWidth)
+
+		if (window.innerWidth < 768 && $("body").css("overflow") != "hidden") {
+			$("body").css("max-height", "100vh");
+			$("body").css("overflow", "hidden");
 		}
 	}
 }

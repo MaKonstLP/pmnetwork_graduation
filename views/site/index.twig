@@ -1,30 +1,79 @@
 <div data-page-type="index">
 
-	<div class="content_block" data-listing-title>
+	{# <div class="content_block" data-listing-title>
         {{ this.render('//components/generic/item_title.twig', {'seo':seo}) | raw }}
-	</div>
+	</div> #}
 	
 	<div class="top_slider_wrapper">
+
         <div class="top_slider">
             <div class="swiper-container swiper_top">
 
                 <div class="swiper-wrapper">
 
-                    {% for image in item.restaurant_images %}
+                    {# {% for image in item.restaurant_images %}
                         <div class="swiper-slide">
                             <img src="{{image.subpath}}=w710-h472-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
                         </div>
-                    {% endfor %}
+                    {% endfor %} #}
+
+					<!-- УДАЛИТЬ ЭТОТ БЛОК НАЧАЛО -->
+
+					<div class="swiper-slide">
+						<img src="/image/test_slider_pic.png" alt="ТЕСТ"/>
+					</div>
+
+					<div class="swiper-slide">
+						<img src="/image/test_slider_pic.png" alt="ТЕСТ"/>
+					</div>
+
+					<div class="swiper-slide">
+						<img src="/image/test_slider_pic.png" alt="ТЕСТ"/>
+					</div>
+					
+					<div class="swiper-slide">
+						<img src="/image/test_slider_pic.png" alt="ТЕСТ"/>
+					</div>
+
+					<div class="swiper-slide">
+						<img src="/image/test_slider_pic.png" alt="ТЕСТ"/>
+					</div>
+
+					<!-- УДАЛИТЬ ЭТОТ БЛОК КОНЕЦ -->
 
                 </div>
-
-                {{ this.render('//components/generic/restaurant_title.twig', {'seo':seo}) | raw }}
-
                 <div class="top-swiper-button-prev"></div>
                 <div class="top-swiper-button-next"></div>
-                <div class="swiper-pagination"></div>
+                <div class="top-swiper-pagination swiper-pagination"></div>
             </div>
         </div>
+
+		{# {{ this.render('//components/generic/restaurant_title.twig', {'seo':seo}) | raw }} #}
+
+
+		<!-- УДАЛИТЬ ЭТОТ БЛОК НАЧАЛО -->
+
+		<div class="content_block" data-listing-title>
+			
+			<div class="title">
+
+				<h1>TEST TITLE</h1>
+			
+				<div class="title_desc">
+					<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque tenetur non aspernatur obcaecati quisquam nesciunt blanditiis temporibus. Dolorum placeat accusantium, repellat quibusdam quo
+						eos in! Nulla quo repudiandae sint dolor asperiores commodi quidem nostrum odit aut neque illum quam, dolorum minima possimus vitae. Iure dolore molestias reprehenderit, laborum sapiente
+						commodi illo similique, itaque voluptas quos
+					</p>
+				</div>
+			
+			</div>
+
+		</div>
+
+		<!-- УДАЛИТЬ ЭТОТ БЛОК КОНЕЦ -->
+
+
+
     </div>
 
 	<!-- <div class="listing_and_filter_wrapper">
@@ -45,8 +94,27 @@
 		</div>
 
 	</div> -->
-	
+
+	<div class="show_filter_button">
+		<p>Фильтр заведений</p>
+	</div>
+
 	<div class="listing_and_filter_wrapper">
+
+		<div class="filter_wrapper">
+			{{filter | raw }}
+		</div>
+
+		<div class="items_list_listing" data-listing-wrapper>
+			<div class="items_list" data-listing-list>
+
+				{{ this.render('//components/generic/listing1.twig', {'items':items, 'img_alt':seo.img_alt}) | raw }}
+
+			</div>
+		</div>
+	</div>
+	
+	<!-- <div class="listing_and_filter_wrapper">
 
 		<div class="filter_plug"></div>
 
@@ -57,7 +125,7 @@
 
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="comments" style="display: none;">
 

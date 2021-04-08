@@ -1070,4 +1070,24 @@ header {
       }
     }
   }
+
+  &.filter_active {
+    // .header_phone {
+    //   margin-right: 272px;
+    // }
+
+    .header_burger {
+      div:nth-child(1) {
+        transform: translate(0px, 11px) rotate(45deg);
+      }
+
+      div:nth-child(2) {
+        transform: translate(0px, 11px) rotate(-45deg);
+      }
+
+      div:nth-child(3) {
+        transform: translate(0px, 50px);
+      }
+    }
+  }
 }

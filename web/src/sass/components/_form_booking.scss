@@ -60,6 +60,7 @@
     max-width: 944px;
     // margin: 0 auto;
     margin: 0 16px;
+    height: fit-content;
   }
 
   @include for-mobile{
@@ -495,4 +496,15 @@
   //   width: 95%;
   //   min-width: 736px;
   // }
+}
+
+.content_block.form_booking_wrapper.popup_form {
+  .form_wrapper.booking {
+    
+    @include for-notdesc {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
 }
