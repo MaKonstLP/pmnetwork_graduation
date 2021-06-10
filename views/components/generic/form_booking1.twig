@@ -45,7 +45,8 @@
 
       <div class="input_wrapper _big comment">
         <div class="input_label">Комментарий</div>
-        <input type="text" name="comment" data-required/>
+        {# <input type="text" name="comment" data-required/> #}
+        <textarea name="comment"></textarea>
       </div>
 
     </div>
@@ -56,7 +57,8 @@
         <button class="_button" type="submit">Отправить</button>
         <div class="form_policy checkbox_item _active" data-action="form_checkbox" data-form-privacy>
           <input type="checkbox" name="policy" class="personalData" checked=""  data-required>
-          <p class="checkbox_pseudo">Я согласен с <a class="_link" href="/privacy/" target="_blank">политикой обработки персональных данных</a></p>
+          <p class="checkbox_pseudo">Я согласен с&nbsp;</p>
+          <a class="_link" href="/privacy/" target="_blank">политикой обработки персональных данных</a>
         </div>
       </div>
     </div>

@@ -1,22 +1,17 @@
-.form_wrapper.booking{
+.form_wrapper.booking {
   position: relative;
-  // width: 1196px;
   width: 944px;
   margin: auto;
-  // background: linear-gradient(139.76deg,
-  //                           #FEDA5A 0.69%,
-  //                           #FFBA35 112.92%);
-  // box-shadow: 0px 5px 20px rgba(253, 172, 77, 0.3);
   background-color: #004171;
   background-image: url(/image/form_bg.png);
-  background-size: cover;
-  // background-size: contain;
+  // background-image: url(/image/form_bg.svg);
+  background-size: 1112px, 496px;
   background-repeat: no-repeat;
-  background-position: -80px;
-  // background: #333333;
+  background-position: -85px -12px;
   color: #fff;
+  // overflow: hidden;
 
-  &:before{
+  &:before {
     content: "";
     position: absolute;
     top: -50px;
@@ -28,7 +23,7 @@
     z-index: -1;
   }
 
-  &:after{
+  &:after {
     content: "";
     position: absolute;
     top: 0px;
@@ -40,16 +35,13 @@
     z-index: -1;
   }
 
-  @include for-pad{
-    // width: 532px;
-    // padding: 20px 20px 32px 20px;
-
-    &:before{
+  @include for-pad {
+    &:before {
       top: 65px;
       left: -120px;
     }
 
-    &:after{
+    &:after {
       top: 130px;
       right: -120px;
     }
@@ -58,21 +50,32 @@
   @include for-notdesc {
     width: calc(100vw - 32px);
     max-width: 944px;
-    // margin: 0 auto;
     margin: 0 16px;
     height: fit-content;
+    // background-size: 867px, 496px;
+    // background-position: -85px -12px;
   }
 
-  @include for-mobile{
+  @include for-lowlap {
+    overflow: hidden;
+  }
+
+  @include for-laptop {
+    background-size: 113vw 496px;
+    background-position: -66px -22px;
+  }
+
+  @include for-mobile {
     width: 100%;
     margin: 0;
-    // padding: 20px 20px;
+    background-size: 867px 496px;
+    background-position: -66px 368px;
 
-    &:before{
+    &:before {
       content: none;
     }
 
-    &:after{
+    &:after {
       content: none;
     }
   }
@@ -83,8 +86,6 @@
     height: 440px;
     background: url(/image/hat.png);
     background-size: cover;
-    // left: -21%;
-    // top: 7%;
     top: 32px;
     left: -198px;
     z-index: -1;
@@ -93,17 +94,13 @@
       display: none;
     }
   }
-  
+
   .form_image_right {
     position: absolute;
-    // width: 284px;
-    // height: 340px;
     width: 289.62px;
     height: 349.43px;
     background: url(/image/attestat.png);
     background-size: cover;
-    // left: 89.5%;
-    // top: 12.7%;
     top: 60px;
     left: 845px;
     z-index: -1;
@@ -113,145 +110,119 @@
     }
   }
 
-
-  .form_block{
+  .form_block {
     display: flex;
     flex-flow: row wrap;
-  
-    .form_inputs{
+
+    .form_inputs {
       display: flex;
       flex-flow: row nowrap;
       order: 1;
-      // width: 865px;
       width: 784px;
-      // margin: 0 auto;
+      margin-bottom: 12px;
 
       &:first-child {
-
         .input_wrapper {
-
           &:last-child {
-            
             @include for-mobile {
               width: 50%;
               min-width: 164px;
+              margin-top: 35px;
             }
           }
         }
       }
 
-      .input_wrapper{
+      &:nth-child(2) {
+        margin-bottom: 21px;
+      }
+
+      .input_wrapper {
         position: relative;
         width: 176px;
 
-        // @include for-notdesc{
-        //   width: calc(50% - 10px);
-        //   margin-right: 0px;
-        // }
-
         &:not(:first-child) {
-
           @include for-mobile {
-            // margin-top: 16px;
             margin-top: 12px;
           }
         }
-    
-        &:first-child{
+
+        &:first-child {
           width: 220px;
-          // @include for-notdesc{
-          //   width: calc(50% - 10px);
-          // }
 
           @include for-notdesc {
-            // width: 164px;
             width: 22%;
             min-width: 164px;
           }
 
           @include for-mobile {
-            // width: 164px;
-            // width: 92.5%;
             width: 100%;
           }
 
-          input{
+          input {
             width: 220px;
             border-radius: 4px;
-            // @include for-notdesc{
-            //   width: 100%;
-            // }
 
             @include for-notdesc {
-              // width: 164px;
-              // width: 28%;
               width: 100%;
               min-width: 164px;
             }
 
             @include for-mobile {
-              // width: 164px;
-              // width: 92.5%;
               width: 100%;
             }
           }
-          
         }
-    
-        &:last-child{
+
+        &:last-child {
           width: 167px;
 
-          // @include for-notdesc{
-          //   width: calc(50% - 10px);
-          // }
-
-          input{
+          input {
             width: 167px;
             border-radius: 4px;
-            // @include for-notdesc{
-            //   width: 100%;
-            // }
 
             @include for-notdesc {
-              // width: 164px;
-              // width: 21%;
               width: 100%;
               min-width: 164px;
             }
 
             @include for-mobile {
-              // width: 164px;
               width: 100%;
             }
           }
 
           @include for-notdesc {
-            // width: 164px;
             width: 21%;
             min-width: 164px;
           }
 
           @include for-mobile {
-            // width: 164px;
             width: 100%;
           }
         }
 
         &.comment {
           width: 784px;
-          // height: 130px;
 
-          // @include for-notdesc{
-          //   width: calc(50% - 10px);
+          // input {
+          //   border-radius: 4px;
+          //   width: 784px;
+          //   height: 130px;
+
+          //   @include for-notdesc {
+          //     width: 100%;
+          //     height: 9%;
+          //     min-height: 114px;
+          //   }
           // }
 
-          input{
+          textarea {
             border-radius: 4px;
             width: 784px;
             height: 130px;
-            // @include for-notdesc{
-            //   width: 100%;
-            // }
+            background-color: #fff;
+            padding: 14px 8px;
+            resize: none;
 
             @include for-notdesc {
               width: 100%;
@@ -265,14 +236,12 @@
           }
         }
 
-        input{
+        input {
           background: white;
           width: 176px;
           border-radius: 4px;
 
           @include for-notdesc {
-            // width: 164px;
-            // width: 22%;
             width: 100%;
             min-width: 164px;
           }
@@ -282,14 +251,14 @@
           }
         }
 
-        .open_calendar_button{
+        .open_calendar_button {
           position: absolute;
           top: 28px;
           left: 0;
           width: 167px;
           height: 48px;
 
-          &:before{
+          &:before {
             content: "";
             cursor: pointer;
             position: absolute;
@@ -300,57 +269,37 @@
             background: url("/image/calendar_icon.svg");
           }
 
-          // &:hover:before{
-          //   top: 10px;
-          //   background: url("/img/calendar_icon_active.svg");
-          // }
-
-          @include for-notdesc{
+          @include for-notdesc {
             width: 100%;
           }
         }
 
-        // .open_calendar_button._active{
-
-        //   &:before{
-        //     background: url("/img/calendar_icon_active.svg");
-        //   }   
-        // }	
-
-        @include for-mobile{
-          // width: 100%;
+        @include for-mobile {
           width: 100%;
           margin: 0;
 
-          &:first-child{
-            // width: 100%;
+          &:first-child {
             width: 100%;
 
-            input{
+            input {
               width: 100%;
             }
           }
 
-          &:last-child{
+          &:last-child {
             width: 100%;
 
-            input{
+            input {
               width: 100%;
             }
           }
 
-          input{
+          input {
             width: 100%;
           }
         }
 
-        // @include for-notdesc {
-        //   width: 100%;
-        // }
-
         @include for-notdesc {
-          // width: 164px;
-          // width: fit-content;
           width: 22%;
           min-width: 164px;
         }
@@ -365,72 +314,72 @@
       }
 
       @include for-mobile {
-        // width: 92.5%;
         flex-direction: column;
       }
     }
 
-    .form_checkboxes{
+    .form_checkboxes {
       display: flex;
       flex-direction: row;
-      // flex-flow: row wrap;
       order: 3;
       width: 784px;
-      // margin-top: -50px;
 
-      @include for-notdesc{
-        // order: 2;
+      @include for-notdesc {
         margin-top: 0;
-        // padding-top: 20px;
         justify-content: space-between;
       }
 
-      .checkbox_pseudo{
-        padding-bottom: 8px;
-
-        // @include for-notdesc{
-        //   width: calc(50% - 10px);
-        //   margin-right: 0px;
-        // }
-      }
+      // .checkbox_pseudo {
+      //   padding-bottom: 8px;
+      // }
     }
 
-    .form_submit_booking{
-      // width: 172px;
+    .form_submit_booking {
       display: flex;
       flex-direction: row;
       align-items: center;
       order: 2;
-      padding-top: 24px;
+      // padding-top: 24px;
 
-      .checkbox_item{
-        padding-top: 10px;
+      .checkbox_item {
+        // padding-top: 4px;
         margin: 0;
+        display: flex;
 
-        .checkbox_pseudo{
-          font-size: 14px;
+        .checkbox_pseudo {
+          font-family: "FiraSans", sans-serif;
+          font-size: 12px;
           line-height: 20px;
           font-weight: 400;
-          letter-spacing: 0.01em;
-          
+          letter-spacing: 0.02em;
+
+          // font-size: 14px;
+          // line-height: 20px;
+          // font-weight: 400;
+          // letter-spacing: 0.01em;
+
           @include for-notdesc {
             font-size: 12px;
-              line-height: 20px;
-              letter-spacing: 0.02em;
+            line-height: 20px;
+            letter-spacing: 0.02em;
+          }
+
+          @include for-mobile {
+            display: inline;
           }
         }
 
         @include for-mobile {
-          padding-top: 16px;
+          display: block;
+          padding-top: 14px;
         }
       }
-      
 
-      button{
-        // width: 172px;
-        // height: 50px;
-        width: 196px;
-        height: 48px;
+      button {
+        // width: 196px;
+        // height: 48px;
+        width: 193px;
+        height: 50px;
         padding: 0 20px;
         margin-right: 16px;
 
@@ -442,45 +391,36 @@
         }
       }
 
-      // @include for-notdesc{
-      //   display: flex;
-      //   flex-flow: column nowrap;
-      //   justify-content: center;
-      //   align-items: center;
-      //   order: 3;
-      //   width: auto;
-      //   margin: 0 auto;
-      //   padding-top: 10px;
-      // }
-
-      @include for-mobile{
+      @include for-mobile {
         flex-direction: column;
         align-items: flex-start;
 
-        button{
+        button {
           width: 193px;
         }
       }
-
     }
 
-    @include for-notdesc{
+    @include for-notdesc {
       flex-flow: row wrap;
       justify-content: space-between;
     }
 
-    @include for-mobile{
+    @include for-mobile {
       width: 100%;
     }
   }
 
   .form_inputs {
-
     &:nth-child(2) {
-      margin-top: -12px;
+      // margin-top: -12px;
 
       @include for-notdesc {
         margin-top: 11px;
+      }
+
+      @include for-lowlap {
+        margin-top: 23px;
       }
     }
   }
@@ -489,18 +429,14 @@
     font-size: 12px;
     line-height: 20px;
     letter-spacing: 0.02em;
-    margin-top: 4px;
+    // margin-top: 4px;
+    position: absolute;
+    top: calc(100% + 4px);
   }
-
-  // @include for-laptop {
-  //   width: 95%;
-  //   min-width: 736px;
-  // }
 }
 
 .content_block.form_booking_wrapper.popup_form {
   .form_wrapper.booking {
-    
     @include for-notdesc {
       position: absolute;
       top: 50%;

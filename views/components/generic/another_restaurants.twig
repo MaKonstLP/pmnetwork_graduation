@@ -1,86 +1,145 @@
-<div class="another_restaurant_img">
+<a href="/ploshhadki/{{item.id}}/" class="another_restaurant_link_wrapper">
 
-    <img src="{{item.restaurant_images.0.subpath}}=w710-h472-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+    <div class="another_restaurant_img">
 
-    <!-- <div class="object_benefit">
-        <div class="object_benefit_img">
-        </div>
-        <div class="object_benefit_text">Получи подарок за бронь!</div>
-    </div> -->
+        <img src="{{item.restaurant_images.0.subpath}}=w710-h472-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
 
-    {% if item.id > 50 %}
-        <div class="object_benefit">
-            <div class="object_benefit_img"></div>
+        <!-- <div class="object_benefit">
+            <div class="object_benefit_img">
+            </div>
             <div class="object_benefit_text">Получи подарок за бронь!</div>
+        </div> -->
+
+        {% if item.id > 50 %}
+            <div class="object_benefit">
+                <div class="object_benefit_img"></div>
+                <div class="object_benefit_text">Получи подарок за бронь!</div>
+            </div>
+        {% else %}
+            <div class="object_reservation">
+                <div class="object_reservation_img"></div>
+                <div class="object_reservation_text">Успей забронировать!</div>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <div class="another_restaurant_description">
+
+        {# <div class="another_restaurant_row restaurant_name">
+            {{item.restaurant_name}}
         </div>
-    {% else %}
-        <div class="object_reservation">
-            <div class="object_reservation_img"></div>
-            <div class="object_reservation_text">Успей забронировать!</div>
+
+        <div class="another_restaurant_row restaurant_district">
+            {{item.restaurant_district}}
         </div>
-    {% endif %}
+        
+        <div class="another_restaurant_row restaurant_address">
+            <a href="#">{{item.restaurant_address}}</a>
+        </div>
 
-</div>
+        <div class="another_restaurant_row restaurant_capacity">
+            {% for type in item.restaurant_types %}
+                {% if loop.first %}
+                    {{type.name}}
+                {% else %}
+                    , {{type.name}}
+                {% endif %}
+            {% endfor %}
+            на <span>{{item.restaurant_max_capacity}} человек</span>
+        </div>
 
-<div class="another_restaurant_description">
-
-    <div class="another_restaurant_row restaurant_name">
-        {{item.restaurant_name}}
-    </div>
-
-    <div class="another_restaurant_row restaurant_district">
-        {{item.restaurant_district}}
-    </div>
-    
-    <div class="another_restaurant_row restaurant_address">
-        <a href="#">{{item.restaurant_address}}</a>
-    </div>
-
-    <div class="another_restaurant_row restaurant_capacity">
-        {% for type in item.restaurant_types %}
-            {% if loop.first %}
-                {{type.name}}
-            {% else %}
-                , {{type.name}}
-            {% endif %}
-        {% endfor %}
-        на <span>{{item.restaurant_max_capacity}} человек</span>
-    </div>
-
-    <div class="another_restaurant_row restaurant_own">
-        {% if item.restaurant_own_alcohol %}
-            <div>Со своей едой</div>
+        <div class="another_restaurant_row restaurant_own">
             {% if item.restaurant_own_alcohol %}
-                <div class="gray_circle"></div>
-                <div>Со своим алкоголем</div>
-            {% endif %}
-            {% if item.restaurant_firework %}
-                <div class="gray_circle"></div>
-                <div>Фейерверк</div>
-            {% endif %}
-            {% elseif item.restaurant_own_alcohol %}
-                <div>Со своим алкоголем</div>
+                <div>Со своей едой</div>
+                {% if item.restaurant_own_alcohol %}
+                    <div class="gray_circle"></div>
+                    <div>Со своим алкоголем</div>
+                {% endif %}
                 {% if item.restaurant_firework %}
                     <div class="gray_circle"></div>
                     <div>Фейерверк</div>
                 {% endif %}
-                {% elseif item.restaurant_firework %}
-                    <div>Фейерверк</div>
-        {% endif %}
-        <div class="gray_circle"></div>
-        <div>Фейерверк</div>
-    </div>
+                {% elseif item.restaurant_own_alcohol %}
+                    <div>Со своим алкоголем</div>
+                    {% if item.restaurant_firework %}
+                        <div class="gray_circle"></div>
+                        <div>Фейерверк</div>
+                    {% endif %}
+                    {% elseif item.restaurant_firework %}
+                        <div>Фейерверк</div>
+            {% endif %}
+            <div class="gray_circle"></div>
+            <div>Фейерверк</div>
+        </div>
 
-    <div class="another_restaurant_row restaurant_price">
-        от {{item.restaurant_price}}
-            {% set lowestPrice = 10000 %}
-            {% for room in item.rooms %}
-                {% if room.price < lowestPrice %}
-                    {% set lowestPrice = room.price %}
-                {% endif %}
-            {% endfor %}
-            {{lowestPrice}}
-        &#8381;/чел.
-    </div>
+        <div class="another_restaurant_row restaurant_price">
+            от {{item.restaurant_price}}
+                {% set lowestPrice = 10000 %}
+                {% for room in item.rooms %}
+                    {% if room.price < lowestPrice %}
+                        {% set lowestPrice = room.price %}
+                    {% endif %}
+                {% endfor %}
+                {{lowestPrice}}
+            &#8381;/чел.
+        </div> #}
 
-</div>
+        <!-- <div class="another_restaurant_row restaurant_name">
+            <p>Банкетный комплекс Vnukovo Village Park Hotel & Spa 4*</p>
+        </div>
+
+        <div class="another_restaurant_row restaurant_district">
+            <p>Красногвардейский район</p>
+        </div>
+        
+        <a class="another_restaurant_row restaurant_address">Санкт-Петербург, Дворцовая набережная, 26</a>
+
+        <p class="another_restaurant_row restaurant_capacity">Загородная площадка на <span>300 человек</span></p>
+
+        <div class="another_restaurant_row restaurant_own">
+
+                <p>Со своей едой</p>
+                <div class="gray_circle"></div>
+                <p>Со своим алкоголем</p>
+                <div class="gray_circle"></div>
+                <p>Фейерверк</p>
+
+        </div>
+
+        <p class="another_restaurant_row restaurant_price">от 12 000 ₽/чел.</p> -->
+
+        <div class="another_restaurant_row restaurant_name">
+            <p>Центр Событий</p>
+        </div>
+
+        <div class="another_restaurant_row restaurant_district">
+            <p>Красногвардейский район</p>
+        </div>
+        
+        <object>
+            <a class="another_restaurant_row restaurant_address">Санкт-Петербург, Дворцовая набережная, 26</a>
+        </object>
+
+        <p class="another_restaurant_row restaurant_capacity">Банкетный зал на <span>30 и 60 человек</span></p>
+
+        <div class="another_restaurant_row restaurant_own">
+
+                <div class="restaurant_option_wrapper">
+                    <p>Со своей едой</p>
+                </div>
+                <div class="restaurant_option_wrapper">
+                    <div class="gray_circle"></div>
+                    <p>Со своим алкоголем</p>
+                </div>
+                <div class="restaurant_option_wrapper">
+                    <div class="gray_circle"></div>
+                    <p>Фейерверк</p>
+                </div>
+
+        </div>
+
+        <p class="another_restaurant_row restaurant_price">от 3 000 ₽/чел.</p>
+
+    </div>
+</a>

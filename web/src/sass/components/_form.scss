@@ -17,7 +17,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    // background: linear-gradient(139.76deg,#feda5a .69%,#ffba35 112.92%);
     background: #004171;
     opacity: 0.9;
     border-radius: 4px;
@@ -51,31 +50,53 @@
   }
 
   @include for-mobile {
-    // padding: 24px 12px 32px;
-    padding: 24px 12px 24px;
+    padding: 23px 12px 30px;
     border-radius: unset;
+  }
+}
+
+[data-page-type="index"] .content_block.form_booking_wrapper {
+  padding: 84px 0 48px;
+
+  @include for-notdesc {
+    padding: 40px 0 40px;
+  }
+
+  @include for-mobile {
+    padding-bottom: 0;
+  }
+}
+
+[data-page-type="item"] .content_block.form_booking_wrapper {
+  padding: 60px 0 58px;
+
+  @include for-laptop {
+    padding: 40px 0 36px;
+  }
+
+  @include for-mobile {
+    padding: 0;
   }
 }
 
 .form_title {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-bottom: 12px;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
 
   .form_title_main {
     font-weight: 700;
     font-size: 32px;
-    line-height: 38px;
-    // margin-right: 9px;
+    line-height: 40px;
     text-align: center;
-    // margin: 0 5%;
-    width: 704px;
+    // width: 704px;
+    // margin: 0 auto;
 
     @include for-mobile {
       font-size: 28px;
       line-height: 32px;
-      // max-width: 650px;
       width: 93vw;
     }
   }
@@ -89,7 +110,7 @@
 
 .form_block {
   display: flex;
-  margin-top: 16px;
+  // margin-top: 16px;
 
   .form_inputs {
     display: flex;
@@ -99,8 +120,6 @@
 
     .input_wrapper {
       width: 130px;
-      // margin-right: 20px;
-      // margin-right: 15px;
 
       &._big {
         width: 220px;
@@ -180,7 +199,6 @@
       }
 
       a {
-        //text-decoration: underline;
         color: #5ba641;
       }
     }
@@ -204,12 +222,28 @@
 }
 
 .content_block.form_booking_wrapper.popup_form {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(255,255,255,.8);
+  position: fixed;
+  top: -96px;
+  background-color: rgba(255, 255, 255, 0.8);
   z-index: 100;
+  // height: 120vh;
   height: 120vh;
+  padding: 0;
+
+  @include for-notdesc {
+    top: -90px;
+  }
+
+  @include for-laptop {
+    top: -66px;
+  }
+
+  // .form_wrapper.booking {
+  //   top: 50%;
+  //   left: 50%;
+  //   transform: translate(-50%, -50%);
+  //   margin: 0;
+  // }
 }
 
 body.overflow {

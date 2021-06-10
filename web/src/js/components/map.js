@@ -85,7 +85,10 @@ export default class YaMapAll{
 
 				let myBalloonLayout = ymaps.templateLayoutFactory.createClass(
 					`<div class="balloon_layout">
-						<a class="close" href="#"></a>
+						<a class="close" href="#">
+							<div></div>
+							<div></div>
+						</a>
 						<div class="arrow"></div>
 						<div class="balloon_inner">
 							$[[options.contentLayout]]
@@ -136,7 +139,33 @@ export default class YaMapAll{
 				);
 
 				let myBalloonContentLayout = ymaps.templateLayoutFactory.createClass(
-					`<div class="balloon_wrapper">
+					// `<div class="balloon_wrapper">
+
+					// 	<div class="balloon_content">
+
+					// 		<img src={{properties.img}}>
+
+					// 		<div class="balloon_text">
+
+					// 			<div class="balloon_header">
+					// 				{{properties.organization}}
+					// 			</div>
+
+					// 			<div class="balloon_address">
+					// 				{{properties.address}}
+					// 			</div>
+
+					// 		</div>
+
+					// 	</div>
+
+					// 	<div class="balloon_link">
+					// 		<button class="balloon_link_button _button"><a href="{{properties.link}}">Посмотреть зал</a></button>
+					// 	</div>
+						
+					// </div>`
+
+					`<a href="{{properties.link}}" class="balloon_wrapper">
 
 						<div class="balloon_content">
 
@@ -152,15 +181,13 @@ export default class YaMapAll{
 									{{properties.address}}
 								</div>
 
+								<p class="balloon_inner_body_options">Testtext | Testtext</p>
+
 							</div>
 
 						</div>
-
-						<div class="balloon_link">
-							<button class="balloon_link_button _button"><a href="{{properties.link}}">Посмотреть зал</a></button>
-						</div>
 						
-					</div>`
+					</a>`
 				);
 
 				let objectManager = new ymaps.ObjectManager(

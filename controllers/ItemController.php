@@ -28,7 +28,7 @@ class ItemController extends Controller
 		//$item = ApiItem::getData($item->restaurants->gorko_id);
 
 		$seo['h1'] = $item->restaurant_name;
-		$seo['breadcrumbs'] = Breadcrumbs::get_breadcrumbs(2);
+		$seo['breadcrumbs'] = Breadcrumbs::get_breadcrumbs(3);
 		$seo['desc'] = $item->restaurant_name;
 		$seo['address'] = $item->restaurant_address;
 

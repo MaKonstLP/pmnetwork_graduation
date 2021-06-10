@@ -3,9 +3,9 @@
 	{% for link,name in seo.breadcrumbs %}
 
 
-		{% if loop.index == 2 %}
+		{# {% if loop.index == 2 %}} #}
 
-			<div class="breadcrumbs_slices_container">
+			<!-- <div class="breadcrumbs_slices_container">
 
 				<div class="breadcrumbs_current_slice">
 
@@ -41,13 +41,13 @@
 					
 				</div>
 
-			</div>
+			</div> -->
 
-		{% else %}
+		{# {% else %} #}
 
 			<a class="breadcrumbs_item" href="{{link}}">{{name}}</a>
 
-		{% endif %}
+		{# {% endif %} #}
 
 	{% endfor %}
 

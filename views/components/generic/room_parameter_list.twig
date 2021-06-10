@@ -1,0 +1,63 @@
+<!-- {{item.rooms[0].id}} -->
+<div class="object_parameters_list _marked">
+    <!-- <p class="object_parameters_title">О площадке</p> -->
+    <div class="object_parameters_marker_img"></div>
+    <p class="object_parameters_item">
+        <span class="bold">Тип:</span>
+        {{room.type_name}}
+        <!-- {% for type in item.restaurant_types %}
+            {% if loop.first %}
+                {{type.name}}
+            {% else %}
+                , {{type.name}}
+            {% endif %}
+        {% endfor %} -->
+    </p>
+
+
+    <!--ВМЕСТИМОСТЬ-->
+    <p class="object_parameters_item">
+        <span class="bold">Вместимость:</span>
+        {{room.capacity}} чел.
+    </p>
+
+    <!--СХЕМА ОПЛАТЫ-->
+    <p class="object_parameters_item">
+        <span class="bold">Схема оплаты:</span>
+        <span class="problems">--</span>
+    </p>
+
+    <p class="object_parameters_item">
+        <span class="bold">Аренда без еды:</span>
+        <!-- Нет. -->
+        {% if room.rent_only == 1 %}
+            да
+            {% else %}
+            нет
+        {% endif %}
+    </p>
+
+    <p class="object_parameters_item">
+        <span class="bold">Стоимость:</span>
+        от {{room.price}} &#8381;/чел.
+    </p>
+
+    <p class="object_parameters_item">
+        <span class="bold">Светлый зал:</span>
+        {% if room.bright_room == 1 %}
+            да
+            {% else %}
+            нет
+        {% endif %}
+    </p>
+
+    <p class="object_parameters_item">
+        <span class="bold">Отдельный вход:</span>
+        {% if room.separate_entrance == 1 %}
+            да
+            {% else %}
+            нет
+        {% endif %}
+    </p>
+
+</div>

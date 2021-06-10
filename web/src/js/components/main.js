@@ -40,6 +40,10 @@ export default class Main{
 			bookingPopupOpenClose();
 		});
 
+		$('.object_reserve').on('click', function(){
+			bookingPopupOpenClose();
+		});
+
 		$('.popup_form_close').on('click', function(){
 			bookingPopupOpenClose();
 		});
@@ -48,11 +52,96 @@ export default class Main{
 			bookingPopupOpenClose();
 		});
 
+
+
+
+
+
+		$('.city_name_input input').on('keyup', function() {
+			// cityFilter();
+
+			var value = $(this).val().toLowerCase();
+
+			$('.city_name').filter(function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) == 0)
+			});
+
+			$('.city_select_letter_block').filter(function() {
+				// $(this).toggle(value.indexOf($(this).find('.capital_letter').text().toLowerCase()) == 0 && $(this).find('.city_name:visible').length > 0);
+
+				$(this).toggle(value.indexOf($(this).find('.capital_letter').text().toLowerCase()) == 0);
+			});
+
+			if(value.length < 1) {
+				$('.city_select_letter_block').show();
+			};
+
+			if ($('.city_select_letter_block').find('.city_name:visible').length == 0) {
+				$('.city_select_letter_block').hide();
+			};
+			
+		});
+
+
+
+
+		// $('[class*="islets_icon-with-caption__caption-block"]').on('click', function(){
+		// 	mapPopupOpenClose();
+		// })
+
+		let scrollPrevPosition = 0;
+
+		$('.filter_wrapper').on('scroll', function() {
+
+			// filterButtonFixed();
+				if (this.scrollTop == this.scrollHeight-this.clientHeight) {
+					$(".filter").removeClass("submit_cancel_fixed");
+					$(".filter").addClass("submit_cancel_static");
+
+					$(".filter_submit").removeClass("filter_submit_fixed")
+					$(".filter_submit").addClass("filter_submit_static")
+
+					$(".filter_cancel").removeClass("fiter_cancel_fixed");
+					$(".filter_cancel").addClass("fiter_cancel_static")
+				}
+				
+				
+				if ($(this).scrollTop() < scrollPrevPosition) {
+					$(".filter").removeClass("submit_cancel_static");
+					$(".filter").addClass("submit_cancel_fixed");
+
+
+					$(".filter_submit").removeClass("filter_submit_static");
+					$(".filter_submit").addClass("filter_submit_fixed");
+
+					$(".filter_cancel").removeClass("fiter_cancel_static")
+					$(".filter_cancel").addClass("fiter_cancel_fixed");
+				}
+
+				scrollPrevPosition = $(this).scrollTop();
+		});
+
 		function bookingPopupOpenClose() {
 			$('.form_booking_wrapper').toggleClass('popup_form');
 			$('.popup_form_close').toggleClass('_hide');
 			$('body').toggleClass('overflow')
 		}
+
+
+
+
+
+		//filter city
+		// function cityFilter() {
+		// 	var value = $(this).val().toLowerCase();  
+		// 	$(".city_list .city_name").filter(function() {  
+		// 		$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		// 	});
+		// }
+
+
+
+
 
 		// function bookingPopupClose() {
 		// 	$('.form_booking_wrapper').removeClass('popup_form');
@@ -107,7 +196,10 @@ export default class Main{
 		$(".header_form_popup").on("click", this.closePopUpHandler);
 		$('.header_burger').on('click', this.burgerHandler);
 		$(".header_city_select").on("click", this.citySelectHandler);
-		$(document).mouseup(this.closeCitySelectHandler);
+
+		$(document).on("click", this.closeCitySelectHandler);
+
+		//$(document).mouseup(this.closeCitySelectHandler); если использовать mouseup то при клике на область слайдреа на главном экране меню выбора городов не закрывается
 		//$(document).mouseup(this.closeBurgerHandler);
 		
 		$(".show_filter_button").on("click", this.showFilterButtonHandler);
@@ -207,7 +299,14 @@ export default class Main{
 			$cityList.toggleClass("_hide");
 			$button.toggleClass("_active");
 		}
-		 
+
+		if (window.innerWidth > 1650) {
+			let buttonWidth = +$(e.target).css("width").slice(0, -2);
+			let citySelectRightOffset = (323 - buttonWidth) + "px";
+
+
+			$(".city_select_search_wrapper").css("right", citySelectRightOffset);
+		}
 	}
 
 	closeCitySelectHandler(e){
@@ -237,13 +336,28 @@ export default class Main{
 
 		if(!$("header").hasClass("_active")) {
 			$("header").toggleClass("filter_active")
+
+			if (window.innerWidth < 768) {
+				$(".filter").addClass("submit_cancel_fixed");
+
+				$(".filter_submit").addClass("filter_submit_fixed");
+				$(".filter_cancel").addClass("fiter_cancel_fixed");
+
+			}
 		}
-		
-		// console.log(window.innerWidth)
 
 		if (window.innerWidth < 768 && $("body").css("overflow") != "hidden") {
 			$("body").css("max-height", "100vh");
 			$("body").css("overflow", "hidden");
 		}
 	}
+
+	// mapPopupOpenClose() {
+	// 	console.log('lalalalala')
+	// }
+
+	// filterButtonFixed() {
+	// 	console.log(1);
+	// }
+
 }

@@ -53,6 +53,8 @@ class BlogController extends Controller
 			],
 
 		];
+		echo 1;
+		exit;
 		return $this->render('index.twig', compact('listConfig', 'topPosts', 'seo'));
   	}
 

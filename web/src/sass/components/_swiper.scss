@@ -287,8 +287,9 @@
 .top-swiper-button-next {
   position: absolute;
   z-index: 1;
-  top: 46%;
-  right: calc(((100vw - 1136px) / 2) + 17px);
+  top: 50%;
+  transform: translateY(-50%);
+  right: calc(((100vw - 1136px) / 2) + 24px);
   left: auto;
   background-size: contain;
   background-repeat: no-repeat;
@@ -305,8 +306,9 @@
 .top-swiper-button-prev {
   position: absolute;
   z-index: 1;
-  top: 46%;
-  left: calc(((100vw - 1136px) / 2) + 17px);
+  top: 50%;
+  transform: translateY(-50%);
+  left: calc(((100vw - 1136px) / 2) + 24px);
   right: auto;
   background-size: contain;
   background-repeat: no-repeat;
@@ -318,6 +320,23 @@
 
   @include for-mobile {
     left: calc(((100vw - 768px) / 2) + 12px);
+  }
+}
+[data-page-type="item"] {
+  .top-swiper-button-prev {
+    left: calc(((100vw - 1136px) / 2) + 24px);
+
+    @include for-laptop {
+      left: 16px;
+    }
+  }
+
+  .top-swiper-button-next {
+    right: calc(((100vw - 1136px) / 2) + 24px);
+
+    @include for-laptop {
+      right: 16px;
+    }
   }
 }
 .swiper-button-prev.swiper-button-white,

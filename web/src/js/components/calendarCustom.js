@@ -157,6 +157,7 @@ export default class CalendarCustom{
 		$buttons.on("click", function(e){
 			let $button = $(e.target).closest(".open_calendar_button");
 			let $calendar = $button.next();
+			let filterWrap = $(".filter_wrapper.active");
 
 			if ( !$button.hasClass("_active") ) {
 				$button.addClass("_active");
@@ -166,8 +167,10 @@ export default class CalendarCustom{
 
 			if ( $calendar.hasClass("_hide") ) {
 				$calendar.removeClass("_hide");
+				filterWrap.css("overflow-y", "visible");
 			} else {
 				$calendar.addClass("_hide");
+				filterWrap.css("overflow-y", "scroll");
 			}
 
 			e.stopImmediatePropagation();
@@ -175,6 +178,7 @@ export default class CalendarCustom{
 
 		$(document).mouseup(function (e){
 			let div = $(".calendar_wrapper");
+			let filterWrap = $(".filter_wrapper.active");
 
 			for ( let cal of div){
 				if (!$(cal).is(e.target) 
@@ -182,6 +186,7 @@ export default class CalendarCustom{
 					&& !$(cal).children(".calendar_container").hasClass("_hide")) {
 					$(cal).children(".calendar_container").addClass ("_hide");
 					$(cal).children(".open_calendar_button").removeClass("_active");
+					filterWrap.css("overflow-y", "scroll");
 				}
 			}
 		});

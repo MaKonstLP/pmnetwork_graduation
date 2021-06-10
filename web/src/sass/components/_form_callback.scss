@@ -5,16 +5,14 @@
   padding: 20px 120px 50px 120px;
   flex-flow: column nowrap;
   align-items: center;
-  background: linear-gradient(139.76deg,
-                            #FEDA5A 0.69%,
-                            #FFBA35 112.92%);
+  background: linear-gradient(139.76deg, #feda5a 0.69%, #ffba35 112.92%);
   box-shadow: 0px 5px 20px rgba(253, 172, 77, 0.3);
 
-  @include for-pad{
+  @include for-pad {
     width: 532px;
     padding: 20px 20px 32px 20px;
 
-    &:before{
+    &:before {
       content: "";
       position: absolute;
       top: 0;
@@ -26,7 +24,7 @@
       z-index: -1;
     }
 
-    &:after{
+    &:after {
       content: "";
       position: absolute;
       top: 50px;
@@ -39,33 +37,33 @@
     }
   }
 
-  @include for-mobile{
+  @include for-mobile {
     width: 100%;
     margin: 50px 0 0;
     padding: 25px 15px 50px 15px;
 
-    &:before{
+    &:before {
       content: none;
     }
 
-    &:after{
+    &:after {
       content: none;
     }
   }
 
-  .form_title{
+  .form_title {
     display: flex;
     flex-flow: column nowrap;
     width: 709px;
 
-    @include for-pad{
+    @include for-pad {
       width: 532px;
     }
 
-    @include for-mobile{
+    @include for-mobile {
       width: 100%;
 
-      .form_title_main{
+      .form_title_main {
         font-size: 28px;
         line-height: 32px;
         margin: 0;
@@ -73,25 +71,24 @@
       }
     }
 
-    .form_title_main{
+    .form_title_main {
       color: #000000;
     }
-    .form_title_desc{
+    .form_title_desc {
       color: #333333;
       text-align: center;
       margin-top: 10px;
     }
   }
 
-  .form_block{
+  .form_block {
     display: flex;
     flex-flow: column wrap;
 
-    @include for-mobile{
+    @include for-mobile {
       width: 100%;
       align-items: center;
     }
-
 
     .form_inputs {
       display: flex;
@@ -100,42 +97,41 @@
       width: 709px;
       height: 170px;
 
-      @include for-pad{
+      @include for-pad {
         width: 492px;
         height: 258px;
         flex-flow: row wrap;
         justify-content: space-between;
       }
 
-      @include for-mobile{
+      @include for-mobile {
         width: 100%;
         height: 324px;
         flex-flow: column nowrap;
         align-items: center;
       }
 
-
-      .input_wrapper{
+      .input_wrapper {
         width: 243px;
         margin-bottom: 19px;
 
-        @include for-pad{
+        @include for-pad {
           width: calc(50% - 10px);
           margin-right: 0px;
         }
 
-        @include for-mobile{
+        @include for-mobile {
           width: 100%;
           margin: 0 0 10px 0;
         }
 
-        input{
+        input {
           border: none;
           background: white;
           box-shadow: inset 0px 1px 2px rgba(140, 140, 140, 0.5);
         }
 
-        textarea{
+        textarea {
           background: white;
           width: 435px;
           height: 126px;
@@ -152,52 +148,45 @@
       .input_wrapper:nth-child(3) {
         width: 435px;
 
-        @include for-notdesc{
+        @include for-notdesc {
           width: 100%;
         }
       }
 
-      .input_wrapper:nth-child(n + 4){
+      .input_wrapper:nth-child(n + 4) {
         display: none;
       }
     }
 
-    .form_submit_callback{
+    .form_submit_callback {
       display: flex;
       flex-flow: row nowrap;
       justify-content: flex-start;
       align-items: center;
 
-      @include for-pad{
+      @include for-pad {
         margin-top: 0;
-        //flex-flow: column nowrap;
 
-        .form_policy{
+        .form_policy {
           margin-top: 10px;
         }
       }
 
-      @include for-mobile{
+      @include for-mobile {
         margin-top: 0;
         flex-flow: column nowrap;
 
-        .form_policy{
+        .form_policy {
           margin-top: 10px;
         }
       }
 
-      ._button{
+      ._button {
         width: 130px;
         height: 50px;
         margin-right: 10px;
         padding: 0 20px;
       }
-
-      .form_policy{
-        
-      }
     }
-
   }
 }
-
