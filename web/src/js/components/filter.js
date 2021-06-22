@@ -24,6 +24,7 @@ export default class Filter{
 
 		//КЛИК ПО ЧЕКБОКСУ
 		this.$filter.find('[data-filter-checkbox-item]').on('click', function(){
+			$('.filter_checkbox').find('[data-filter-checkbox-item]').not(this).removeClass('_checked'); // Снимаем чекбокс со всех остальных чекбоксов, кроме выбранного
 			$(this).toggleClass('_checked');
 			self.checkboxStateRefresh($(this));
 		});

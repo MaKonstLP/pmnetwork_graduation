@@ -119,7 +119,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <span>Назад в меню</span>
                         </p>
 
-                        <h4>Выберите город</h4>
+                        <p class="city_select_title">Выберите город</p>
 
                         <div class="city_name_input">
                             <input type="text" placeholder="Название города">
@@ -320,10 +320,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <a class="header_menu_item <?if(!empty($this->params['menu']) and $this->params['menu'] == 'restorany')echo '_active';?>" href="/ploshhadki/">11 класс</a>
                         <a class="header_menu_item <?if(!empty($this->params['menu']) and $this->params['menu'] == 'restorany')echo '_active';?>" href="/ploshhadki/">9 класс</a>
                         <a class="header_menu_item <?if(!empty($this->params['menu']) and $this->params['menu'] == 'blog')echo '_active';?>" href="/blog/">Идеи для выпускного</a>
-                        <div class="header_callback_button">
+                        <!-- <div class="header_callback_button">
                             <p>Подобрать зал</p>
-                        </div>
+                        </div> -->
                     </div>
+
+						  <div class="header_callback_button">
+							  <p>Подобрать зал</p>
+						  </div>
 
                     <div class="header_phone">
                         <a href="tel:+78462057845">8 (846) 205-78-45</a>

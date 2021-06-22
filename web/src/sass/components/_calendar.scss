@@ -4,7 +4,7 @@
 	align-items: flex-start;
 	position: absolute;
 	top: 30px;
-	left: 0px;
+	right: 0px;
 	height: auto;
 	background: white;
 	box-shadow: 0px 5px 20px rgba(47, 61, 2, 0.1);
@@ -242,7 +242,7 @@
 	}
 
 	@include for-mobile {
-		left: -74px;
+		// left: -74px;
 
 		.calendar {
 			width: 290px;

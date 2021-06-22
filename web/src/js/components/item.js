@@ -52,10 +52,14 @@ export default class Item{
 
 		var topSlider = new Swiper('.swiper_top', {
 
-			width: 1136,
+			// width: 1136,
 			initialSlide: 1,
 			spaceBetween: 0,
 			loop: true,
+
+			slidesPerView: 'auto',
+			centeredSlides: true,
+			// spaceBetween: 30,
 
 			navigation: {
 				nextEl: '.top-swiper-button-next',
@@ -69,9 +73,9 @@ export default class Item{
 
 			breakpoints: {
 
-				1200: {
-					width: 768,
-				},
+				// 1200: {
+					// width: 768,
+				// },
 
 				// 767: {
 					// width: 'auto',

@@ -2,7 +2,7 @@
 
 	<div class="filter_select-checkbox-wrapper">
 
-		<div class="filter_calendar">
+		{# <div class="filter_calendar">
 			<div class="input_wrapper _big">
 				<div class="input_label">Когда выпускной</div>
 				<input type="text" name="date"/>
@@ -13,8 +13,24 @@
 					</div>
 				</div>
 			</div>
-			</div>
+			</div> #}
 
+		<div class="filter_checkbox">
+			{# <p class="filter_label">Какой класс</p> #}
+			<p class="filter_label">У какого класса выпускной</p>
+			<!-- <div class="filter_check {{filter_item.active[key] is defined ? '_checked':''}}" data-type="{{label}}" data-filter-checkbox-item>
+				<div class="filter_check_item" data-value="{{key}}"><p>{{value}}</p></div>
+			</div>
+			<div class="filter_check {{filter_item.active[key] is defined ? '_checked':''}}" data-type="{{label}}" data-filter-checkbox-item>
+				<div class="filter_check_item" data-value="{{key}}"><p>{{value}}</p></div>
+			</div> -->
+			<div class="filter_check" data-type="" data-filter-checkbox-item>
+				<div class="filter_check_item" data-value=""><p>9 класс</p></div>
+			</div>
+			<div class="filter_check" data-type="" data-filter-checkbox-item>
+				<div class="filter_check_item" data-value=""><p>11 класс</p></div>
+			</div>
+		</div>
 
 		{% for label,filter_item in filters %}
 			{% if filter_item.type == 'select' %}
@@ -37,22 +53,6 @@
 				}) | raw }}
 			{% endif %}
 		{% endfor %}
-		
-		<div class="filter_checkbox">
-			<p class="filter_label">Какой класс</p>
-			<!-- <div class="filter_check {{filter_item.active[key] is defined ? '_checked':''}}" data-type="{{label}}" data-filter-checkbox-item>
-				<div class="filter_check_item" data-value="{{key}}"><p>{{value}}</p></div>
-			</div>
-			<div class="filter_check {{filter_item.active[key] is defined ? '_checked':''}}" data-type="{{label}}" data-filter-checkbox-item>
-				<div class="filter_check_item" data-value="{{key}}"><p>{{value}}</p></div>
-			</div> -->
-			<div class="filter_check" data-type="" data-filter-checkbox-item>
-				<div class="filter_check_item" data-value=""><p>9 класс</p></div>
-			</div>
-			<div class="filter_check" data-type="" data-filter-checkbox-item>
-				<div class="filter_check_item" data-value=""><p>11 класс</p></div>
-			</div>
-		</div>
 
 		<div class="filter_select middle_chek">
 			<p class="filter_label">{{filter_item.name}}Чек на человека</p>
@@ -123,10 +123,10 @@
 	</div>
 
 	<div class="filter_submit">
-	    <div class="filter_submit_button _button" data-filter-button>Посмотреть ___ площадок</div>
+		<div class="filter_submit_button _button" data-filter-button>Посмотреть ___ площадок</div>
 	</div>
 	<div class="filter_cancel">
-	    <div class="filter_cancel_button" data-filter-button>Сбросить фильтр</div>
+		<div class="filter_cancel_button _link_blue" data-filter-button>Сбросить фильтр</div>
 	</div>
 
 </div>

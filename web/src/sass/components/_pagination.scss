@@ -1,146 +1,147 @@
 .items_pagination {
-  display: flex;
-  // justify-content: center;
-  width: 524px;
-  margin: 0 auto;
-  justify-content: flex-end;
-  align-items: center;
+	display: flex;
+	// justify-content: center;
+	width: 524px;
+	margin: 0 auto;
+	justify-content: flex-end;
+	align-items: center;
 
-  @include for-lowlap {
-    justify-content: center;
-  }
+	@include for-lowlap {
+		justify-content: center;
+	}
 
-  @include for-mobile {
-    width: 100%;
-    // margin-bottom: 30px;
-    margin-bottom: 0;
-    justify-content: center;
-  }
+	@include for-mobile {
+		width: 100%;
+		// margin-bottom: 30px;
+		margin-bottom: 0;
+		justify-content: center;
+	}
 
-  .items_pagination_item {
-    // width: 43px;
-    // height: 54px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid #b3b6be;
-    position: relative;
-    background-image: url("/img/pagination_ny_img.svg");
-    background-size: contain;
-    margin: 0px 13px;
-    cursor: pointer;
+	.items_pagination_item {
+		// width: 43px;
+		// height: 54px;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		border: 2px solid #b3b6be;
+		position: relative;
+		background-image: url("/img/pagination_ny_img.svg");
+		background-size: contain;
+		// margin: 0px 13px;
+		margin: 0px 9px;
+		cursor: pointer;
 
-    // @include for-pad{
-    //     width: 36px;
-    //     height: 45px;
-    // }
+		// @include for-pad{
+		//     width: 36px;
+		//     height: 45px;
+		// }
 
-    // @include for-mobile{
-    //     width: 36px;
-    //     height: 45px;
-    //     margin: 0 10px;
-    // }
+		// @include for-mobile{
+		//     width: 36px;
+		//     height: 45px;
+		//     margin: 0 10px;
+		// }
 
-    &._first {
-      margin-right: 26px;
-      &:before {
-        content: "...";
-        position: absolute;
-        left: calc(100% + 14px);
-        bottom: 13px;
-        color: #666666;
-        font-weight: 500;
-        font-size: 16px;
+		&._first {
+			margin-right: 26px;
+			&:before {
+				content: "...";
+				position: absolute;
+				left: calc(100% + 14px);
+				bottom: 13px;
+				color: #666666;
+				font-weight: 500;
+				font-size: 16px;
 
-        @include for-mobile {
-          left: calc(100% + 12px);
-          bottom: 13px;
-        }
-      }
-    }
+				@include for-mobile {
+					left: calc(100% + 12px);
+					bottom: 13px;
+				}
+			}
+		}
 
-    &._last {
-      margin-left: 26px;
-      &:before {
-        content: "...";
-        position: absolute;
-        right: calc(100% + 14px);
-        bottom: 13px;
-        color: #666666;
-        font-weight: 500;
-        font-size: 16px;
+		&._last {
+			margin-left: 26px;
+			&:before {
+				content: "...";
+				position: absolute;
+				right: calc(100% + 14px);
+				bottom: 13px;
+				color: #666666;
+				font-weight: 500;
+				font-size: 16px;
 
-        @include for-mobile {
-          right: calc(100% + 13px);
-          bottom: 13px;
-        }
-      }
-    }
+				@include for-mobile {
+					right: calc(100% + 13px);
+					bottom: 13px;
+				}
+			}
+		}
 
-    &._active {
-      pointer-events: none;
-    }
+		&._active {
+			pointer-events: none;
+		}
 
-    &:hover {
-      border-color: #ff5214;
-    }
+		&:hover {
+			border-color: #ff5214;
+		}
 
-    &._active {
-      // background-image: url("/img/pagination_ny_active_img.svg");
-      background-color: #ff5214;
-      border: none;
-      // color: #fff;
+		&._active {
+			// background-image: url("/img/pagination_ny_active_img.svg");
+			background-color: #ff5214;
+			border: none;
+			// color: #fff;
 
-      ::after {
-        color: #363c4a;
-      }
-    }
+			::after {
+				color: #363c4a;
+			}
+		}
 
-    &:after {
-      content: attr(data-page-id);
-      position: absolute;
-      // top: 20px;
-      top: 50%;
-      transform: translate(0, -50%);
-      width: 100%;
-      line-height: 26px;
-      font-size: 16px;
-      font-weight: 500;
-      text-align: center;
-      // color: $clrBlack;
-      color: #363c4a;
+		&:after {
+			content: attr(data-page-id);
+			position: absolute;
+			// top: 20px;
+			top: 50%;
+			transform: translate(0, -50%);
+			width: 100%;
+			line-height: 26px;
+			font-size: 16px;
+			font-weight: 500;
+			text-align: center;
+			// color: $clrBlack;
+			color: #363c4a;
 
-      @include for-pad {
-        // top: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        line-height: 25px;
-        font-size: 14px;
-      }
+			@include for-pad {
+				// top: 15px;
+				top: 50%;
+				transform: translateY(-50%);
+				line-height: 25px;
+				font-size: 14px;
+			}
 
-      @include for-mobile {
-        // top: 15px;
-        line-height: 25px;
-        font-size: 14px;
-      }
-    }
+			@include for-mobile {
+				// top: 15px;
+				line-height: 25px;
+				font-size: 14px;
+			}
+		}
 
-    &._active {
-      &:after {
-        color: #fff;
-      }
-    }
+		&._active {
+			&:after {
+				color: #fff;
+			}
+		}
 
-    @include for-mobile {
-      margin: 0 8px;
-    }
-  }
+		@include for-mobile {
+			margin: 0 8px;
+		}
+	}
 }
 
 [data-pagination-wrapper] {
-  padding: 0 0 48px 0;
+	padding: 0 0 48px 0;
 
-  @include for-laptop {
-    padding: 0 0 40px 0;
-  }
+	@include for-laptop {
+		padding: 0 0 40px 0;
+	}
 }

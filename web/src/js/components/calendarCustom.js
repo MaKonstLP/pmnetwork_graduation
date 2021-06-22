@@ -157,7 +157,10 @@ export default class CalendarCustom{
 		$buttons.on("click", function(e){
 			let $button = $(e.target).closest(".open_calendar_button");
 			let $calendar = $button.next();
-			let filterWrap = $(".filter_wrapper.active");
+			let filterWrap = $(e.target).closest(".filter_wrapper");
+
+			let callbackPopupFormWrap = $(e.target).closest(".form_booking_wrapper.popup_form");
+			let callbackFormWrap = $(e.target).closest(".form_wrapper.booking");
 
 			if ( !$button.hasClass("_active") ) {
 				$button.addClass("_active");
@@ -168,9 +171,17 @@ export default class CalendarCustom{
 			if ( $calendar.hasClass("_hide") ) {
 				$calendar.removeClass("_hide");
 				filterWrap.css("overflow-y", "visible");
+				// callbackPopupFormWrap.css("overflow", "hidden scroll");
+				callbackPopupFormWrap.addClass("overflow").addClass("overflow-y_scroll");
+				// callbackFormWrap.css("overflow", "visible");
+				callbackFormWrap.addClass("overflow_visible");
 			} else {
 				$calendar.addClass("_hide");
 				filterWrap.css("overflow-y", "scroll");
+				// callbackPopupFormWrap.css("overflow", "hidden");
+				callbackPopupFormWrap.removeClass("overflow").removeClass("overflow-y_scroll");
+				// callbackFormWrap.css("overflow", "hidden");
+				callbackFormWrap.removeClass("overflow_visible");
 			}
 
 			e.stopImmediatePropagation();

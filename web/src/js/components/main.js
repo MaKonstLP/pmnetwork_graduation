@@ -56,10 +56,8 @@ export default class Main{
 
 
 
-
+		// city search
 		$('.city_name_input input').on('keyup', function() {
-			// cityFilter();
-
 			var value = $(this).val().toLowerCase();
 
 			$('.city_name').filter(function() {
@@ -79,43 +77,105 @@ export default class Main{
 			if ($('.city_select_letter_block').find('.city_name:visible').length == 0) {
 				$('.city_select_letter_block').hide();
 			};
-			
 		});
-
-
-
 
 		// $('[class*="islets_icon-with-caption__caption-block"]').on('click', function(){
 		// 	mapPopupOpenClose();
 		// })
 
+		//Filter
+		let windowWidth = window.innerWidth;
 		let scrollPrevPosition = 0;
-
+	
 		$('.filter_wrapper').on('scroll', function() {
+			var $listingFilterWrap = $('.listing_and_filter_wrapper');
+			var scroll = $(window).scrollTop() + $(window).height();
+			//Если скролл до конца елемента
+			var offset = $listingFilterWrap.offset().top + $listingFilterWrap.height();
+			var heightFromFilterToBot = scroll - offset;
 
 			// filterButtonFixed();
 				if (this.scrollTop == this.scrollHeight-this.clientHeight) {
 					$(".filter").removeClass("submit_cancel_fixed");
 					$(".filter").addClass("submit_cancel_static");
+					$(".filter").addClass("_static");
 
-					$(".filter_submit").removeClass("filter_submit_fixed")
-					$(".filter_submit").addClass("filter_submit_static")
+					$(".filter_submit").removeClass("filter_submit_fixed");
+					$(".filter_submit").addClass("filter_submit_static");
+					$(".filter_submit").addClass("_static");
 
 					$(".filter_cancel").removeClass("fiter_cancel_fixed");
-					$(".filter_cancel").addClass("fiter_cancel_static")
+					$(".filter_cancel").addClass("fiter_cancel_static");
+					$(".filter_cancel").addClass("_static");
+
+					if (windowWidth < 1441 && windowWidth > 1200) {
+						if (scroll > offset) {
+
+							if ($(".filter").hasClass("submit_cancel_fixed")) {
+								$(".filter_submit").css("bottom", heightFromFilterToBot);
+								$(".filter_submit").addClass("filter_submit_fixed_pad");
+
+								$(".filter_cancel").css("bottom", heightFromFilterToBot);
+								$(".filter_cancel").addClass("filter_cancel_fixed_pad");
+			
+							} else {
+								$(".filter_submit").css("bottom", "unset");
+								$(".filter_submit").removeClass("filter_submit_fixed_pad");
+
+								$(".filter_cancel").css("bottom", "unset");
+								$(".filter_cancel").removeClass("filter_cancel_fixed_pad");
+							}
+			
+						} else {
+							$(".filter_submit").css("bottom", "unset");
+							$(".filter_submit").removeClass("filter_submit_fixed_pad");
+
+							$(".filter_cancel").css("bottom", "unset");
+							$(".filter_cancel").removeClass("filter_cancel_fixed_pad");		
+						}
+					}
 				}
-				
-				
+
 				if ($(this).scrollTop() < scrollPrevPosition) {
 					$(".filter").removeClass("submit_cancel_static");
+					$(".filter").removeClass("_static");
 					$(".filter").addClass("submit_cancel_fixed");
 
 
 					$(".filter_submit").removeClass("filter_submit_static");
+					$(".filter_submit").removeClass("_static");
 					$(".filter_submit").addClass("filter_submit_fixed");
 
-					$(".filter_cancel").removeClass("fiter_cancel_static")
+					$(".filter_cancel").removeClass("fiter_cancel_static");
+					$(".filter_cancel").removeClass("_static");
 					$(".filter_cancel").addClass("fiter_cancel_fixed");
+
+					if (windowWidth < 1441 && windowWidth > 1200) {
+						if (scroll > offset) {
+
+							if ($(".filter").hasClass("submit_cancel_fixed")) {
+								$(".filter_submit").css("bottom", heightFromFilterToBot);
+								$(".filter_submit").addClass("filter_submit_fixed_pad");
+
+								$(".filter_cancel").css("bottom", heightFromFilterToBot);
+								$(".filter_cancel").addClass("filter_cancel_fixed_pad");
+			
+							} else {
+								$(".filter_submit").css("bottom", "unset");
+								$(".filter_submit").removeClass("filter_submit_fixed_pad");
+
+								$(".filter_cancel").css("bottom", "unset");
+								$(".filter_cancel").removeClass("filter_cancel_fixed_pad");
+							}
+			
+						} else {
+							$(".filter_submit").css("bottom", "unset");
+							$(".filter_submit").removeClass("filter_submit_fixed_pad");
+
+							$(".filter_cancel").css("bottom", "unset");
+							$(".filter_cancel").removeClass("filter_cancel_fixed_pad");		
+						}
+					}
 				}
 
 				scrollPrevPosition = $(this).scrollTop();
@@ -125,23 +185,100 @@ export default class Main{
 			$('.form_booking_wrapper').toggleClass('popup_form');
 			$('.popup_form_close').toggleClass('_hide');
 			$('body').toggleClass('overflow')
+
+			if($(".form_booking_wrapper").hasClass("overflow-y_scroll")) {
+				$(".form_booking_wrapper").removeClass("overflow-y_scroll");
+				$(".form_booking_wrapper").removeClass("overflow");
+			}
 		}
 
+		if (windowWidth < 1441 && windowWidth > 1200) {
 
+			var $listingFilterWrap = $('.listing_and_filter_wrapper');
+			var offsetFilter = $listingFilterWrap.offset().top;
 
+			$(document).ready(function () {
+				if ($(window).height() < (offsetFilter + 250) && $(".filter").hasClass('submit_cancel_fixed')) {
+					
+					$(".filter").removeClass("submit_cancel_fixed");
+					$(".filter").addClass("submit_cancel_static");
 
+					$(".filter_submit").removeClass("filter_submit_fixed");
+					$(".filter_submit").addClass("filter_submit_static");
 
-		//filter city
-		// function cityFilter() {
-		// 	var value = $(this).val().toLowerCase();  
-		// 	$(".city_list .city_name").filter(function() {  
-		// 		$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-		// 	});
-		// }
+					$(".filter_cancel").removeClass("fiter_cancel_fixed");
+					$(".filter_cancel").addClass("fiter_cancel_static");
+				} else if ($(window).height() > (offsetFilter + 250) && $(".filter").hasClass('submit_cancel_static')) {
+					
+					$(".filter").removeClass("submit_cancel_static");
+					$(".filter").addClass("submit_cancel_fixed");
 
+					$(".filter_submit").removeClass("filter_submit_static");
+					$(".filter_submit").addClass("filter_submit_fixed");
 
+					$(".filter_cancel").removeClass("fiter_cancel_static");
+					$(".filter_cancel").addClass("fiter_cancel_fixed");
+				};
+			 });
 
+			$(window).scroll(function() {
+				var scroll = $(window).scrollTop() + $(window).height();
+				//Если скролл до конца елемента
+				var offset = $listingFilterWrap.offset().top + $listingFilterWrap.height();
+				var heightFromFilterToBot = scroll - offset;
 
+				if (scroll < (offsetFilter + 250) && $(".filter").hasClass('submit_cancel_fixed')) {
+					$(".filter").removeClass("submit_cancel_fixed");
+					$(".filter").addClass("submit_cancel_static");
+
+					$(".filter_submit").removeClass("filter_submit_fixed");
+					$(".filter_submit").addClass("filter_submit_static");
+
+					$(".filter_cancel").removeClass("fiter_cancel_fixed");
+					$(".filter_cancel").addClass("fiter_cancel_static");
+				} else if (scroll > (offsetFilter + 250) && $(".filter").hasClass('submit_cancel_static')) {
+					$(".filter").removeClass("submit_cancel_static");
+					$(".filter").addClass("submit_cancel_fixed");
+
+					$(".filter_submit").removeClass("filter_submit_static");
+					$(".filter_submit").addClass("filter_submit_fixed");
+
+					$(".filter_cancel").removeClass("fiter_cancel_static");
+					$(".filter_cancel").addClass("fiter_cancel_fixed");
+				};
+
+				if (scroll > offset) {
+
+					if ($(".filter").hasClass("submit_cancel_fixed")) {
+						$(".filter_submit").css("bottom", heightFromFilterToBot);
+						$(".filter_submit").addClass("filter_submit_fixed_pad");
+
+						$(".filter_cancel").css("bottom", heightFromFilterToBot);
+						$(".filter_cancel").addClass("filter_cancel_fixed_pad");
+
+					} else {
+						$(".filter_submit").css("bottom", "unset");
+						$(".filter_submit").removeClass("filter_submit_fixed_pad");
+
+						$(".filter_cancel").css("bottom", "unset");
+						$(".filter_cancel").removeClass("filter_cancel_fixed_pad");
+					}
+
+				} else {
+					$(".filter_submit").css("bottom", "unset");
+					$(".filter_submit").removeClass("filter_submit_fixed_pad");
+
+					$(".filter_cancel").css("bottom", "unset");
+					$(".filter_cancel").removeClass("filter_cancel_fixed_pad");
+				};
+			});
+		}
+
+		if (window.innerWidth < 1440) {
+			$(".filter").addClass("submit_cancel_fixed");
+			$(".filter_submit").addClass("filter_submit_fixed");
+			$(".filter_cancel").addClass("fiter_cancel_fixed");
+		}
 
 		// function bookingPopupClose() {
 		// 	$('.form_booking_wrapper').removeClass('popup_form');
@@ -179,7 +316,6 @@ export default class Main{
 		citySelectListBlockHeight();
 	}
 
-
 	init() {
 		//setTimeout(function() {
 		//	(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -189,8 +325,6 @@ export default class Main{
 		//	})(window,document,'script','dataLayer','GTM-PTTPDSK');
 		//}, 100);
 
-		
-
 		$(".header_phone_button").on("click", this.helpWhithBookingButtonHandler);
 		$(".footer_phone_button").on("click", this.helpWhithBookingButtonHandler);
 		$(".header_form_popup").on("click", this.closePopUpHandler);
@@ -198,9 +332,16 @@ export default class Main{
 		$(".header_city_select").on("click", this.citySelectHandler);
 
 		$(document).on("click", this.closeCitySelectHandler);
-
 		//$(document).mouseup(this.closeCitySelectHandler); если использовать mouseup то при клике на область слайдреа на главном экране меню выбора городов не закрывается
 		//$(document).mouseup(this.closeBurgerHandler);
+
+		$(".back_to_header_menu").on("click", function() {
+			var $button = $(".header_city_select");
+			var $cityList = $(".city_select_search_wrapper");
+
+			$cityList.addClass("_hide");
+			$button.removeClass("_active");
+		});
 		
 		$(".show_filter_button").on("click", this.showFilterButtonHandler);
 	
@@ -337,13 +478,21 @@ export default class Main{
 		if(!$("header").hasClass("_active")) {
 			$("header").toggleClass("filter_active")
 
-			if (window.innerWidth < 768) {
+			if (window.innerWidth < 1200) {
 				$(".filter").addClass("submit_cancel_fixed");
 
 				$(".filter_submit").addClass("filter_submit_fixed");
 				$(".filter_cancel").addClass("fiter_cancel_fixed");
 
 			}
+
+			// if (window.innerWidth < 768) {
+			// 	$(".filter").addClass("submit_cancel_fixed");
+
+			// 	$(".filter_submit").addClass("filter_submit_fixed");
+			// 	$(".filter_cancel").addClass("fiter_cancel_fixed");
+
+			// }
 		}
 
 		if (window.innerWidth < 768 && $("body").css("overflow") != "hidden") {

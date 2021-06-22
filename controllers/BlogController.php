@@ -4,6 +4,7 @@ namespace app\modules\graduation\controllers;
 use common\models\blog\BlogPost;
 use common\models\blog\BlogTag;
 use common\models\Seo;
+use common\models\Pages;
 use frontend\modules\graduation\components\Breadcrumbs;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
@@ -16,6 +17,7 @@ class BlogController extends Controller
 {
 
   	public function actionIndex(){
+  		Pages::createSiteObjects();
   		$this->view->params['menu'] = 'blog';
   		if(Yii::$app->params['subdomen_alias'] != ''){
   			throw new \yii\web\NotFoundHttpException();
@@ -34,8 +36,6 @@ class BlogController extends Controller
 		$seo['breadcrumbs'] = Breadcrumbs::get_breadcrumbs(1);
 		$this->setSeo($seo);
 
-
-
 		$topPosts = (clone $query)->where(['featured' => true])->limit(5)->all();
 
 		$listConfig = [
@@ -53,8 +53,7 @@ class BlogController extends Controller
 			],
 
 		];
-		echo 1;
-		exit;
+		
 		return $this->render('index.twig', compact('listConfig', 'topPosts', 'seo'));
   	}
 
@@ -68,6 +67,9 @@ class BlogController extends Controller
 		if(empty($post)) {
 			return new NotFoundHttpException();
 		}
+		echo '<pre>';
+		print_r($post);
+		exit;
 		$seo = ArrayHelper::toArray($post->seoObject);
 		$this->setSeo($seo);
 		return $this->render('post.twig', compact('post'));
