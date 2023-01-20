@@ -1,4 +1,5 @@
 <?php
+
 namespace app\modules\graduation\controllers;
 
 use Yii;
@@ -10,46 +11,128 @@ use yii\filters\AccessControl;
 use common\models\elastic\RestaurantElastic;
 use frontend\modules\graduation\components\Breadcrumbs;
 use common\models\elastic\ItemsWidgetElastic;
+use frontend\components\QueryFromSlice;
 use frontend\modules\graduation\models\ElasticItems;
 use common\models\Seo;
+use yii\web\NotFoundHttpException;
 
 class ItemController extends Controller
 {
 
-	public function actionIndex($id)
+	public function actionIndex($id, $slug)
 	{
 		$elastic_model = new ElasticItems;
-		$item = $elastic_model::get($id);
+		$item = $elastic_model::find()->query([
+			'bool' => [
+				'must' => [
+					['match' => ['restaurant_slug' => $slug]],
+					['match' => ['restaurant_city_id' => \Yii::$app->params['subdomen_id']]],
+				],
+			]
+		])->one();
+
+		if (empty($item)) {
+			throw new NotFoundHttpException();
+		}
 
 		$seo = new Seo('item', 1, 0, $item, 'rest');
 		$seo = $seo->seo;
-        $this->setSeo($seo);
+		$this->setSeo($seo);
 
 		//$item = ApiItem::getData($item->restaurants->gorko_id);
+		if (isset($_SERVER['HTTP_REFERER'])) {
+			$slice_obj = new QueryFromSlice(basename($_SERVER['HTTP_REFERER']));
+		} else {
+			$slice_obj = (object)['flag' => false];
+		}
+
+		if ($slice_obj->flag) {
+			$slice_alias = basename($_SERVER['HTTP_REFERER']);
+		} else {
+			$type = $item->restaurant_types[0]['id'];
+			$types = [
+				1 => 'restorany',
+				2 => 'banketnye-zaly',
+				3 => 'kafe',
+				4 => 'bary',
+				16 => 'kluby',
+			];
+			if (isset($types[$item->restaurant_types[0]['id']])) {
+				$slice_alias = $types[$item->restaurant_types[0]['id']];
+			} else {
+				$slice_alias = $types[1];
+			}
+		}
 
 		$seo['h1'] = $item->restaurant_name;
-		$seo['breadcrumbs'] = Breadcrumbs::get_breadcrumbs(3);
+		// $seo['breadcrumbs'] = Breadcrumbs::get_breadcrumbs(3, false, $item);
+		$seo['breadcrumbs'] = Breadcrumbs::get_breadcrumbs(3, $slice_alias, ['id' => $item->id, 'name' => $item->restaurant_name]);
 		$seo['desc'] = $item->restaurant_name;
 		$seo['address'] = $item->restaurant_address;
 
 		$other_rooms = $item->rooms;
 
-		//echo '<pre>';
-		//print_r($item);
-		//exit;
+		// echo '<pre>';
+		// print_r($other_rooms);
+		// exit;
+
+		$other_rests = ElasticItems::find()->limit(20)->query([
+			'bool' => [
+				'must' => [
+					['match' => ['restaurant_district' => $item->restaurant_district]]
+				],
+				'must_not' => [
+					['match' => ['restaurant_id' => $item->restaurant_id]]
+				],
+			],
+		])->all();
+		shuffle($other_rests);
+		$other_rests = array_slice($other_rests, 0, 2);
+
+		if($item->restaurant_premium) Yii::$app->params['premium_rest'] = true;
 
 		return $this->render('index.twig', array(
 			'item' => $item,
-			'queue_id' => $id,
+			'queue_id' => $item->restaurant_gorko_id,
 			'seo' => $seo,
-			'other_rooms' => $other_rooms
+			'other_rests' => $other_rests,
+			'city_dec' => Yii::$app->params['subdomen_dec'],
+			'breadcrumbs' => $seo['breadcrumbs'],
 		));
 	}
 
-	private function setSeo($seo){
-        $this->view->title = $seo['title'];
-        $this->view->params['desc'] = $seo['description'];
-        $this->view->params['kw'] = $seo['keywords'];
-    }
 
+
+
+
+	// public function actionAjaxCalltracking()
+	// {
+
+	// 	$data = json_decode($_GET['state']);
+
+	// 	if ($data){
+	// 		echo ('<pre>');
+	// 		print_r(preg_replace('~[^\d\+]~', '', $data->phone));
+	// 		echo ('<pre>');
+	// 		print_r($data->clientId);
+	// 		exit;
+	// 	} else {
+	// 		echo ('<pre>');
+	// 		print_r(22222);
+	// 		exit;
+	// 	}
+			
+
+	// 	return $data;
+	// }
+
+
+
+
+	private function setSeo($seo)
+	{
+		$this->view->title = $seo['title'];
+		$this->view->params['desc'] = $seo['description'];
+		$this->view->params['kw'] = $seo['keywords'];
+	}
 }

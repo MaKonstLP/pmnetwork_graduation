@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+		xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+{% for item in items %}
+	<url>
+
+		<loc>{{host}}/catalog/{{item.restaurant_unique_id}}-{{item.restaurant_slug}}/</loc>
+
+		{% for image in item.restaurant_images %}
+
+			<image:image>
+				<image:loc>
+					{% if image.waterpath|length == 0 %}
+						{% if image.realpath|length == 0 %}
+							{{item.restaurant_cover_url}}
+						{% else %}
+							{{image.realpath}}
+						{% endif %}
+					{% else %}
+						{{image.waterpath}}
+					{% endif %}
+				</image:loc>
+				<image:caption>Банкетный зал {{item.restaurant_name}} фото {{loop.index}}</image:caption>
+			</image:image>
+
+		{% endfor %}
+
+	</url>
+{% endfor %}
+</urlset>

@@ -1,24 +1,30 @@
 {{ use('yii/widgets/Pjax') }}
 {{ use('yii/widgets/ListView') }}
-
+{{this.registerMetaTag({'property':'og:image','content':'https://vypusknoy-vecher.ru/image/slider_pic_01.jpg'})}}
+{{this.registerMetaTag({'property':'og:image:width','content':'1200'})}}
+{{this.registerMetaTag({'property':'vk:image','content':'https://vypusknoy-vecher.ru/image/slider_pic_01.jpg'})}}
+{{this.registerMetaTag({'property':'vk:image:width','content':'510'})}}
+{{this.registerMetaTag({'property':'fb:image','content':'https://vypusknoy-vecher.ru/image/slider_pic_01.jpg'})}}
+{{this.registerMetaTag({'property':'fb:image:width','content':'600'})}}
 <div data-page-type="blog">
 
 	<div class="comments" style="display: none;">
 		{# <div class="content_block" data-blog-title>
-
 			<h1>{{seo.h1}}</h1>
-				
 		</div> #}
 	</div>
 
 	<div class="content_block" data-listing-title>
-        {{ this.render('//components/generic/item_title.twig', {'seo':seo}) | raw }}
-    </div>
+		{# {{ this.render('//components/generic/item_title.twig', {'seo':seo,'breadcrumbs':seo.breadcrumbs}) | raw }} #}
+		{{ this.render('//components/generic/title.twig', {'seo':seo, 'breadcrumbs':breadcrumbs}) | raw }}
+	</div>
 
-	<h1>Статьи о выпускном</h1>
+	{# <h1>Статьи о выпускном</h1> #}
+	{% if seo.h1 != '' %}
+		<h1>{{seo.h1}}</h1>
+	{% endif %}
 
-  	<div class="content_block items_list_blog" data-blog-wrapper>
-
+	<div class="content_block items_list_blog" data-blog-wrapper>
 		<div class="items_list" data-blog-list>
 
 			{{  pjax_begin({'id' : 'blog-listing','enablePushState':false}) }}
@@ -26,23 +32,27 @@
 			{{  pjax_end()  }}
 
 		</div>
-
 	</div>
 
-	<div class="short_listing_button_wrapper">
+	{# <div class="short_listing_button_wrapper">
 		<a href="#" class="short_listing_button">
 			<span>Показать еще</span>
 		</a>
+	</div> #}
+
+	<div class="content_block pagination"> 
+		<div data-pagination-wrapper>
+			{{pagination | raw }}
+		</div>
 	</div>
 
-	<!-- <div class="content_block pagination"> 
+	{# <div class="content_block form_booking_wrapper">
 
-		<div data-pagination-wrapper>
+		{{ this.render('//components/generic/form_booking1.twig', {'items':other_rooms, 'city_dec':city_dec}) | raw }}
 
-			{{pagination | raw }}
-
-		</div>
-    
-	</div> -->
+	</div> #}
+	<div class="content_block form_booking_wrapper form_booking_popup _hide">
+		{{ this.render('//components/generic/form_booking_header.twig', {'items':other_rooms, 'city_dec':city_dec}) | raw }}
+	</div>
 
 </div>

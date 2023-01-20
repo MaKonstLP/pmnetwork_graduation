@@ -1,11 +1,17 @@
 <div class="restaurant_title">
 
+	{% if item.restaurant_premium %}
+		<div class="item_additional-premium">
+			<span>Pro</span>
+		</div>
+	{% endif %}
+
 	<h1>{{seo.h1}}</h1>
 
 	<!-- <div class="title_desc"><p>{{seo.desc}}</p></div> -->
 	<div class="title_address">
-        <div class="location_icon"></div>
-        <a data-title-address>{{seo.address}}</a>
-    </div>
+		<div class="location_icon"></div>
+		<a data-title-address>{{seo.address}}</a>
+	</div>
 
 </div>

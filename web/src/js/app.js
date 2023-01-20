@@ -12,6 +12,7 @@ import CalendarCustom from './components/calendarCustom';
 import WidgetMain from './components/widgetMain';
 import Breadcrumbs from './components/breadcrumbs';
 import Post from './components/post';
+import Blog from './components/blog';
 
 window.$ = $;
 
@@ -60,6 +61,10 @@ window.$ = $;
 
 	    if ($('[data-page-type="post"]').length > 0) {
 	    	var post = new Post($('[data-page-type="post"]'));
+	    }
+
+	    if ($('[data-page-type="blog"]').length > 0) {
+	    	var blog = new Blog($('[data-page-type="blog"]'));
 	    }
 
 

@@ -1,4 +1,53 @@
-<div class="breadcrumbs">
+<div class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+
+	{% for breadcrumb in breadcrumbs.crumbs %}
+		{% if breadcrumb.type == 'slices' and loop.last %}
+			<div class="breadcrumbs_item breadcrumbs_item_type _last">
+				<a href="{{breadcrumb.link}}" itemprop="item">
+					<span itemprop="name">{{breadcrumb.name}}</span>
+					<meta itemprop="position" content="{{ loop.index }}"/>
+				</a>
+			</div>
+		{% elseif breadcrumb.type == 'slices' %}
+			<div class="breadcrumbs_item breadcrumbs_item_type">
+				<a href="{{breadcrumb.link}}" itemprop="item">
+					<span itemprop="name">{{breadcrumb.name}}</span>
+					<meta itemprop="position" content="{{ loop.index }}"/>
+				</a>
+			</div>
+		{% elseif breadcrumbs.crumbs|length > 1 and loop.last %}
+			<div class="breadcrumbs_item _last">
+				{# <span>{{breadcrumb.name}}</span> #}
+				<a href="{{breadcrumb.link}}" itemprop="item">
+					<span itemprop="name">{{breadcrumb.name}}</span>
+					<meta itemprop="position" content="{{ loop.index }}"/>
+				</a>
+			</div>
+		{% else %}
+			<div class="breadcrumbs_item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+				<a href="{{breadcrumb.link}}" itemprop="item">
+					<span itemprop="name">{{breadcrumb.name}}</span>
+					<meta itemprop="position" content="{{ loop.index }}"/>
+				</a>
+			</div>
+		{% endif %}
+	{% endfor %}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{# <div class="breadcrumbs">
 
 	{% for link,name in seo.breadcrumbs %}
 
@@ -58,4 +107,4 @@
 	<h1>{{seo.h1}}</h1>
 	<div class="title_count">{{count}} ресторан{{Declension.end_restaurants(count)}}</div>
 
-</div>
+</div> #}

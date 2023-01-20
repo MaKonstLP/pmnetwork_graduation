@@ -13,6 +13,22 @@ export default class Index{
 		//КЛИК ПО КНОПКЕ "ПОДОБРАТЬ"
 		$('[data-filter-button]').on('click', function(){
 			self.redirectToListing();
+			// gtag('event', 'filter', {'event_category' : 'Search', 'event_action' : 'Filter'});
+		});
+
+		//КЛИК ПО КНОПКЕ АДРЕСА В КАРТОЧКЕ РЕСТОРАНА
+		$('.item_address').on('click', function(){
+			self.redirectToListing();
+		});
+
+		//КЛИК ПО КНОПКЕ СБРОСИТЬ
+		$('[data-filter-cancel]').on('click', function () {
+			$('html,body').animate({ scrollTop: $('.items_list').offset().top - 160 }, 400);
+			self.filter.reloadTotalCount();
+
+			if ($('[data-filter-button]').hasClass('_disabled')) {
+				$('[data-filter-button]').removeClass('_disabled');
+			}
 		});
 
 		var topSlider = new Swiper('.swiper_top', {
@@ -49,12 +65,10 @@ export default class Index{
 		this.filter.filterMainSubmit();
 		this.filter.promise.then(
 			response => {
-				ym(66603799,'reachGoal','filter');
-				dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Search', 'eventAction' : 'Filter'});
+				// ym(66603799,'reachGoal','filter');
+				// dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Search', 'eventAction' : 'Filter'});
 				window.location.href = response;
 			}
 		);
 	}
-
-	
 }

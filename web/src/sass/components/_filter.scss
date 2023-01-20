@@ -40,7 +40,7 @@
 		}
 
 		.filter_select {
-			cursor: pointer;
+			// cursor: pointer;
 			width: 240px;
 
 			@include for-lowlap {
@@ -78,6 +78,7 @@
 		}
 
 		.filter_select_block {
+			cursor: pointer;
 			position: relative;
 
 			&._active {
@@ -94,17 +95,19 @@
 			}
 		}
 
-		.filter_select_block[data-type="chelovek"] {
+		.filter_select_block[data-type="guests"] {
+			width: 144px;
+
 			.filter_select_current {
-				width: 144px;
+				width: 100%;
 			}
 
 			.filter_select_list {
-				width: 144px;
+				width: 100%;
 				min-width: unset;
 
 				.filter_select_item {
-					width: 144px;
+					width: 100%;
 				}
 			}
 		}
@@ -163,29 +166,31 @@
 				white-space: nowrap;
 				text-overflow: ellipsis;
 				overflow: hidden;
-				width: calc(100% - 16px);
+				width: calc(100% - 26px);
 			}
 		}
 
 		.filter_select_list {
 			display: none;
 			position: absolute;
+			z-index: 5;
+			max-height: 300px;
+			overflow-y: auto;
 			min-width: 100%;
 			top: calc(100% - 2px);
-			padding: 12px 0 12px;
 			background-color: white;
 			border: 1px solid #dadee1;
 			border-radius: 4px;
 			border-top-left-radius: 0;
 			border-top-right-radius: 0;
 			cursor: initial;
-			z-index: 5;
+			padding: 12px 0 12px;
 		}
 
 		.filter_select_item {
-			padding: 0 15px 0 15px;
-			white-space: nowrap;
+			// white-space: nowrap;
 			cursor: pointer;
+			padding: 8px 15px;
 
 			&:hover {
 				background: #ff5214;
@@ -196,26 +201,31 @@
 			}
 
 			&._active {
-				background: #fff8eb;
+				background: #ffbd019e;
 
 				&:hover p {
 					color: $clrBlack;
 				}
 			}
 
+			&._disabled {
+				color: #b3b6be;
+				pointer-events: none;
+			}
+
 			p {
 				font-weight: 500;
-				line-height: 36px;
+				line-height: 20px;
 			}
 		}
 
 		.filter_check {
 			height: 26px;
-			padding-left: 22px;
 			position: relative;
 			cursor: pointer;
 			white-space: nowrap;
-			margin: 15px 15px 0 0;
+			padding-left: 20px;
+			margin: 0 15px 14px 0;
 
 			@include for-pad {
 				width: calc((100% / 3) - 10px);
@@ -233,9 +243,9 @@
 				width: 16px;
 				height: 16px;
 				border: 1px solid #b3b6be;
-				border-radius: 2px;
+				border-radius: 50%;
 				left: 0;
-				top: 0;
+				top: 4px;
 			}
 
 			&:after {
@@ -346,28 +356,28 @@
 		}
 
 		.filter_checkbox {
-			display: flex;
-			flex-flow: row wrap;
-			margin-bottom: 14px;
+			// display: flex;
+			// flex-flow: row wrap;
+			// margin-bottom: 14px;
 
-			@include for-lowlap {
-				margin-bottom: 16px;
-			}
+			// @include for-lowlap {
+			// 	margin-bottom: 16px;
+			// }
 
-			> .filter_label {
-				width: 100%;
-			}
+			// > .filter_label {
+			// 	width: 100%;
+			// }
 
-			.filter_check {
-				margin-top: 0;
-				padding-left: 20px;
-				display: flex;
+			// .filter_check {
+			// 	margin-top: 0;
+			// 	padding-left: 20px;
+			// 	display: flex;
 
-				&::before {
-					border-radius: 50%;
-					top: 4px;
-				}
-			}
+			// 	&::before {
+			// 		border-radius: 50%;
+			// 		top: 4px;
+			// 	}
+			// }
 		}
 	}
 
@@ -459,16 +469,16 @@
 
 		@include for-notdesc {
 			&.filter_submit_fixed {
-				position: fixed;
-				top: calc(100vh - 150px);
-				transform: translateX(-16px);
-				z-index: 2;
-				width: 272px;
-				// right: 0;
-				padding: 16px 16px 54px;
-				border-top: 1px solid #dadee1;
-				box-shadow: 0px -5px 20px 0px rgba(15, 4, 61, 0.1);
-				background-color: #fff;
+				// position: fixed;
+				// top: calc(100vh - 150px);
+				// transform: translateX(-16px);
+				// z-index: 2;
+				// width: 272px;
+				// // right: 0;
+				// padding: 16px 16px 54px;
+				// border-top: 1px solid #dadee1;
+				// box-shadow: 0px -5px 20px 0px rgba(15, 4, 61, 0.1);
+				// background-color: #fff;
 
 				// .filter_submit_button {
 				// 	margin-left: 12px;
@@ -574,24 +584,8 @@
 			background: radial-gradient(ellipse at center, #df4200 70%, transparent calc(70% + 3px)),
 				radial-gradient(ellipse at center, #ec4900 70%, transparent calc(70% + 3px)), #fe5200;
 			background-size: 340px 130px;
-			background-position: 50% -113px, 50% -87px;
+			background-position: 50% -113px, 50% -90px;
 			background-repeat: no-repeat;
-
-			&:hover {
-				background: radial-gradient(ellipse at center, #f2470a 70%, transparent calc(70% + 3px)),
-					radial-gradient(ellipse at center, #f84c0e 70%, transparent calc(70% + 3px)), #ff5214;
-				background-size: 340px 130px;
-				background-position: 50% -113px, 50% -87px;
-				background-repeat: no-repeat;
-			}
-
-			&:active {
-				background: radial-gradient(ellipse at center, #a52f07 70%, transparent calc(70% + 3px)),
-					radial-gradient(ellipse at center, #a52f07 70%, transparent calc(70% + 3px)), #ba1904;
-				background-size: 340px 130px;
-				background-position: 50% -113px, 50% -87px;
-				background-repeat: no-repeat;
-			}
 
 			@include for-notdesc {
 				margin: 0 auto;
@@ -610,6 +604,28 @@
 				width: 100%;
 				text-align: center;
 			}
+
+			&:hover {
+				background: radial-gradient(ellipse at center, #f2470a 70%, transparent calc(70% + 3px)),
+					radial-gradient(ellipse at center, #f84c0e 70%, transparent calc(70% + 3px)), #ff5214;
+				background-size: 340px 130px;
+				background-position: 50% -113px, 50% -90px;
+				background-repeat: no-repeat;
+			}
+
+			&:active {
+				background: radial-gradient(ellipse at center, #a52f07 70%, transparent calc(70% + 3px)),
+					radial-gradient(ellipse at center, #a52f07 70%, transparent calc(70% + 3px)), #ba1904;
+				background-size: 340px 130px;
+				background-position: 50% -113px, 50% -90px;
+				background-repeat: no-repeat;
+			}
+
+			&._disabled {
+				pointer-events: none;
+				background: #dadee2;
+				color: #b3b6be;
+			}
 		}
 
 		._button {
@@ -622,14 +638,14 @@
 
 		@include for-notdesc {
 			&.fiter_cancel_fixed {
-				position: fixed;
-				top: calc(100vh - 37px);
-				transform: translateX(-16px);
-				display: flex;
-				justify-content: center;
-				width: 272px;
-				z-index: 3;
-				// right: 0;
+				// position: fixed;
+				// top: calc(100vh - 37px);
+				// transform: translateX(-16px);
+				// display: flex;
+				// justify-content: center;
+				// width: 272px;
+				// z-index: 3;
+				// // right: 0;
 			}
 
 			&.fiter_cancel_static {

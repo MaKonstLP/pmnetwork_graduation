@@ -119,7 +119,7 @@
 			flex-flow: row nowrap;
 			order: 1;
 			width: 784px;
-			margin-bottom: 12px;
+			// margin-bottom: 12px;
 
 			&:first-child {
 				.input_wrapper {
@@ -127,7 +127,7 @@
 						@include for-mobile {
 							width: 50%;
 							min-width: 164px;
-							margin-top: 35px;
+							margin-top: 17px;
 						}
 					}
 				}
@@ -177,6 +177,15 @@
 				&:last-child {
 					width: 167px;
 
+					@include for-notdesc {
+						width: 21%;
+						min-width: 164px;
+					}
+
+					@include for-mobile {
+						width: 100%;
+					}
+
 					input {
 						width: 167px;
 						border-radius: 4px;
@@ -190,20 +199,15 @@
 							width: 100%;
 						}
 					}
-
-					@include for-notdesc {
-						width: 21%;
-						min-width: 164px;
-					}
-
-					@include for-mobile {
-						width: 100%;
-					}
 				}
 
 				&.comment {
 					width: 784px;
+					margin-top: -8px;
 
+					@include for-notdesc {
+						width: 100%;
+					}
 					// input {
 					//   border-radius: 4px;
 					//   width: 784px;
@@ -226,17 +230,13 @@
 
 						font-size: 14px;
 						letter-spacing: 0.01em;
-						color: #363C4A;
+						color: #363c4a;
 
 						@include for-notdesc {
 							width: 100%;
 							height: 9%;
 							min-height: 114px;
 						}
-					}
-
-					@include for-notdesc {
-						width: 100%;
 					}
 				}
 
@@ -252,6 +252,14 @@
 
 					@include for-mobile {
 						width: 100%;
+					}
+					&[type="number"] {
+						-moz-appearance: textfield;
+						&::-webkit-outer-spin-button,
+						&::-webkit-inner-spin-button {
+							-webkit-appearance: none;
+							margin: 0;
+						}
 					}
 				}
 
@@ -364,13 +372,14 @@
 					// letter-spacing: 0.01em;
 
 					@include for-notdesc {
-						font-size: 12px;
-						line-height: 20px;
-						letter-spacing: 0.02em;
+						// font-size: 12px;
+						// line-height: 20px;
+						// letter-spacing: 0.02em;
 					}
 
 					@include for-mobile {
 						display: inline;
+						line-height: 16px;
 					}
 				}
 
@@ -435,13 +444,13 @@
 	}
 
 	.input_notification {
-		position: absolute;
-		top: calc(100% + 4px);
+		// position: absolute;
+		// top: calc(100% + 4px);
 		font-size: 12px;
-		line-height: 20px;
+		line-height: 14px;
 		letter-spacing: 0.02em;
-		color: #B8BECB;
-		// margin-top: 4px;
+		color: #b8becb;
+		margin-top: 6px;
 	}
 }
 

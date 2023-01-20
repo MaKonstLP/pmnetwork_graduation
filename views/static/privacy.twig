@@ -1,10 +1,26 @@
-<div class="content_block" data-listing-text-top="">
-	<div class="title">
-		<h1>{{page.h1|raw}}</h1>
+{{this.registerMetaTag({'property':'og:image','content':'https://vypusknoy-vecher.ru/image/slider_pic_01.jpg'})}}
+{{this.registerMetaTag({'property':'og:image:width','content':'1200'})}}
+{{this.registerMetaTag({'property':'vk:image','content':'https://vypusknoy-vecher.ru/image/slider_pic_01.jpg'})}}
+{{this.registerMetaTag({'property':'vk:image:width','content':'510'})}}
+{{this.registerMetaTag({'property':'fb:image','content':'https://vypusknoy-vecher.ru/image/slider_pic_01.jpg'})}}
+{{this.registerMetaTag({'property':'fb:image:width','content':'600'})}}
+<div data-page-type="privacy">
+	<div class="content_block" data-listing-text-top="">
+		<div
+			class="title title_privacy">
+			{# <h1>{{page.h1|raw}}</h1> #}
+			<h1>{{seo.h1|raw}}</h1>
+		</div>
+		<div
+			class="seo_text _nowrap" data-seo-text="">
+			{# {{page.text_top|raw}} #}
+			{{seo.text_top|raw}}
+		</div>
 	</div>
-	<div class="seo_text _nowrap" data-seo-text="">
-		{{page.text_top|raw}}
+	{# <div class="content_block form_booking_wrapper">
+		{{ this.render('//components/generic/form_booking1.twig', {'items':other_rooms, 'city_dec':city_dec}) | raw }}
+	</div> #}
+	<div class="content_block form_booking_wrapper form_booking_popup _hide">
+		{{ this.render('//components/generic/form_booking_header.twig', {'items':other_rooms, 'city_dec':city_dec}) | raw }}
 	</div>
-	<br/>
-	<br/>
 </div>

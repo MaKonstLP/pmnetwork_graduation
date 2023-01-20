@@ -1,82 +1,50 @@
+{{this.registerMetaTag({'property':'og:image','content':'https://vypusknoy-vecher.ru/image/slider_pic_01.jpg'})}}
+{{this.registerMetaTag({'property':'og:image:width','content':'1200'})}}
+{{this.registerMetaTag({'property':'vk:image','content':'https://vypusknoy-vecher.ru/image/slider_pic_01.jpg'})}}
+{{this.registerMetaTag({'property':'vk:image:width','content':'510'})}}
+{{this.registerMetaTag({'property':'fb:image','content':'https://vypusknoy-vecher.ru/image/slider_pic_01.jpg'})}}
+{{this.registerMetaTag({'property':'fb:image:width','content':'600'})}}
 <div data-page-type="index">
-
-	
 	<div class="top_slider_wrapper">
+		<div class="top_slider">
+				<div class="swiper-container swiper_top">
+					<div class="swiper-wrapper">
 
-        <div class="top_slider">
-            <div class="swiper-container swiper_top">
+						<div class="swiper-slide">
+							<img src="/image/slider_pic_04.jpg" alt=""/>
+						</div>
+						<div class="swiper-slide">
+							<img src="/image/slider_pic_01.jpg" alt=""/>
+						</div>
+						<div class="swiper-slide">
+							<img src="/image/slider_pic_02.jpg" alt=""/>
+						</div>
+						<div class="swiper-slide">
+							<img src="/image/slider_pic_03.jpg" alt=""/>
+						</div>
 
-                <div class="swiper-wrapper">
-
-                    {# {% for image in item.restaurant_images %}
-                        <div class="swiper-slide">
-                            <img src="{{image.subpath}}=w710-h472-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
-                        </div>
-                    {% endfor %} #}
-
-					<!-- УДАЛИТЬ ЭТОТ БЛОК НАЧАЛО -->
-
-					<div class="swiper-slide">
-						<img src="/image/test_slider_pic.png" alt="ТЕСТ"/>
 					</div>
-
-					<div class="swiper-slide">
-						<img src="/image/test_slider_pic.png" alt="ТЕСТ"/>
-					</div>
-
-					<div class="swiper-slide">
-						<img src="/image/test_slider_pic.png" alt="ТЕСТ"/>
-					</div>
-					
-					<div class="swiper-slide">
-						<img src="/image/test_slider_pic.png" alt="ТЕСТ"/>
-					</div>
-
-					<div class="swiper-slide">
-						<img src="/image/test_slider_pic.png" alt="ТЕСТ"/>
-					</div>
-
-					<!-- УДАЛИТЬ ЭТОТ БЛОК КОНЕЦ -->
-
-                </div>
-                <div class="top-swiper-button-prev"></div>
-                <div class="top-swiper-button-next"></div>
-                <div class="top-swiper-pagination swiper-pagination"></div>
-            </div>
-        </div>
-
-		{# {{ this.render('//components/generic/restaurant_title.twig', {'seo':seo}) | raw }} #}
-
-
-		<!-- УДАЛИТЬ ЭТОТ БЛОК НАЧАЛО -->
-
-		<div class="content_block" data-listing-title>
-			
-			<div class="title">
-
-				<h1>ВЫПУСКНОЙ 2020 В САНКТ-ПЕТЕРБУРГЕ</h1>
-			
-				<div class="title_desc">
-					<p>Где провести выпускной в 2020 году? Здесь вы можете легко подобрать и заказать площадку для выпускного вечера 11 и 9 классов в Санкт-Петербурге.</p>
-					<p>В случае непогоды по периметру заакрываются шторы, которые не пропускают воду и ветер, и предоставляются газовые и электронные обогреватели. Понтон содержит отдельный подъезд и личную парковку на 20 машиномест, собственно что выделяет ему превосходство перед другими площадками.</p>
+					<div class="top-swiper-button-prev"></div>
+					<div class="top-swiper-button-next"></div>
+					<div class="top-swiper-pagination swiper-pagination"></div>
 				</div>
-
-				<!-- <h1>TEST TITLE</h1> -->
-
-				<!-- <div class="title_desc">
-					<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque tenetur non aspernatur obcaecati quisquam nesciunt blanditiis temporibus. Dolor</p>
-					<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque tenetur non aspernatur obcaecati quisquam nesciunt blanditiis temporibus. Dolorum placeat accusantium, repellat quibusdam eos in! Nulla quo repudiandae sint dolor asperiores commodi quidem nostrum odit aut neque i</p>
-				</div> -->
-			
-			</div>
-
 		</div>
 
-		<!-- УДАЛИТЬ ЭТОТ БЛОК КОНЕЦ -->
-
-
-
-    </div>
+		<div class="content_block" data-listing-title>
+			<div class="title">
+				{% if seo.h1 != '' %}
+					<h1>{{seo.h1}}</h1>
+				{% endif %}
+			
+				{% if seo.text_top != '' %}
+					<div class="title_desc">
+						<p>Где отметить выпускной в {{cur_year}} году? В нашем каталоге вы можете легко подобрать и заказать площадку для проведения выпускного вечера 11 и 9 классов в {{city_dec}}.</p>
+						<p>Полный список предложений лучших площадок вашего города.</p>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
 
 	<div class="show_filter_button">
 		<p>Фильтр заведений</p>
@@ -90,25 +58,44 @@
 
 		<div class="items_list_listing" data-listing-wrapper>
 			<div class="items_list" data-listing-list>
-
 				{{ this.render('//components/generic/listing.twig', {'items':items, 'img_alt':seo.img_alt}) | raw }}
-
 			</div>
 		</div>
+
 	</div>
 
-	<div class="content_block listing_paragraph" data-listing-text-top>
-		<div class="seo_text" data-seo-text>
-			{{seo.text_bottom | raw }}
-			<div class="seo_text_control" data-seo-control>
-				<p class="_link">Показать полностью</p>
+	<div class="button_full_catalog_wrap">
+		<a href="/catalog/" class="button_full_catalog _button">Полный каталог площадок</a>
+	</div>
+
+	{% if random_seo_text != '' %}
+		<div class="content_block seo_text_wrapper" data-listing-text-top>
+			<div class="seo_text" data-seo-text>
+				{# {{random_seo_text[0] | raw}} #}
+				{{random_seo_text|raw}}
+				<div class="seo_text_control" data-seo-control>
+					<p class="_link_blue">Читать полностью</p>
+				</div>
 			</div>
 		</div>
-	</div>
+	{% endif %}
 
 	<div class="content_block form_booking_wrapper">
+		{{ this.render('//components/generic/form_booking1.twig', {'items':other_rooms, 'city_dec':city_dec, 'cur_year':cur_year}) | raw }}
+	</div>
+	<div class="content_block form_booking_wrapper form_booking_popup _hide">
+		{{ this.render('//components/generic/form_booking_header.twig', {'items':other_rooms, 'city_dec':city_dec, 'cur_year':cur_year}) | raw }}
+	</div>
 
-        {{ this.render('//components/generic/form_booking1.twig', {'items':other_rooms}) | raw }}
+	{# <div class="content_block">
+		<div class="nav_arrows _hide">
+			<div class="nav_arrow nav_arrow_up">
+				<img src="/image/arrow_up.svg">
+			</div>
+			<div class="nav_arrow nav_arrow_down">
+				<img src="/image/arrow_up.svg">
+			</div>
+		</div>
+	</div> #}
 
-    </div>
 </div>

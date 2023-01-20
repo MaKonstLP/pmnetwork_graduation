@@ -3,7 +3,16 @@
 	background: white;
 	border-radius: 5px;
 	box-shadow: 0px 5px 20px rgba(47, 61, 2, 0.1);
-	padding: 32px 80px 40px;
+	padding: 30px 80px 40px;
+
+	@include for-notdesc {
+		padding: 21px 16px 34px;
+	}
+
+	@include for-mobile {
+		padding: 21px 12px 34px;
+		border-radius: unset;
+	}
 
 	button.button__pending {
 		background: #df6038;
@@ -44,19 +53,10 @@
 			cursor: pointer;
 		}
 	}
-
-	@include for-notdesc {
-		padding: 24px 16px 32px;
-	}
-
-	@include for-mobile {
-		padding: 23px 12px 30px;
-		border-radius: unset;
-	}
 }
 
 [data-page-type="index"] .content_block.form_booking_wrapper {
-	padding: 84px 0 48px;
+	padding: 72px 0 48px;
 
 	@include for-notdesc {
 		padding: 40px 0 40px;
@@ -81,7 +81,7 @@
 
 .form_title {
 	width: 100%;
-	margin-bottom: 12px;
+	margin-bottom: 14px;
 	// display: flex;
 	// justify-content: center;
 	// align-items: center;
@@ -112,6 +112,10 @@
 	display: flex;
 	// margin-top: 16px;
 
+	@include for-mobile {
+		// margin-top: 12px;
+	}
+
 	.form_inputs {
 		display: flex;
 		flex-wrap: wrap;
@@ -134,7 +138,7 @@
 			}
 
 			input {
-				// border: 1px solid #c4c4c4;
+				position: relative;
 				border: 1px solid #dadee1;
 				box-sizing: border-box;
 				border-radius: 2px;
@@ -144,12 +148,12 @@
 
 				font-size: 14px;
 				letter-spacing: 0.01em;
-				color: #363C4A;
+				color: #363c4a;
 				padding: 9px 8px;
 
 				&._invalid {
 					// border-color: #ea3e3e;
-					border-color: #df0c0c;
+					border-color: #ff9191;
 				}
 
 				&:focus {
@@ -157,7 +161,7 @@
 				}
 
 				&::placeholder {
-					color: #B3B6BE;
+					color: #b3b6be;
 				}
 			}
 
@@ -166,6 +170,15 @@
 				font-size: 12px;
 				line-height: 20px;
 				color: #666666;
+			}
+
+			.form_input_error {
+				// display: none;
+				font-size: 12px;
+				line-height: 14px;
+				letter-spacing: 0.02em;
+				color: #ff9191;
+				margin-top: 4px;
 			}
 		}
 
@@ -218,10 +231,6 @@
 			}
 		}
 	}
-
-	@include for-mobile {
-		margin-top: 12px;
-	}
 }
 
 .popup_form_close {
@@ -261,7 +270,9 @@
 }
 
 .content_block.form_booking_wrapper.popup_form {
+	display: flex !important;
 	position: fixed;
+	left: 0;
 	top: -96px;
 	top: 50%;
 	transform: translateY(-50%);

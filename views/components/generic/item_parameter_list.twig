@@ -1,120 +1,179 @@
 <div class="object_parameters_list">
-    <div class="object_parameters_wrapper">
-        <div class="object_parameters_marker"></div>
-        <div class="object_parameters_item">
-            {# Василеостровский район #}
-            <span class="problems">--</span>
-            <!-- {% for type in item.restaurant_location %}
-                {{type.id}}
-            {% endfor %} -->
-            {{item.restaurant_parent_district}}
-        </div>
-    </div>
+	{% if item.restaurant_metro_station %}
+	<div class="object_parameters_wrapper">
+		<div class="object_parameters_marker"></div>
+		<div class="object_parameters_item">
+			м. {{item.restaurant_metro_station}}
+		</div>
+	</div>
+	{% endif %}
+	{% if item.restaurant_district_name %}
+	<div class="object_parameters_wrapper">
+		<div class="object_parameters_marker"></div>
+		<div class="object_parameters_item">
+			{{item.restaurant_district_name}}
+		</div>
+	</div>
+	{% endif %}
+	
+	<div class="object_parameters_wrapper">
+		<div class="object_parameters_marker"></div>
+		<div class="object_parameters_item">
+			{# 2 зала: 22, 60 чел. #}
+			{% if item.rooms|length == 1 %}
+				{{item.rooms|length}} зал
+				{% set breakLoop = false %}
+				{% for room in item.rooms if breakLoop == false %}
+					{% if room.capacity != 0 %}
+						{% set breakLoop = true %}
+						: 
+					{% endif %}
+				{% endfor %}
+				{% for room in item.rooms %}
+					{% if room.capacity != 0 %}
+						{% if loop.first %}
+							{{room.capacity}}
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+			{% if ((item.rooms|length > 1) and not (item.rooms|length > 5)) %}
+				{{item.rooms|length}} зала
+				{% set breakLoop = false %}
+				{% for room in item.rooms if breakLoop == false %}
+					{% if room.capacity != 0 %}
+						{% set breakLoop = true %}
+						: 
+					{% endif %}
+				{% endfor %}
+				{% for room in item.rooms %}
+					{% if room.capacity != 0 %}
+						{% if loop.last %}
+							{{room.capacity}}
+						{% else %}
+							{{room.capacity ~ ','}}
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+			{% if item.rooms|length > 5 %}
+				{{item.rooms|length}} залов
+				{% set breakLoop = false %}
+				{% for room in item.rooms if breakLoop == false %}
+					{% if room.capacity != 0 %}
+						{% set breakLoop = true %}
+						: 
+					{% endif %}
+				{% endfor %}
+				{% for room in item.rooms %}
+					{% if room.capacity != 0 %}
+						{% if loop.last %}
+							{{room.capacity}}
+						{% else %}
+							{{room.capacity ~ ','}}
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			{% endif %} 
+			{% set breakLoop = false %}
+			{% for room in item.rooms if breakLoop == false %}
+				{% if room.capacity != 0 %}
+					{% set breakLoop = true %}
+					чел. 
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
 
-    <div class="object_parameters_wrapper">
-        <div class="object_parameters_marker"></div>
-        <div class="object_parameters_item">
-            {# Ст. м. Алабинская #}
-            <span class="problems">--</span>
-            {{item.restaurant_district}}
-        </div>
-    </div>
-    
-    <div class="object_parameters_wrapper">
-        <div class="object_parameters_marker"></div>
-        <div class="object_parameters_item">
-            {# 2 зала: 22, 60 чел. #}
-            {% if item.rooms|length == 1 %}
-                {{item.rooms|length}} зал:
-                {% for room in item.rooms %}
-                    {% if loop.first %}
-                        {{room.capacity}}
-                    {% else %}, {{room.capacity}}
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-            {% if ((item.rooms|length > 1) and not (item.rooms|length > 5)) %}
-                {{item.rooms|length}} зала:
-                {% for room in item.rooms %}
-                    {% if loop.first %}
-                        {{room.capacity ~ ','}}
-                    {% else %}
-                        {{room.capacity}}
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-            {% if item.rooms|length > 5 %}
-                {{item.rooms|length}} залов:
-                {% for room in item.rooms %}
-                    {% if loop.first %}
-                        {{room.capacity ~ ','}}
-                    {% else %}, {{room.capacity}}
-                    {% endif %}
-                {% endfor %}
-            {% endif %}  чел.
-        </div>
-    </div>
+	<div class="object_parameters_wrapper">
+		<div class="object_parameters_marker"></div>
+		<div class="object_parameters_item">
+			{# <span class="problems">+/-</span> #}
+			{# Чек от 5500 Р/чел. #}
+			Чек от
+			{% set lowestPrice = item.restaurant_price %}
+			{% for room in item.rooms %}
+				{% if room.price < lowestPrice and room.price%}
+					{% set lowestPrice = room.price %}
+				{% endif %}
+			{% endfor %}
+			{{lowestPrice}} Р/чел.
+		</div>
+	</div>
 
-    <div class="object_parameters_wrapper">
-        <div class="object_parameters_marker"></div>
-        <div class="object_parameters_item">
-            <span class="problems">+/-</span>
-            {# Чек от 5500 Р/чел. #}
-            Чек от
-            {% set lowestPrice = item.restaurant_price %}
-            {% for room in item.rooms %}
-                {% if room.price < lowestPrice %}
-                    {% set lowestPrice = room.price %}
-                {% endif %}
-            {% endfor %}
-            {{lowestPrice}} Р/чел.
-        </div>
-    </div>
+	<div class="object_parameters_wrapper">
+		<div class="object_parameters_marker"></div>
+		<p class="object_parameters_item">
+			{% for location in item.restaurant_location %}
+				{% if item.restaurant_location|length > 1 %}
+					{% if loop.first %}
+						{{location.name}},
+					{% elseif loop.last %}
+						{{location.name|lower}}
+					{% else %}
+						{{location.name|lower}},
+					{% endif %}
+				{% else %}
+					{{location.name}}
+				{% endif %}
+			{% endfor %}
+		</p>
+	</div>
 
-    <div class="object_parameters_wrapper">
-        <div class="object_parameters_marker"></div>
-        <p class="object_parameters_item">
-            <span class="problems">--</span>
-            {# Около реки, в центре города. #}
-            {# {{ item.restaurant_extra }} #}
-            {% for location in item.restaurant_location %}
-                {% if loop.first %}
-                    {{location.id}}
-                {% else %}
-                    , {{location.id}}
-                {% endif %}
-            {% endfor %}
-            {# {{item.restaurant_location_arr[id]}} #}
-        </p>
-    </div>
+	{% if item.restaurant_extra_services %}
+		<div class="object_parameters_wrapper">
+			<div class="object_parameters_marker"></div>
+			<div class="object_parameters_item">
+				{# Фотограф, торт, Dj, живая музыка, ведущий — за доп. плату #}
+				{{ item.restaurant_extra_services }} - за доп.плату
+			</div>
+		</div>
+	{% endif %}
 
-    <div class="object_parameters_wrapper">
-        <div class="object_parameters_marker"></div>
-        <div class="object_parameters_item">
-            {# Фотограф, торт, Dj, живая музыка, ведущий — за доп. плату #}
-            {{ item.restaurant_extra_services }} - за доп.плату
-        </div>
-    </div>
+	{% if item.restaurant_special %}
+		<div class="object_parameters_wrapper">
+			<div class="object_parameters_marker"></div>
+			<div class="object_parameters_item">
+				{# Музыкальное оборудование, Велком зона, Wi-Fi / интернет, Сцена — на территории площадки #}
+				{{ item.restaurant_special }}
+			</div>
+		</div>
+	{% endif %}
 
-    <div class="object_parameters_wrapper">
-        <div class="object_parameters_marker"></div>
-        <div class="object_parameters_item">
-            {# Музыкальное оборудование, Велком зона, Wi-Fi / интернет, Сцена — на территории площадки #}
-            {{ item.restaurant_special }}
-        </div>
-    </div>
+	{% set roomRentOnly = false %}
+	{% for room in item.rooms if roomRentOnly == false %}
+		{% if room.rent_only == 1 %}
+			{% set roomRentOnly = true %}
+		{% endif %}
+	{% endfor %}
+	{% if item.restaurant_alcohol in [1,2] or item.restaurant_firework or roomRentOnly %}
 
-    <div class="object_parameters_wrapper">
-        <div class="object_parameters_marker"></div>
-        <div class="object_parameters_item">
-            {# Можно: со своим алкоголем, со своей едой, запустить фейерверк #}
-            <span class="problems">-</span>
-            {{ item.restaurant_own_alcohol }}
+		<div class="object_parameters_wrapper">
+			<div class="object_parameters_marker"></div>
+			<div class="object_parameters_item">
+				{# Можно: со своим алкоголем, со своей едой, запустить фейерверк #}
+				Можно:
+				{% if item.restaurant_alcohol in [1,2] %}
+					со своим алкоголем<span class="comma">,</span>
+				{% endif %}
 
-            {% if item.restaurant_firework == 1 %}
-                , запустить фейерверк
-            {% endif %}
-        </div>
-    </div>
+				{# {% set breakLoop = false %}
+				{% for room in item.rooms if breakLoop == false %}
+					{% if room.rent_only == 1 %}
+						{% set breakLoop = true %}
+							со своей едой<span class="comma">,</span>
+					{% endif %}
+				{% endfor %} #}
+
+				{% if roomRentOnly %}
+					со своей едой<span class="comma">,</span>
+				{% endif %}
+				
+				{% if item.restaurant_firework %}
+					запустить фейерверк<span class="comma">,</span>
+				{% endif %}
+			</div>
+		</div>
+	{% endif %}
 
 </div>

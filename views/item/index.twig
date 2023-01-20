@@ -1,204 +1,254 @@
+{% set restaurantImage = item.restaurant_cover_url %}
+{% if item.restaurant_images[0].subpath|length == 0 %}
+	{% if item.restaurant_images[0].realpath|length == 0 %}
+		{% set restaurantImage = item.restaurant_cover_url %}
+	{% else %}
+		{% set restaurantImage = item.restaurant_images[0].realpath %}
+	{% endif %}
+{% else %}
+	{% set restaurantImage = item.restaurant_images[0].subpath %}
+{% endif %}
+{# {{this.registerMetaTag({'property':'og:image','content':item.restaurant_images[0].subpath})}} #}
+{{this.registerMetaTag({'property':'og:image','content':restaurantImage})}}
+{{this.registerMetaTag({'property':'og:image:width','content':'1200'})}}
+{{this.registerMetaTag({'property':'vk:image','content':restaurantImage})}}
+{{this.registerMetaTag({'property':'vk:image:width','content':'510'})}}
+{{this.registerMetaTag({'property':'fb:image','content':restaurantImage})}}
+{{this.registerMetaTag({'property':'fb:image:width','content':'600'})}}
 <div class="item_page_wrapper" data-page-type="item">
 
-    <div class="content_block" data-listing-title>
-        {{ this.render('//components/generic/item_title.twig', {'seo':seo}) | raw }}
-    </div>
+	<div class="content_block" data-listing-title>
+		{# {{ this.render('//components/generic/item_title.twig', {'seo':seo, 'breadcrumbs':seo.breadcrumbs}) | raw }} #}
+		{{ this.render('//components/generic/title.twig', {'seo':seo, 'breadcrumbs':breadcrumbs}) | raw }}
+	</div>
 
-    <div class="top_slider_wrapper">
-        <div class="top_slider">
-            <div class="swiper-container swiper_top">
+	<div class="top_slider_wrapper">
+		<div class="top_slider">
+			<div class="swiper-container swiper_top">
 
-                <div class="swiper-wrapper">
+				<div class="swiper-wrapper">
+					{% if item.restaurant_images|length > 0 %}
+						{% for image in item.restaurant_images %}
+							<div class="swiper-slide">
+								{# <img src="{{image.subpath}}=w1136-h400-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/> #}
 
-                    {% for image in item.restaurant_images %}
-                        <div class="swiper-slide">
-                            <img src="{{image.subpath}}=w710-h472-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
-                        </div>
-                    {% endfor %}
+								{% if image.subpath|length == 0 %}
+									{% if image.realpath|length == 0 %}
+										<img src="/image/no_photo.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+									{% else %}
+										<img src="{{image.realpath}}=w1136-h400-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/>
+									{% endif %}
+								{% else %}
+									<img src="{{image.subpath}}=w1136-h400-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/>
+								{% endif %}
+							</div>
+						{% endfor %}
+					{% else %}
+						<div class="empty-slide ">
+							<img src="/image/no_photo.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+						</div>
+					{% endif %}
+				</div>
 
-                </div>
+				{{ this.render('//components/generic/restaurant_title.twig', {'seo':seo, 'item':item})|raw }}
 
-                {{ this.render('//components/generic/restaurant_title.twig', {'seo':seo}) | raw }}
+				<div class="top-swiper-button-prev"></div>
+				<div class="top-swiper-button-next"></div>
+				<div class="top-swiper-pagination swiper-pagination"></div>
+			</div>
+		</div>
+	</div>
 
-                <div class="top-swiper-button-prev"></div>
-                <div class="top-swiper-button-next"></div>
-                <div class="top-swiper-pagination swiper-pagination"></div>
+	<div class="content_block1 white" data-page-type="item">
+		<div class="object_head1 flex">
+			<div class="object_parameters">
 
+				{{ this.render('//components/generic/item_parameter_list.twig', {'item':item}) | raw }}
+				
+			</div>
 
-            </div>
+			<div class="column_2"></div>
 
-        </div>
-    </div>
+			<div class="column_3">
 
-    <div class="content_block1 white" data-page-type="item">
-        <div class="object_head1 flex">
+				{% if not item.restaurant_premium %}
+					{% if item.id > 50 %}
+						<div class="object_benefit">
+								<div class="object_benefit_img"></div>
+								<div class="object_benefit_text">Получи подарок за бронь!</div>
+						</div>
+					{% else %}
+						<div class="object_reservation">
+								<div class="object_reservation_img"></div>
+								<div class="object_reservation_text">Успей забронировать!</div>
+						</div>
+					{% endif %}
+				{% endif %}
+				
+				<div class="object_book1">
 
-            <div class="object_parameters">
+					<p class="object_book_text">Телефон</p>
+					<div class="object_book_hidden">
 
-                {{ this.render('//components/generic/item_parameter_list.twig', {'item':item}) | raw }}
-                
-            </div>
+						<p class="object_book_phone">
+							<span class="object_fake_phone">+7 <span class="object_fake_phone_snowflakes">(xxx) xxx-xx-xx</span></span>
+							<a href="tel:{{item.restaurant_phone}}" class="object_real_phone" data-action="click_number">{{item.restaurant_phone}}</a>
+						</p>
 
-            <div class="column_2"></div>
+						<div class="object_book_hidden_button _link_blue" data-action="show_phone">Показать телефон</div>
+					</div>
 
-            <div class="column_3">
+				</div>
 
-                {# <div class="object_benefit">
-                    <div class="object_benefit_img"></div>
-                    <div class="object_benefit_text">Получи подарок за бронь!</div>
+				<div class="object_reserve">
+					<div class="object_reserve_img"></div>
+					<div class="object_reserve_text">Забронировать</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-                </div> #}
+	<div class="content_wrapper">
+		<div class="content_block1" data-page-type="item">
+				<h2 class="object_header">Залы</h2>
+				{% for room in item.rooms %}
+					{% if room.images|length > 0%}
+						<div class="object_head1 room">
+							<div class="object_column">
 
-                {% if item.id > 50 %}
-                    <div class="object_benefit">
-                        <div class="object_benefit_img"></div>
-                        <div class="object_benefit_text">Получи подарок за бронь!</div>
-                    </div>
-                {% else %}
-                    <div class="object_reservation">
-                        <div class="object_reservation_img"></div>
-                        <div class="object_reservation_text">Успей забронировать!</div>
-                    </div>
-                {% endif %}
-                
-                <div class="object_book1">
+								<div class="object_column_header">
+										{{ this.render('//components/generic/room_title.twig', {'room':room}) | raw }}
+								</div>
 
-                        <p class="object_book_text">Телефон</p>
-                        <div class="object_book_hidden">
+								{# <div class="object_benefit">
+										<div class="object_benefit_img"></div>
+										<div class="object_benefit_text">Получи подарок за бронь!</div>
+								</div> #}
+								{% if not item.restaurant_premium %}
+									{% if room.id > 50 %}
+											<div class="object_benefit">
+												<div class="object_benefit_img"></div>
+												<div class="object_benefit_text">Получи подарок за бронь!</div>
+											</div>
+									{% else %}
+											<div class="object_reservation">
+												<div class="object_reservation_img"></div>
+												<div class="object_reservation_text">Успей забронировать!</div>
+											</div>
+									{% endif %}
+								{% endif %}
 
-                            <p class="object_book_phone">
+								<div class="object_parameters">
 
-                                <span class="object_fake_phone">+7 <span class="object_fake_phone_snowflakes">(xxx) xxx-xx-xx</span></span>
-                                <a href="tel:{{item.restaurant_phone}}" class="object_real_phone">{{item.restaurant_phone}}</a>
+										{{ this.render('//components/generic/room_parameter_list.twig', {'item':item, 'room':room}) | raw }}
+										
+								</div>
 
-                            </p>
+								<div class="object_reserve">
+										<div class="object_reserve_img"></div>
+										<div class="object_reserve_text">Забронировать</div>
+								</div>
+							</div>
 
-                            <div class="object_book_hidden_button _link_blue" data-action="show_phone">Показать телефон</div>
-                                                    
-                        </div>
+							<div class="object_gallery1" data-gallery data-id="{{room.restaurant_id}}">
+								<div class="swiper-container gallery-top">
 
-                </div>
+									<div class="swiper-wrapper">
 
-                <div class="object_reserve">
-                    <div class="object_reserve_img"></div>
-                    <div class="object_reserve_text">Забронировать</div>
+										{% for image in room.images %}
+											<div class="swiper-slide">
+												{# <a href="{{image.waterpath}}=s0" data-lightbox="top_slider">
+													<img src="{{image.subpath}}=w752-h398-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+												</a> #}
+												{% if image.subpath|length == 0 %}
+													{% if image.realpath|length == 0 %}
+														<a href="{{image.waterpath}}=s0" data-lightbox="top_slider">
+															<img src="/image/no_photo.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+														</a>
+													{% else %}
+														<a href="{{image.waterpath}}=s0" data-lightbox="top_slider">
+															<img src="{{image.realpath}}=w752-h398-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+														</a>
+													{% endif %}
+												{% else %}
+													<a href="{{image.waterpath}}=s0" data-lightbox="top_slider">
+														<img src="{{image.subpath}}=w752-h398-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+													</a>
+												{% endif %}
+											</div>
+										{% endfor %}
 
-                </div>
+									</div>
+									<div class="swiper-button-prev"></div>
+									<div class="swiper-button-next"></div>
+									<div class="middle-swiper-pagination swiper-pagination"></div>
+								</div>
 
-            </div>
+								<div class="swiper-container gallery-thumbs">
 
-        </div>
-    </div>
+									<div class="first_slide_gradient _hide"></div>
+									<div class="swiper-wrapper">
+										{% for image in room.images %}
+											<div class="swiper-slide object_thumb">
+												{# <img src="{{image.subpath}}=w176-h124-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/> #}
 
-    <div class="content_wrapper">
+												{% if image.subpath|length == 0 %}
+													{% if image.realpath|length == 0 %}
+														<img src="/image/no_photo.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+													{% else %}
+														<img src="{{image.realpath}}=w176-h124-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+													{% endif %}
+												{% else %}
+													<img src="{{image.subpath}}=w176-h124-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+												{% endif %}
+											</div>
+										{% endfor %}
+									</div>
+									<div class="last_slide_gradient"></div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+				{% endfor %}
+		</div>
 
-        <div class="content_block1" data-page-type="item">
+	</div>
+	
+	<div class="map">
+		<div id="map" data-restaurant-id="{{item.restaurant_unique_id}}" data-restaurant-slug="{{item.restaurant_slug}}" data-mapDotX="{{item.restaurant_latitude}}" data-mapDotY="{{item.restaurant_longitude}}" data-name="{{item.restaurant_name}}" data-address="{{item.restaurant_address}}" 
+		{# data-image="{{item.restaurant_cover_url}}"  #}
+		data-image="
+			{% if item.restaurant_cover_url|length == 0 %}
+				/image/no_photo.svg
+			{% else %}
+				{{item.restaurant_cover_url}}
+			{% endif %}
+		" 
+		data-capacity="{{item.restaurant_max_capacity}}" data-lowest-price="{% set lowestPrice = item.restaurant_price %}{% for room in item.rooms %}{% if room.price < lowestPrice %}{% set lowestPrice = room.price %}{% endif %}{% endfor %}{{lowestPrice}}" data-balloon="" data-hint="">
+		</div>
+	</div>
 
-            <h2 class="object_header">Залы</h2>
+	<div class="content_block form_booking_wrapper">
+		{{ this.render('//components/generic/form_booking_item.twig', {'venue_id':item.restaurant_gorko_id, 'items':other_rooms, 'city_dec':city_dec, 'restaurant_name':item.restaurant_name}) | raw }}
+	</div>
 
-            {% for room in item.rooms %}
-            <div class="object_head1 room">
+	<div class="content_block form_booking_wrapper form_booking_popup _hide">
+		{{ this.render('//components/generic/form_booking_item_header.twig', {'items':other_rooms, 'city_dec':city_dec, 'restaurant_name':item.restaurant_name}) | raw }}
+	</div>
 
-                <div class="object_column">
+	<div class="content_block form_booking_wrapper form_booking_popup_reserve _hide">
+		{{ this.render('//components/generic/form_booking_item_reserve.twig', {'venue_id':item.restaurant_gorko_id, 'items':other_rooms, 'city_dec':city_dec, 'restaurant_name':item.restaurant_name}) | raw }}
+	</div>
 
-                    <div class="object_column_header">
-                        {{ this.render('//components/generic/room_title.twig', {'room':room}) | raw }}
-                    </div>
-
-                    {# <div class="object_benefit">
-                        <div class="object_benefit_img"></div>
-                        <div class="object_benefit_text">Получи подарок за бронь!</div>
-                    </div> #}
-
-                    {% if room.id > 50 %}
-                        <div class="object_benefit">
-                            <div class="object_benefit_img"></div>
-                            <div class="object_benefit_text">Получи подарок за бронь!</div>
-                        </div>
-                    {% else %}
-                        <div class="object_reservation">
-                            <div class="object_reservation_img"></div>
-                            <div class="object_reservation_text">Успей забронировать!</div>
-                        </div>
-                    {% endif %}
-
-                    <div class="object_parameters">
-
-                        {{ this.render('//components/generic/room_parameter_list.twig', {'room':room}) | raw }}
-                        
-                    </div>
-
-                    <div class="object_reserve">
-                        <div class="object_reserve_img"></div>
-                        <div class="object_reserve_text">Забронировать</div>
-
-                    </div>
-
-                </div>
-
-                <div class="object_gallery1" data-gallery data-id="{{room.restaurant_id}}">
-
-                    <div class="swiper-container gallery-top">
-
-                        <div class="swiper-wrapper">
-
-                            {% for image in room.images %}
-                                <div class="swiper-slide">
-                                    <a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="{{image.subpath}}=w710-h472-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-                                </div>
-                            {% endfor %}
-
-                        </div>
-
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-                        <div class="middle-swiper-pagination swiper-pagination"></div>
-                        
-
-                    </div>
-
-                    <div class="swiper-container gallery-thumbs">
-
-                        <div class="first_slide_gradient _hide"></div>
-                        <div class="swiper-wrapper">
-                            {% for image in room.images %}
-                                <div class="swiper-slide object_thumb">
-                                    <img src="{{image.subpath}}=w138-h92-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <div class="last_slide_gradient"></div>
-
-                    </div>
-
-                </div>
-
-            </div>
-            {% endfor %}
-        </div>
-
-    </div>
-    
-    <div class="map">
-        <div id="map" data-mapDotX="{{item.restaurant_latitude}}" data-mapDotY="{{item.restaurant_longitude}}" data-name="{{item.restaurant_name}}" data-address="{{item.restaurant_address}}" data-image="{{item.restaurant_cover_url}}" data-capacity="{{item.restaurant_max_capacity}}" data-lowest-price="{% set lowestPrice = item.restaurant_price %}{% for room in item.rooms %}{% if room.price < lowestPrice %}{% set lowestPrice = room.price %}{% endif %}{% endfor %}{{lowestPrice}}" data-balloon="" data-hint="">
-        </div>
-    </div>
-
-    <div class="content_block form_booking_wrapper">
-
-        {{ this.render('//components/generic/form_booking1.twig', {'items':other_rooms}) | raw }}
-
-    </div>
-
-    <div class="another_restaurants">
-        <div class="another_restaurants_header">Похожие площадки</div>
-        <div class="another_restaurants_container">
-            {% for i in 1..2 %}
-                <div class="another_restaurants_column">
-                    {{ this.render('//components/generic/another_restaurants.twig', {'item':item}) | raw }}
-                </div>
-            {% endfor %}
-        </div>
-    </div>
+	<div class="another_restaurants">
+		<div class="another_restaurants_header">Похожие площадки</div>
+		<div class="another_restaurants_container">
+			{% for other_rest in other_rests %}
+				<div class="another_restaurants_column">
+					{{ this.render('//components/generic/another_restaurants.twig', {'item':other_rest}) | raw }}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
 
 </div>

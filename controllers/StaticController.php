@@ -1,4 +1,5 @@
 <?php
+
 namespace app\modules\graduation\controllers;
 
 use Yii;
@@ -20,10 +21,16 @@ class StaticController extends Controller
 			->one();
 
 		$seo = new Seo('privacy', 1);
-        $this->setSeo($seo->seo);
+		$this->setSeo($seo->seo);
+
+		// echo ('<pre>');
+		// print_r($seo);
+		// exit;
 
 		return $this->render('privacy.twig', [
 			'page' => $page,
+			'seo' => $seo->seo,
+			'city_dec' => Yii::$app->params['subdomen_dec'],
 		]);
 	}
 
@@ -33,9 +40,26 @@ class StaticController extends Controller
 Sitemap:  https://svadbanaprirode.com/sitemap/  ';
 	}
 
-	private function setSeo($seo){
-        $this->view->title = $seo['title'];
-        $this->view->params['desc'] = $seo['description'];
-        $this->view->params['kw'] = $seo['keywords'];
-    }
+	public function actionBrowserconfig()
+	{
+		Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+		Yii::$app->response->headers->add('Content-Type', 'text/xml');
+
+		return $this->renderPartial('browserconfig.twig', []);
+	}
+
+	public function actionSiteWebmanifest()
+	{
+		Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+		Yii::$app->response->headers->add('Content-Type', 'application/manifest+json');
+
+		return $this->renderPartial('site-webmanifest.twig', []);
+	}
+
+	private function setSeo($seo)
+	{
+		$this->view->title = $seo['title'];
+		$this->view->params['desc'] = $seo['description'];
+		$this->view->params['kw'] = $seo['keywords'];
+	}
 }

@@ -1,8 +1,15 @@
+{{this.registerMetaTag({'property':'og:image','content':'https://vypusknoy-vecher.ru/image/slider_pic_01.jpg'})}}
+{{this.registerMetaTag({'property':'og:image:width','content':'1200'})}}
+{{this.registerMetaTag({'property':'vk:image','content':'https://vypusknoy-vecher.ru/image/slider_pic_01.jpg'})}}
+{{this.registerMetaTag({'property':'vk:image:width','content':'510'})}}
+{{this.registerMetaTag({'property':'fb:image','content':'https://vypusknoy-vecher.ru/image/slider_pic_01.jpg'})}}
+{{this.registerMetaTag({'property':'fb:image:width','content':'600'})}}
 <div data-page-type="listing">
 
 	<div class="content_block" data-listing-title>
-        {{ this.render('//components/generic/item_title.twig', {'seo':seo}) | raw }}
-    </div>
+		{# {{ this.render('//components/generic/item_title.twig', {'seo':seo, 'breadcrumbs':seo.breadcrumbs}) | raw }} #}
+		{{ this.render('//components/generic/title.twig', {'seo':seo, 'breadcrumbs':breadcrumbs}) | raw }}
+	</div>
 
 	<div class="content_block listing_paragraph">
 
@@ -27,6 +34,7 @@
 
 			</div>
 		</div>
+
 	</div>
 
 	<div class="content_block"> 
@@ -35,23 +43,52 @@
 		</div>
 	</div>
 
-	<div class="content_block map listing" data-map-api-subid="{{ subid }}"></div>
+	{# <div class="content_block map listing" data-map-api-subid="{{ subid }}"></div> #}
+	<div class="content_block map" data-map-api-subid="{{ subid }}">
+		{# <div id="map" data-mapDotX="{{item.restaurant_latitude}}" data-mapDotY="{{item.restaurant_longitude}}" data-name="{{item.restaurant_name}}" data-address="{{item.restaurant_address}}" data-image="{{item.restaurant_cover_url}}" data-capacity="{{item.restaurant_max_capacity}}" data-lowest-price="{% set lowestPrice = item.restaurant_price %}{% for room in item.rooms %}{% if room.price < lowestPrice %}{% set lowestPrice = room.price %}{% endif %}{% endfor %}{{lowestPrice}}" data-balloon="" data-hint="">
+		</div> #}
 
+		<div id="map" data-restaurant-id="{{items[0].restaurant_unique_id}}" data-mapDotX="{{items[0].restaurant_latitude}}" data-mapDotY="{{items[0].restaurant_longitude}}" data-name="{{items[0].restaurant_name}}" data-address="{{items[0].restaurant_address}}" 
+		{# data-image="{{items[0].restaurant_cover_url}}"  #}
+		data-image="
+			{% if items[0].restaurant_cover_url|length == 0 %}
+				/image/no_photo.svg
+			{% else %}
+				{{items[0].restaurant_cover_url}}
+			{% endif %}
+		" 
+		data-capacity="{{items[0].restaurant_max_capacity}}" data-lowest-price="{% set lowestPrice = items[0].restaurant_price %}{% for room in item.rooms %}{% if room.price < lowestPrice %}{% set lowestPrice = room.price %}{% endif %}{% endfor %}{{lowestPrice}}" data-balloon="" data-hint="">
+		</div>
+	</div>
 
-	<div class="content_block listing_paragraph" data-listing-text-bottom>
+	{# <div class="content_block listing_paragraph" data-listing-text-bottom>
 		<div class="seo_text" data-seo-text>
 			{{seo.text_bottom | raw }}
 			<div class="seo_text_control" data-seo-control>
 				<p class="_link">Показать полностью</p>
 			</div>
 		</div>
-	</div>
+	</div> #}
+	{% if random_seo_text != '' %}
+		<div class="content_block seo_text_wrapper" data-listing-text-bottom>
+			<div class="seo_text" data-seo-text>
+				{# {{seo.text_bottom | raw }} #}
+				{# {{random_seo_text[0] | raw}} #}
+				{{random_seo_text | raw}}
+				<div class="seo_text_control" data-seo-control>
+					<p class="_link_blue">Читать полностью</p>
+				</div>
+			</div>
+		</div>
+	{% endif %}
 
 	<div class="content_block form_booking_wrapper">
+		{{ this.render('//components/generic/form_booking1.twig', {'items':other_rooms, 'city_dec':city_dec, 'cur_year':cur_year}) | raw }}
+	</div>
 
-        {{ this.render('//components/generic/form_booking1.twig', {'items':other_rooms}) | raw }}
-
-    </div>
+	<div class="content_block form_booking_wrapper form_booking_popup _hide">
+		{{ this.render('//components/generic/form_booking_header.twig', {'items':other_rooms, 'city_dec':city_dec, 'cur_year':cur_year}) | raw }}
+	</div>
 
 	<div class="content_loading"></div>
 </div>

@@ -1,131 +1,178 @@
 {% for item in items %}
-    <a href="/ploshhadki/{{item.id}}/" class="item swiper-slide {{type}}">
-        <div class="item_img">
-            <img src="{{item.restaurant_images[0].subpath}}=w440-h302-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/>
+	<div href="/catalog/{{item.restaurant_unique_id}}-{{item.restaurant_slug}}/" class="item swiper-slide {{type}}" data-restaurant-id="{{item.restaurant_unique_id}}" data-restaurant-slug="{{item.restaurant_slug}}" data-restaurant-name="{{item.restaurant_name}}" data-restaurant-address="{{item.restaurant_address}}" 
+	{# data-image="{{item.restaurant_cover_url}}"  #}
+	data-image="
+		{% if item.restaurant_cover_url|length == 0 %}
+			/image/no_photo.svg
+		{% else %}
+			{{item.restaurant_cover_url}}
+		{% endif %}
+	" 
+	data-capacity="{{item.restaurant_max_capacity}}" data-lowest-price="{% set lowestPrice = item.restaurant_price %}{% for room in item.rooms %}{% if room.price < lowestPrice %}{% set lowestPrice = room.price %}{% endif %}{% endfor %}{{lowestPrice}}" data-restaurant-mapDotX="{{item.restaurant_latitude}}" data-restaurant-mapDotY="{{item.restaurant_longitude}}">
+		<a href="/catalog/{{item.restaurant_unique_id}}-{{item.restaurant_slug}}/" class="item_img">
+			{# <img src="{{item.restaurant_images[0].subpath}}=w440-h302-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/> #}
 
-            {#<div class="item_date-availability">
-                <span>Свободно 12 декабря</span>
-            </div>#}
+			{% if item.restaurant_images[0].subpath|length == 0 %}
+				{% if item.restaurant_images[0].realpath|length == 0 %}
+					<img src="/image/no_photo.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+				{% else %}
+					<img src="{{item.restaurant_images[0].realpath}}=w416-h240-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/>
+				{% endif %}
+			{% else %}
+				<img src="{{item.restaurant_images[0].subpath}}=w416-h240-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/>
+			{% endif %}
 
-        </div>
-        <div class="item_info">
-            <div class="item_info_top">
-                <p class="item_name">{{item.restaurant_name}}</p>
+			{#<div class="item_date-availability">
+				<span>Свободно 12 декабря</span>
+			</div>#}
 
-                <p class="item_district"><span class="problems">--</span>{{item.restaurant_district}}</p>
-                <object>
-                    <a class="item_address _link_blue">{{item.restaurant_address}}</a>
-                </object>
+		</a>
+		<div class="item_info">
+			<div class="item_info_top">
+				<a href="/catalog/{{item.restaurant_unique_id}}-{{item.restaurant_slug}}/" class="item_name">{{item.restaurant_name}}</a>
+				{% if item.restaurant_district_name %}
+				<p class="item_district">{{item.restaurant_district_name}}</p>
+				{% endif %}
+				<object>
+					<a class="item_address _link_blue">{{item.restaurant_address}}</a>
+				</object>
 
-                {# <div style="display: inline; font-size: 14px; font-weight: 400; line-height: 20px; color: #225db7;">
-                    <a href="#" style="border-bottom: 1px dashed #225db7; padding-bottom: 1px;" class="item_address">{{item.restaurant_address}}</a>
-                </div> #}
-                
-                {# <div class="another_restaurant_row restaurant_address">
-                    <a href="#">{{item.restaurant_address}}</a>
-                </div> #}
+				{# <div style="display: inline; font-size: 14px; font-weight: 400; line-height: 20px; color: #225db7;">
+					<a href="#" style="border-bottom: 1px dashed #225db7; padding-bottom: 1px;" class="item_address">{{item.restaurant_address}}</a>
+				</div> #}
+				
+				{# <div class="another_restaurant_row restaurant_address">
+					<a href="#">{{item.restaurant_address}}</a>
+				</div> #}
 
-                <!-- <hr class="item_horizontal_raw"> -->
-                    
-                <div class="item_meta">
+				<!-- <hr class="item_horizontal_raw"> -->
+					
+				<div class="item_meta">
 
-                    <div class="item_meta_item">
-                        <span class="item_meta_label">
-                            {# {% for type in item.restaurant_types %}
-                                {{type.name}}
-                            {% endfor %} #}
-                            <span class="problems">-- Загородная площадка</span> на </span><span class="item_meta_text">{{item.restaurant_max_capacity}} человек</span>
-                    </div>
+					<div class="item_meta_item">
+						<span class="item_meta_label">
+							{# {% for type in item.restaurant_types %}
+								{{type.name}}
+							{% endfor %} #}
+							{# <span class="problems">-- Загородная площадка</span>  #}
+							{# {{item.restaurant_types[0].name}}  #}
+							{{item.restaurant_main_type}} 
+							{% set breakLoop = false %}
+							{% for room in item.rooms if breakLoop == false %}
+								{% if room.capacity != 0 %}
+									{% set breakLoop = true %}
+									на 
+								{% endif %}
+							{% endfor %}
+							{# <span class="item_meta_text">{{item.restaurant_max_capacity}} человек</span> #}
+							<span class="item_meta_text">
+								{% if item.rooms|length == 1 %}
+									{% for room in item.rooms %}
+										{% if room.capacity != 0 %}
+											{{room.capacity}}
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+								{% if item.rooms|length == 2 %}
+									{% for room in item.rooms %}
+										{% if room.capacity != 0 %}
+											{% if loop.first %}
+												{{room.capacity ~ ' и'}}
+											{% else %} 
+												{{room.capacity}}
+											{% endif %}
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+								{% if ((item.rooms|length > 2)) %}
+									{% for key, room in item.rooms %}
+										{% if room.capacity != 0 %}
+											{% if (item.rooms|length - 2) == key %}
+												{{room.capacity ~ ' и'}}
+											{% elseif loop.last %}
+												{{room.capacity}}
+											{% else %}
+												{{room.capacity ~ ','}}
+											{% endif %}
+										{% endif %}
+									{% endfor %}
+								{% endif %} 
+								{% set breakLoop = false %}
+								{% for room in item.rooms if breakLoop == false %}
+									{% if room.capacity != 0 %}
+										{% set breakLoop = true %}
+										человек 
+									{% endif %}
+								{% endfor %}
+							</span>
+						</span>
+					</div>
+				</div>
 
-                    <!-- {% if item.restaurant_min_capacity != item.restaurant_max_capacity %}
-                        <div class="item_meta_item">
-                            {# <span class="item_meta_label">Вместимость: </span><span class="item_meta_text">{{item.restaurant_min_capacity}} - {{item.restaurant_max_capacity}} чел.</span> #}
-                            <span class="item_meta_label">Загородная площадка на </span><span class="item_meta_text">{{item.restaurant_min_capacity}} чел.</span>
-                        </div>
-                    {% else %}
-                        <div class="item_meta_item">
-                            {# <span class="item_meta_label">Вместимость: </span><span class="item_meta_text">{{item.restaurant_min_capacity}} чел.</span> #}
-                            <span class="item_meta_label">Загородная площадка на</span><span class="item_meta_text">{{item.restaurant_min_capacity}} человек</span>
-                        </div>
-                    {% endif %} #} -->
+				<div class="item_row restaurant_own">
+					{% set breakLoop = false %}
+					{% for room in item.rooms if breakLoop == false %}
+						{% if room.rent_only == 1 %}
+							{% set breakLoop = true %}
+							<div class="restaurant_option_wrapper">
+								<p>Со своей едой</p>
+							</div>
+						{% endif %}
+					{% endfor %}
 
-                    {# {% if item.restaurant_price %}
-                        <div class="item_meta_item">
-                            <span class="item_meta_label">Стоимость: </span><span class="item_meta_text">от {{item.restaurant_price}} ₽/чел.</span>
-                        </div>
-                    {% endif %} #}
+					{% if item.restaurant_alcohol in [1,2] %}
+						<div class="restaurant_option_wrapper">
+							<p>Со своим алкоголем</p>
+						</div>
+					{% endif %}
 
-                </div>
+					{% if item.restaurant_firework %}
+						<div class="restaurant_option_wrapper">
+							<p>Фейерверк</p>
+						</div>
+					{% endif %}
+				</div>
 
-                <div class="item_row restaurant_own">
-                    {% if item.restaurant_own_alcohol %}
-                        <div class="restaurant_option_wrapper">
-                            <p>Со своей едой</p>
-                        </div>
-                        {% if item.restaurant_own_alcohol %}
-                        <div class="restaurant_option_wrapper">
-                            <div class="gray_circle"></div>
-                            <p>Со своим алкоголем</p>
-                        </div>
-                        {% endif %}
-                        {% if item.restaurant_firework %}
-                        <div class="restaurant_option_wrapper">
-                            <div class="gray_circle"></div>
-                            <p>Фейерверк</p>
-                        </div>
-                        {% endif %}
-                        {% elseif item.restaurant_own_alcohol %}
-                            <div class="restaurant_option_wrapper">
-                                <div class="gray_circle"></div>
-                                <p>Со своим алкоголем</p>
-                            </div>
-                            {% if item.restaurant_firework %}
-                                <div class="restaurant_option_wrapper">
-                                    <p>Фейерверк</p>
-                                </div>
-                            {% endif %}
-                            {% elseif item.restaurant_firework %}
-                                <div class="restaurant_option_wrapper">
-                                    <p>Фейерверк</p>
-                                </div>
-                    {% endif %}
-                </div>
+				<div class="item_row restaurant_price">
+					от {% set lowestPrice = item.restaurant_price %}
+					{% for room in item.rooms %}
+							{% if room.price < lowestPrice and room.price%}
+								{% set lowestPrice = room.price %}
+							{% endif %}
+					{% endfor %}
+					{{lowestPrice|number_format(0, '.', ' ')}} ₽/чел.
+				</div>
 
-                <div class="item_row restaurant_price">
-                    от {% set lowestPrice = item.restaurant_price %}
-                    {% for room in item.rooms %}
-                        {% if room.price < lowestPrice %}
-                            {% set lowestPrice = room.price %}
-                        {% endif %}
-                    {% endfor %}
-                    {{lowestPrice}} ₽/чел.
-                </div>
+			</div>
+		</div>
+		<div class="item_additional-info">
 
-            </div>
-        </div>
-        <div class="item_additional-info">
+			{% if item.id > 50 and not item.restaurant_premium %}
+				<div class="object_benefit">
+					<div class="object_benefit_img"></div>
+					<div class="object_benefit_text">Получи подарок за бронь!</div>
+				</div>
+			{% elseif not item.restaurant_premium %}
+				<div class="object_reservation">
+					<div class="object_reservation_img"></div>
+					<div class="object_reservation_text">Успей забронировать!</div>
+				</div>
+			{% endif %}
 
-            {% if item.id > 50 %}
-                <div class="object_benefit">
-                    <div class="object_benefit_img"></div>
-                    <div class="object_benefit_text">Получи подарок за бронь!</div>
-                </div>
-            {% else %}
-                <div class="object_reservation">
-                    <div class="object_reservation_img"></div>
-                    <div class="object_reservation_text">Успей забронировать!</div>
-                </div>
-            {% endif %}
+			<!-- <div class="item_gift-for-early-reservation">
+					<span>Подарок за бронирование</span>
+				</div> -->
+			<!-- {% if item.restaurant_firework %}
+			<div class="item_fireworks-availability">
+				<span>Возможность фейерверка</span>
+			</div>
+			{% endif %} -->
 
-            <!-- <div class="item_gift-for-early-reservation">
-                    <span>Подарок за бронирование</span>
-                </div> -->
-            <!-- {% if item.restaurant_firework %}
-            <div class="item_fireworks-availability">
-                <span>Возможность фейерверка</span>
-            </div>
-            {% endif %} -->
-
-        </div>
-    </a>
+		</div>
+		{% if item.restaurant_premium %}
+			<div class="item_additional-premium">
+				<span>Pro</span>
+			</div>
+		{% endif %}
+	</div>
 {% endfor %}

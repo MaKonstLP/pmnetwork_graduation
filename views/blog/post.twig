@@ -1,144 +1,50 @@
+{{this.registerMetaTag({'property':'og:image','content':'https://vypusknoy-vecher.ru' ~ post.getFileData("image").src})}}
+{{this.registerMetaTag({'property':'og:image:width','content':'1200'})}}
+{{this.registerMetaTag({'property':'vk:image','content':'https://vypusknoy-vecher.ru' ~ post.getFileData("image").src})}}
+{{this.registerMetaTag({'property':'vk:image:width','content':'510'})}}
+{{this.registerMetaTag({'property':'fb:image','content':'https://vypusknoy-vecher.ru' ~ post.getFileData("image").src})}}
+{{this.registerMetaTag({'property':'fb:image:width','content':'600'})}}
 <div data-page-type="post">
 
-  	<a class="post back_to_blog_list" href="/blog/">Выпускной вечер 2020 &#8594; Блог</a>
-	  
+	<div class="content_block" data-listing-title>
+		{# {{ this.render('//components/generic/item_title.twig', {'seo':seo, 'breadcrumbs':seo.breadcrumbs}) | raw }} #}
+		{{ this.render('//components/generic/title.twig', {'seo':seo, 'breadcrumbs':breadcrumbs}) | raw }}
+	</div>
+
+	{# <a class="post back_to_blog_list" href="/blog/">Выпускной вечер 2020 &#8594; Блог</a> #}
+
+	<h1>{{ post.name}}</h1>
+	
+	<img class="blog_post_img" src="{{ post.getFileData('image').src }}" alt="{{seo.media['header-image']|first.alt}}">
+
+	<div class="comments" style="display: none;">
+		<figure></figure>
+	</div>
+	
 	<div class="post_wrapper">
 
-		<h1>{{ post.name}}</h1>
-		
-		<img class="blog_post_img" src="/image/slider_pic.png" alt="blog article image">
-
-		<div class="comments" style="display: none;">
-
-			<figure>
-				
-			</figure>
-
-		</div>
-
-		{{ post.getHtml()|raw}}
-
-		{# НОВЫЙ СЛАЙДЕР НАЧАЛО #}
-
-		<div class="post_gallery_wrapper">
-
-			<div class="swiper-container post_gallery">
-				<div class="swiper-wrapper">
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-				</div>
-				<div class="swiper-button-prev"></div>
-				<div class="swiper-button-next"></div>
-				<div class="post-swiper-pagination swiper-pagination"></div>
-			</div>
-
-			<div class="swiper-container gallery-thumbs">
-				<div class="first_slide_gradient _hide"></div>
-				<div class="swiper-wrapper">
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-				</div>
-				<div class="last_slide_gradient"></div>
-			</div>
-
-		</div>
-
-		<div class="post_images_wrapper">
-
-			<div class="swiper-container post_images">
-				<div class="swiper-wrapper">
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="{{image.waterpath}}=s0" data-lightbox="top_slider"><img src="/image/post.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/></a>
-					</div>
-				</div>
-				<div class="swiper-button-prev"></div>
-				<div class="swiper-button-next"></div>
-				<div class="post-swiper-pagination swiper-pagination"></div>
-			</div>
-
-		</div>
-
-		{# НОВЫЙ СЛАЙДЕР КОНЕЦ #}
+		{{ preview ? post.getBodyHtml()|raw : post.getHtml()|raw }}
 
 		<div class="another_posts">
-
-			<h5>Возможно будет интересно</h5>
+			<p class="another_posts_header">Возможно будет интересно</p>
 			<div class="another_posts_row">
-				<a href="#" class="another_posts_link">
-					<img class="another_posts_img" src="/image/listing_card_photo.svg" alt="blog article image">
-					<p>Познакомьтесь с людьми, которые вложили деньги в «Кэшбери»</p>
-				</a>
-				<a href="#" class="another_posts_link">
-					<img class="another_posts_img" src="/image/listing_card_photo.svg" alt="blog article image">
-					<p>Сколько стоит отдохнуть в Грузии</p>
-				</a>
-				<a href="#" class="another_posts_link">
-					<img class="another_posts_img" src="/image/listing_card_photo.svg" alt="blog article image">
-					<p>Хочу купить билет на чартерный рейс. Можно ли это сделать самостоятельно?</p>
-				</a>
+				{% for similarPost in similarPosts %}
+					{# <a href="{{ similarPost.getUrl() }}" class="another_posts_link"> #}
+					<a href="/ideas/{{ similarPost.alias }}" class="another_posts_link">
+						<img class="another_posts_img" src="{{ similarPost.getFileData('image').src }}" alt="blog article image">
+						<p>{{ similarPost.name }}</p>
+					</a>
+				{% endfor %}
 			</div>
-
 		</div>
+	</div>
 
+	{# <div class="content_block form_booking_wrapper">
+		{{ this.render('//components/generic/form_booking1.twig', {'items':other_rooms, 'city_dec':city_dec}) | raw }}
+	</div> #}
+
+	<div class="content_block form_booking_wrapper form_booking_popup _hide">
+		{{ this.render('//components/generic/form_booking_header.twig', {'items':other_rooms, 'city_dec':city_dec}) | raw }}
 	</div>
 </div>
 
