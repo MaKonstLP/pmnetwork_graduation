@@ -97,6 +97,7 @@
 		@include for-mobile {
 			font-size: 28px;
 			line-height: 32px;
+			margin-top: 28px;
 			// width: 93vw;
 		}
 	}
@@ -266,6 +267,24 @@
 
 	@include for-mobile {
 		display: block;
+		position: absolute;
+		height: 38px;
+		top: 8px;
+		right: 2px;
+		border-bottom: none;
+
+		span {
+			visibility: hidden;
+		}
+
+		span:after {
+			content: url("/image/popup_form_close.svg");
+			display: block;
+			visibility: visible;
+			position: absolute;
+			top: 0px;
+		}
+
 	}
 }
 
@@ -307,7 +326,7 @@
 	.form_wrapper.booking {
 		@include for-mobile {
 			background-position: -65px 100%;
-			padding-bottom: 65px;
+			padding-bottom: 40px;
 		}
 	}
 

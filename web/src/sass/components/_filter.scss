@@ -75,6 +75,10 @@
 			line-height: 24px;
 			letter-spacing: 0.01em;
 			margin-bottom: 4px;
+
+			@include for-mobile {
+				margin-bottom: 8px;
+			}
 		}
 
 		.filter_select_block {
@@ -233,7 +237,7 @@
 
 			@include for-mobile {
 				// width: 100%;
-				margin: 20px 15px 0 0;
+				margin: 0px 15px 10px 0;
 			}
 
 			&:before {

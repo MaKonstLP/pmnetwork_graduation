@@ -5,13 +5,14 @@ export default class Main {
 	constructor() {
 		let self = this;
 
+		// self.init();
+
 		// === записываем в куки данные для отправки Calltracking в БД горько START ===
 		//запись в куки только внешнего реферера
 		let pageReferrer = '';
 		//проверяем что это внешний реферер, а не переход внутри страниц сайта
 		// if (document.referrer.indexOf(window.location.origin) != -1) { //в этом случае поддомены (например samara.arendazala.net) тоже считаются внешним реферером
 		if (document.referrer.indexOf('vypusknoy-vecher.ru') == -1) { // отсекаем так же поддомена, как внешний реферер
-			console.log("from external site");
 			if (document.referrer) {
 				pageReferrer = document.referrer;
 			}
@@ -52,11 +53,14 @@ export default class Main {
 		$('body').on('click', '[data-seo-control]', function () {
 			$(this).closest('[data-seo-text]').addClass('_active');
 		});
+
 		var fired = false;
+		var is_desktop = false;
 
 		window.addEventListener('click', () => {
 			if (fired === false) {
 				fired = true;
+				is_desktop = true;
 				load_other();
 			}
 		}, { passive: true });
@@ -64,6 +68,7 @@ export default class Main {
 		window.addEventListener('scroll', () => {
 			if (fired === false) {
 				fired = true;
+				is_desktop = true;
 				load_other();
 			}
 		}, { passive: true });
@@ -71,6 +76,7 @@ export default class Main {
 		window.addEventListener('mousemove', () => {
 			if (fired === false) {
 				fired = true;
+				is_desktop = true;
 				load_other();
 			}
 		}, { passive: true });
@@ -78,12 +84,18 @@ export default class Main {
 		window.addEventListener('touchmove', () => {
 			if (fired === false) {
 				fired = true;
+				is_desktop = true;
 				load_other();
 			}
 		}, { passive: true });
 
+		if (is_desktop === false) {
+			fired = true;
+			is_desktop = true;
+			load_other();
+		}
+
 		$('[data-action="click_number"]').on("click", function () {
-			console.log('data: ' + $(this).data('action'));
 			gtag('event', 'click_number', { 'event_category': 'click' });
 		});
 
@@ -106,7 +118,6 @@ export default class Main {
 
 
 		$('[data-success-close-popup]').on('click', function () {
-				console.log(1111);
 				if ($(this).hasClass('_reserve')) {
 					bookingPopupOpenCloseReserve();
 				} else {
@@ -621,6 +632,7 @@ export default class Main {
 	}
 
 	showFilterButtonHandler() {
+		// console.log('show filter');
 		$(".filter_wrapper").toggleClass("active");
 
 		if (!$("header").hasClass("_active")) {
@@ -652,6 +664,7 @@ export default class Main {
 	closeFilterHandler(e) {
 		let $target = $(e.target);
 		let showFilterButton = $('.show_filter_button');
+
 		let filter = $('.filter_wrapper');
 
 		if ($(".filter_wrapper").hasClass("active")
