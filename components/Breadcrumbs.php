@@ -15,7 +15,7 @@ class Breadcrumbs
 					[[
 						'type' => 'raw',
 						'link' => '/',
-						'name' => 'Выпускной вечер ' . Yii::$app->params['cur_year']
+						'name' => 'Выпускной вечер ' . Yii::$app->params['next_year']
 					]]
 				];
 				break;

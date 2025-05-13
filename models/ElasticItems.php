@@ -18,6 +18,8 @@ use common\models\RayoniGlobal;
 use common\components\AsyncRenewImages;
 use common\models\RestaurantsUniqueId;
 use common\widgets\ProgressWidget;
+use common\models\RoomsSpec;
+use common\models\premium\PremiumRest;
 
 class ElasticItems extends \yii\elasticsearch\ActiveRecord
 {
@@ -66,6 +68,10 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
 			'restaurant_premium',
 			'rooms',
 			'restaurant_main_type',
+			'restaurant_main_type_prepositional',
+			'restaurant_min_check',
+			'restaurant_max_check',
+			'restaurant_rev_ya',
 		];
 	}
 
@@ -87,91 +93,100 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
 		return [
 			static::type() => [
 				'properties' => [
-					'id'                            => ['type' => 'integer'],
-					'restaurant_id'                 => ['type' => 'integer'],
-					'restaurant_gorko_id'           => ['type' => 'integer'],
-					'restaurant_min_capacity'       => ['type' => 'integer'],
-					'restaurant_max_capacity'       => ['type' => 'integer'],
-					'restaurant_district'           => ['type' => 'integer'],
-					'restaurant_district_name'      => ['type' => 'text'],
-					'restaurant_parent_district'    => ['type' => 'integer'],
-					'restaurant_city_id'            => ['type' => 'integer'],
-					'restaurant_alcohol'            => ['type' => 'integer'],
-					'restaurant_firework'           => ['type' => 'integer'],
-					'restaurant_price'              => ['type' => 'integer'],
-					'restaurant_name'               => ['type' => 'text'],
-					'restaurant_address'            => ['type' => 'text'],
-					'restaurant_cover_url'          => ['type' => 'text'],
-					'restaurant_latitude'           => ['type' => 'text'],
-					'restaurant_longitude'          => ['type' => 'text'],
-					'restaurant_own_alcohol'        => ['type' => 'text'],
-					'restaurant_own_alcohol_id'     => ['type' => 'integer'],
-					'restaurant_rating'             => ['type' => 'integer'],
-					'restaurant_cuisine'            => ['type' => 'text'],
-					'restaurant_premium'            => ['type' => 'integer'],
-					'restaurant_parking'            => ['type' => 'integer'],
-					'restaurant_unique_id'          => ['type' => 'integer'],
-					'restaurant_extra_services'     => ['type' => 'text'],
-					'restaurant_payment'            => ['type' => 'text'],
-					'restaurant_special'            => ['type' => 'text'],
-					'restaurant_phone'              => ['type' => 'text'],
-					'restaurant_main_type'          => ['type' => 'text'],
-					'restaurant_commission'         => ['type' => 'integer'],
-					'restaurant_class'              => ['type' => 'integer'],
-					'restaurant_slug'               => ['type' => 'keyword'],
-					'restaurant_metro_station'      => ['type' => 'text'],
-					'restaurant_types'              => ['type' => 'nested', 'properties' => [
-						'id'                            => ['type' => 'integer'],
-						'name'                          => ['type' => 'text'],
+					'id'                                      => ['type' => 'integer'],
+					'restaurant_id'                           => ['type' => 'integer'],
+					'restaurant_gorko_id'                     => ['type' => 'integer'],
+					'restaurant_min_capacity'                 => ['type' => 'integer'],
+					'restaurant_max_capacity'                 => ['type' => 'integer'],
+					'restaurant_district'                     => ['type' => 'integer'],
+					'restaurant_district_name'                => ['type' => 'text'],
+					'restaurant_parent_district'              => ['type' => 'integer'],
+					'restaurant_city_id'                      => ['type' => 'integer'],
+					'restaurant_alcohol'                      => ['type' => 'integer'],
+					'restaurant_firework'                     => ['type' => 'integer'],
+					'restaurant_price'                        => ['type' => 'integer'],
+					'restaurant_min_check'                    => ['type' => 'integer'],
+					'restaurant_max_check'                    => ['type' => 'integer'],
+					'restaurant_name'                         => ['type' => 'text'],
+					'restaurant_address'                      => ['type' => 'text'],
+					'restaurant_cover_url'                    => ['type' => 'text'],
+					'restaurant_latitude'                     => ['type' => 'text'],
+					'restaurant_longitude'                    => ['type' => 'text'],
+					'restaurant_own_alcohol'                  => ['type' => 'text'],
+					'restaurant_own_alcohol_id'               => ['type' => 'integer'],
+					'restaurant_rating'                       => ['type' => 'integer'],
+					'restaurant_cuisine'                      => ['type' => 'text'],
+					'restaurant_premium'                      => ['type' => 'integer'],
+					'restaurant_parking'                      => ['type' => 'integer'],
+					'restaurant_unique_id'                    => ['type' => 'integer'],
+					'restaurant_extra_services'               => ['type' => 'text'],
+					'restaurant_payment'                      => ['type' => 'text'],
+					'restaurant_special'                      => ['type' => 'text'],
+					'restaurant_phone'                        => ['type' => 'text'],
+					'restaurant_main_type'                    => ['type' => 'text'],
+					'restaurant_main_type_prepositional'      => ['type' => 'text'],
+					'restaurant_commission'                   => ['type' => 'integer'],
+					'restaurant_class'                        => ['type' => 'integer'],
+					'restaurant_slug'                         => ['type' => 'keyword'],
+					'restaurant_metro_station'                => ['type' => 'text'],
+					'restaurant_types'                        => ['type' => 'nested', 'properties' => [
+						'id'                                      => ['type' => 'integer'],
+						'name'                                    => ['type' => 'text'],
 					]],
-					'restaurant_spec'               => ['type' => 'nested', 'properties' => [
-						'id'                            => ['type' => 'integer'],
-						'name'                          => ['type' => 'text'],
+					'restaurant_spec'                         => ['type' => 'nested', 'properties' => [
+						'id'                                      => ['type' => 'integer'],
+						'name'                                    => ['type' => 'text'],
 					]],
-					'restaurant_specials'           => ['type' => 'nested', 'properties' => [
-						'id'                            => ['type' => 'integer'],
-						'name'                          => ['type' => 'text'],
+					'restaurant_specials'                     => ['type' => 'nested', 'properties' => [
+						'id'                                      => ['type' => 'integer'],
+						'name'                                    => ['type' => 'text'],
 					]],
-					'restaurant_extra'           => ['type' => 'nested', 'properties' => [
-						'id'                            => ['type' => 'integer'],
-						'name'                          => ['type' => 'text'],
+					'restaurant_extra'                        => ['type' => 'nested', 'properties' => [
+						'id'                                      => ['type' => 'integer'],
+						'name'                                    => ['type' => 'text'],
 					]],
-					'restaurant_location'              => ['type' => 'nested', 'properties' => [
-						'id'                            => ['type' => 'integer'],
-						'name'                          => ['type' => 'text'],
+					'restaurant_location'                     => ['type' => 'nested', 'properties' => [
+						'id'                                      => ['type' => 'integer'],
+						'name'                                    => ['type' => 'text'],
 					]],
-					'restaurant_images'             => ['type' => 'nested', 'properties' => [
-						'id'                            => ['type' => 'integer'],
-						'sort'                          => ['type' => 'integer'],
-						'realpath'                      => ['type' => 'text'],
-						'subpath'                       => ['type' => 'text'],
-						'waterpath'                     => ['type' => 'text'],
-						'timestamp'                     => ['type' => 'text'],
+					'restaurant_images'                       => ['type' => 'nested', 'properties' => [
+						'id'                                      => ['type' => 'integer'],
+						'sort'                                    => ['type' => 'integer'],
+						'realpath'                                => ['type' => 'text'],
+						'subpath'                                 => ['type' => 'text'],
+						'waterpath'                               => ['type' => 'text'],
+						'timestamp'                               => ['type' => 'text'],
 					]],
-					'rooms'                             => ['type' => 'nested', 'properties' => [
-						'id'                            => ['type' => 'integer'],
-						'gorko_id'                      => ['type' => 'integer'],
-						'restaurant_id'                 => ['type' => 'integer'],
-						'price'                         => ['type' => 'integer'],
-						'capacity_reception'            => ['type' => 'integer'],
-						'capacity'                      => ['type' => 'integer'],
-						'type'                          => ['type' => 'integer'],
-						'rent_only'                     => ['type' => 'integer'],
-						'banquet_price'                 => ['type' => 'integer'],
-						'bright_room'                   => ['type' => 'integer'],
-						'separate_entrance'             => ['type' => 'integer'],
-						'type_name'                     => ['type' => 'text'],
-						'name'                          => ['type' => 'text'],
-						'features'                      => ['type' => 'text'],
-						'cover_url'                     => ['type' => 'text'],
-						'payment_model'                 => ['type' => 'text'],
-						'images'                        => ['type' => 'nested', 'properties' => [
-							'id'                            => ['type' => 'integer'],
-							'sort'                          => ['type' => 'integer'],
-							'realpath'                      => ['type' => 'text'],
-							'subpath'                       => ['type' => 'text'],
-							'waterpath'                     => ['type' => 'text'],
-							'timestamp'                     => ['type' => 'text'],
+					'rooms'                                   => ['type' => 'nested', 'properties' => [
+						'id'                                      => ['type' => 'integer'],
+						'gorko_id'                                => ['type' => 'integer'],
+						'restaurant_id'                           => ['type' => 'integer'],
+						'price'                                   => ['type' => 'integer'],
+						'capacity_reception'                      => ['type' => 'integer'],
+						'capacity'                                => ['type' => 'integer'],
+						'capacity_min'                            => ['type' => 'integer'],
+						'type'                                    => ['type' => 'integer'],
+						'rent_only'                               => ['type' => 'integer'],
+						'banquet_price'                           => ['type' => 'integer'],
+						'bright_room'                             => ['type' => 'integer'],
+						'separate_entrance'                       => ['type' => 'integer'],
+						'type_name'                               => ['type' => 'text'],
+						'name'                                    => ['type' => 'text'],
+						'features'                                => ['type' => 'text'],
+						'cover_url'                               => ['type' => 'text'],
+						'payment_model'                           => ['type' => 'text'],
+						'images'                                  => ['type' => 'nested', 'properties' => [
+							'id'                                      => ['type' => 'integer'],
+							'sort'                                    => ['type' => 'integer'],
+							'realpath'                                => ['type' => 'text'],
+							'subpath'                                 => ['type' => 'text'],
+							'waterpath'                               => ['type' => 'text'],
+							'timestamp'                               => ['type' => 'text'],
+						]],
+						'restaurant_rev_ya'                       => ['type' => 'nested', 'properties' => [
+							'id'                                      => ['type' => 'long'],
+							'rate'                                    => ['type' => 'text'],
+							'count'                                   => ['type' => 'text'],
 						]],
 					]]
 				]
@@ -278,9 +293,20 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
 			->with('rooms')
 			->with('imagesext')
 			->with('subdomen')
-			// ->where(['active' => 1, 'commission' => 2])
+			->with('yandexReview')
+			//->where(['gorko_id' => 214079])
 			->limit(100000)
 			->all();
+
+		$connection = new \yii\db\Connection($params['premium_connection_config']);
+		$connection->open();
+		Yii::$app->set('db', $connection);
+
+		$restaurants_premium_base = PremiumRest::find()
+			->where(['active' => 1, 'channel' => 3])
+			->limit(100000)
+			->all();
+		$restaurants_premium_base = ArrayHelper::index($restaurants_premium_base, 'gorko_id');
 
 		$connection = new \yii\db\Connection($params['site_connection_config']);
 		$connection->open();
@@ -299,17 +325,21 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
 		$images_module = ArrayHelper::index($images_module, 'gorko_id');
 
 		$restaurants_premium = RestaurantsPremium::find()
-			->where(['>', 'finish', time()])
 			->limit(100000)
 			->asArray()
 			->all();
 		$restaurants_premium = ArrayHelper::index($restaurants_premium, 'gorko_id');
 
+		$room_specs = RoomsSpec::find()
+			->limit(100000)
+			->where(['spec_id' => 11])
+			->all();
+
 		$rest_count = count($restaurants);
 		$rest_iter = 0;
 		foreach ($restaurants as $restaurant) {
-			$res = self::addRecord($restaurant, $restaurants_types, $restaurants_spec, $restaurants_specials, $restaurants_extra, $restaurants_location, $images_module, $params, $restaurants_metro_global, $restaurants_rayoni_global, $restaurants_unique_id, $restaurants_premium);
-			// echo ProgressWidget::widget(['done' => $rest_iter++, 'total' => $rest_count]);
+			$res = self::addRecord($restaurant, $restaurants_types, $restaurants_spec, $restaurants_specials, $restaurants_extra, $restaurants_location, $images_module, $params, $restaurants_metro_global, $restaurants_rayoni_global, $restaurants_unique_id, $restaurants_premium, $room_specs, $restaurants_premium_base);
+			echo ProgressWidget::widget(['done' => $rest_iter++, 'total' => $rest_count]);
 		}
 		echo 'Обновление индекса ' . self::index() . ' ' . self::type() . ' завершено' . "\n";
 	}
@@ -334,7 +364,7 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
 		);
 	}
 
-	public static function addRecord($restaurant, $restaurants_types, $restaurants_spec, $restaurants_specials, $restaurants_extra, $restaurants_location, $images_module, $params, $restaurants_metro_global, $restaurants_rayoni_global, $restaurants_unique_id, $restaurants_premium)
+	public static function addRecord($restaurant, $restaurants_types, $restaurants_spec, $restaurants_specials, $restaurants_extra, $restaurants_location, $images_module, $params, $restaurants_metro_global, $restaurants_rayoni_global, $restaurants_unique_id, $restaurants_premium, $room_specs, $restaurants_premium_base)
 	{
 		/* $restaurant_spec_white_list = [11];
 		$restaurant_spec_rest = explode(',', $restaurant->restaurants_spec);
@@ -347,6 +377,11 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
 		} */
 
 		$premium = isset($restaurants_premium[$restaurant->gorko_id]);
+
+		if($restaurant->premium_active == 1 && !isset($restaurants_premium_base[$restaurant->gorko_id])){
+            return true;
+        }
+
 		if (!$premium) {
 			$restaurant_spec_white_list = [11];
 			$restaurant_spec_rest = explode(',', $restaurant->restaurants_spec);
@@ -378,6 +413,20 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
 			$record->setPrimaryKey($restaurant->id);
 		}
 
+		// СОРТИРОВКА ЗАЛОВ ПО ТИПУ МЕРОПРИЯТИЯ
+		$valid_rooms = [];
+		foreach ($restaurant->rooms as $key => $room) {
+			$room_specs_model = RoomsSpec::find()
+				->limit(100000)
+				->where(['gorko_id' => $room->gorko_id])
+				->all();
+			$room_specs_array = [];
+			foreach ($room_specs_model as $key => $room_spec) {
+				$room_specs_array[] = $room_spec->spec_id;
+			}
+			if(in_array(11, $room_specs_array)) $valid_rooms[] = $room->gorko_id;
+		}
+
 		//Св-ва ресторана
 		$record->id = $restaurant->id;
 		$record->restaurant_commission = $restaurant->commission;
@@ -402,15 +451,40 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
 		$record->restaurant_extra_services = $restaurant->extra_services;
 		$record->restaurant_payment = $restaurant->payment;
 		$record->restaurant_special = $restaurant->special;
-		$record->restaurant_phone = $restaurant->phone;
 		$restaurant->rating ? $record->restaurant_rating = $restaurant->rating : $record->restaurant_rating = 90;
+
+		switch ($restaurant->gorko_id) {
+			case 420083:
+				$record->restaurant_phone = '+7 912 045-99-45';
+				break;
+			case 441099:
+				$record->restaurant_phone = '+7 930 036-84-71';
+				break;
+			case 479021:
+				$record->restaurant_phone = '+7 930 0311-311';
+				break;
+			default:
+				$record->restaurant_phone = $restaurant->phone;
+				break;
+		}
+
+		if(isset($restaurants_premium_base[$restaurant->gorko_id]) && $restaurants_premium_base[$restaurant->gorko_id]->proxy_phone){
+			$proxy_phone = $restaurants_premium_base[$restaurant->gorko_id]->proxy_phone;
+			if(  preg_match( '/^\+\d(\d{3})(\d{3})(\d{2})(\d{2})$/', $proxy_phone,  $matches ) )
+            {
+                $proxy_phone_pretty = '+7 ('.$matches[1].') '.$matches[2].'-'. $matches[3].'-'. $matches[4];
+            }
+			$record->restaurant_phone = $proxy_phone_pretty;
+		}
 
 		//Картинки ресторана
 		$images = [];
 
 		$group = array();
 		foreach ($restaurant->imagesext as $value) {
-			$group[$value['room_id']][] = $value;
+			if(in_array($value['room_id'], $valid_rooms)){
+				$group[$value['room_id']][] = $value;
+			}
 		}
 		$images_sorted = array();
 		$room_ids = array();
@@ -476,6 +550,15 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
 			$restaurants_unique_id_upd->save();
 			$record->restaurant_unique_id = $new_id;
 		}
+
+		//Отзывы с Яндекса из общей базы
+		$reviews = [];
+		if (isset($restaurant->yandexReview)) {
+			$reviews['id'] = $restaurant->yandexReview['rev_ya_id'];
+			$reviews['rate'] = $restaurant->yandexReview['rev_ya_rate'];
+			$reviews['count'] = $restaurant->yandexReview['rev_ya_count'];
+		}
+		$record->restaurant_rev_ya = $reviews;
 
 		//Локальный премиум
 		$record->restaurant_premium = 0;
@@ -560,6 +643,37 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
 		}, '') ?: 'Ресторан';
 
 
+		$prepositional_types = [
+			'Ресторан' => 'Ресторане',
+			'Банкетный зал' => 'Банкетном зале',
+			'Кафе' => 'Кафе',
+			'Бар' => 'Баре',
+			'Ресторанный комплекс' => 'Ресторанном комплексе',
+			'Банкетный комплекс' => 'Банкетном комплексе',
+			'Развлекательный комплекс' => 'Развлекательном комплексе',
+			'Загородный комплекс' => 'Загородном комплексе',
+			'Культурный комплекс' => 'Культурном комплексе',
+			'База отдыха' => 'Базе отдыха',
+			'Шатер' => 'Шатре',
+			'Коттедж' => 'Коттедже',
+			'Ночной клуб' => 'Ночном клубе',
+			'Летняя площадка' => 'Летней площадке',
+			'Гостиница / Отель' => 'Гостинице / Отеле',
+			'Актовый зал' => 'Актовом зале',
+			'Антикафе' => 'Антикафе',
+			'Баня / Сауна' => 'Бане / Сауне',
+			'Веранда / Терраса' => 'Веранде / Террасе',
+			'Арт-пространство' => 'Арт-пространстве',
+			'Для детей' => 'Для детей',
+			'Кинозал' => 'Кинозале',
+			'Конференц-зал' => 'Конференц-зале',
+			'Концертный зал' => 'Концертном зале',
+			'Лофт' => 'Лофте',
+			'Танцевальный зал' => 'Танцевальном зале',
+		];
+
+		$record->restaurant_main_type_prepositional = isset($prepositional_types[$record->restaurant_main_type]) ? $prepositional_types[$record->restaurant_main_type] : 'Ресторане';
+
 
 		//Особенности
 		$restaurant_specials = [];
@@ -613,14 +727,20 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
 
 		//Св-ва залов
 		$rooms = [];
+		$min_price = 1000000;
+		$max_price = 0;
 		$restaurant_price = 9999999999;
 		foreach ($restaurant->rooms as $key => $room) {
+			if(!in_array($room->gorko_id, $valid_rooms)){
+				continue;
+			}		
 			$room_arr = [];
 			$room_arr['id'] = $room->id;
 			$room_arr['gorko_id'] = $room->gorko_id;
 			$room_arr['restaurant_id'] = $room->restaurant_id;
 			$room_arr['capacity_reception'] = $room->capacity_reception;
 			$room_arr['capacity'] = $room->capacity;
+			$room_arr['capacity_min'] = $room->capacity_min;
 			$room_arr['type'] = $room->type;
 			$room_arr['rent_only'] = $room->rent_only;
 			$room_arr['banquet_price'] = $room->banquet_price;
@@ -631,9 +751,24 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
 			$room_arr['restaurant_main_type'] = $record->restaurant_main_type;
 			$room_arr['features'] = $room->features;
 			$room_arr['cover_url'] = $room->cover_url;
-			$room_arr['price'] = $room->price;
-			if (($room->price < $restaurant_price) and $room->price)
-				$restaurant_price = $room->price;
+
+			// $room_arr['price'] = $room->price;
+			// if (($room->price < $restaurant_price) and $room->price)
+			// 	$restaurant_price = $room->price;
+
+			//цена в зависимости от типа мероприятия(выпускной)
+			foreach ($room_specs as $room_spec) {
+				if ($room_spec['gorko_id'] == $room->gorko_id && !empty($room_spec['price'])) {
+					$room_arr['price'] = $room_spec['price'];
+					break;
+				} else {
+					$room_arr['price'] = $room->price;
+				}
+			}
+			if (isset($room_arr['price']) && !empty($room_arr['price'])) {
+				$min_price = $min_price > $room_arr['price'] ? $room_arr['price'] : $min_price;
+				$max_price = $max_price < $room_arr['price'] ? $room_arr['price'] : $max_price;
+			}
 
 			switch ($room->payment_model) {
 				case 1:
@@ -691,7 +826,57 @@ class ElasticItems extends \yii\elasticsearch\ActiveRecord
 		}
 		$record->rooms = $rooms;
 
-		$record->restaurant_price = $restaurant_price;
+		$record->restaurant_price = $min_price;
+		$record->restaurant_min_check = ($min_price < 1000000) ? $min_price : 0;
+		$record->restaurant_max_check = $max_price;
+
+
+		// // Цены для разных типов мероприятий
+		// $room_specs_model = RoomsSpec::find()
+		// 	->limit(100000)
+		// 	->where(['room_id' => $room->id])
+		// 	->all();
+		// //соотвествие id в таблице filter_items и restaurants_spec
+		// $prazdnik_arr = [
+		// 	'9' => '1', //День рождения
+		// 	'12' => '2', //Детский день рождения
+		// 	'1' => '3', //Свадьба
+		// 	'17' => '4', //Новый год
+		// 	'15' => '5', //Корпоратив
+		// 	'11' => '6', //Выпускной
+		// ];
+		// $room_prices_arr = [];
+		// if (isset($room_specs_model) && !empty($room_specs_model)) {
+		// 	foreach ($room_specs_model as $key => $spec_price) {
+		// 		$spec_model = RestaurantsSpec::find()->where(['id' => $spec_price['spec_id']])->one();
+		// 		$spec_name = $spec_model['name'];
+		// 		$room_prices = [];
+		// 		$room_prices['spec_id'] = $spec_price['spec_id'];
+		// 		$room_prices['prazdnik_id'] = isset($prazdnik_arr[$spec_price['spec_id']]) ? $prazdnik_arr[$spec_price['spec_id']] : '';
+		// 		$room_prices['spec_name'] = $spec_name;
+		// 		$room_prices['price'] = !empty($spec_price['price']) ? $spec_price['price'] : $room->price;
+
+		// 		array_push($room_prices_arr, $room_prices);
+		// 	}
+		// }
+		// $record->room_prices = $room_prices_arr;
+		// $record->rent_room_only = $room->rent_room_only;
+		// $record->rent_only = $room->rent_only;
+
+		// $min_price = 99999;
+		// $max_price = 0;
+		// foreach ($room_prices_arr as $room_price) {
+		// 	if (isset($room_price['price']) && !empty($room_price['price'])) {
+		// 		if ($room_price['price'] < $min_price) {
+		// 			$min_price = $room_price['price'];
+		// 		}
+		// 		if ($room_price['price'] > $max_price) {
+		// 			$max_price = $room_price['price'];
+		// 		}
+		// 	}
+		// }
+		// $record->min_room_price = $min_price != 99999 ? $min_price : '';
+		// $record->max_room_price = $max_price ? $max_price : '';
 
 
 

@@ -1,5 +1,5 @@
 {% for item in items %}
-	<div href="/catalog/{{item.restaurant_unique_id}}-{{item.restaurant_slug}}/" class="item swiper-slide {{type}}" data-restaurant-id="{{item.restaurant_unique_id}}" data-restaurant-slug="{{item.restaurant_slug}}" data-restaurant-name="{{item.restaurant_name}}" data-restaurant-address="{{item.restaurant_address}}" 
+	<div href="/catalog/{{item.restaurant_unique_id}}-{{item.restaurant_slug}}/" class="item swiper-slide {{type}}" data-venue-id="{{item.restaurant_gorko_id}}" data-restaurant-id="{{item.restaurant_unique_id}}" data-restaurant-slug="{{item.restaurant_slug}}" data-restaurant-name="{{item.restaurant_name}}" data-restaurant-address="{{item.restaurant_address}}" 
 	{# data-image="{{item.restaurant_cover_url}}"  #}
 	data-image="
 		{% if item.restaurant_cover_url|length == 0 %}
@@ -12,15 +12,33 @@
 		<a href="/catalog/{{item.restaurant_unique_id}}-{{item.restaurant_slug}}/" class="item_img">
 			{# <img src="{{item.restaurant_images[0].subpath}}=w440-h302-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/> #}
 
-			{% if item.restaurant_images[0].subpath|length == 0 %}
-				{% if item.restaurant_images[0].realpath|length == 0 %}
-					<img src="/image/no_photo.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
-				{% else %}
-					<img src="{{item.restaurant_images[0].realpath}}=w416-h240-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/>
-				{% endif %}
-			{% else %}
-				<img src="{{item.restaurant_images[0].subpath}}=w416-h240-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/>
-			{% endif %}
+{#			{% if item.restaurant_images[0].subpath|length == 0 %}#}
+{#				{% if item.restaurant_images[0].realpath|length == 0 %}#}
+{#					<img src="/image/no_photo.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>#}
+{#				{% else %}#}
+{#					<img src="{{item.restaurant_images[0].realpath}}=w416-h240-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/>#}
+{#				{% endif %}#}
+{#			{% else %}#}
+{#				<img src="{{item.restaurant_images[0].subpath}}=w416-h240-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/>#}
+{#			{% endif %}#}
+
+			<div class="item_img swiper" data-item-gallery>
+				<div class="swiper-wrapper">
+					{% if item.restaurant_images %}
+						{% for image_src in item.restaurant_images %}
+							{% set img = image_src.subpath is not empty ? image_src.subpath : image_src.realpath %}
+							<div class="swiper-slide">
+								<img loading="lazy" src="{{ img~'=w416-l100-rw' }}" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/>
+							</div>
+						{% endfor %}
+					{% else %}
+						<div class="swiper-slide">
+							<img loading="lazy" src="/upload/img/no_photo.png" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+						</div>
+					{% endif %}
+				</div>
+				<div class="swiper-pagination item-gallery-pagination"></div>
+			</div>
 
 			{#<div class="item_date-availability">
 				<span>Свободно 12 декабря</span>
@@ -141,6 +159,13 @@
 							{% endif %}
 					{% endfor %}
 					{{lowestPrice|number_format(0, '.', ' ')}} ₽/чел.
+				</div>
+
+				<div class="item-info__btns">
+					<a href="tel:{{item.restaurant_phone}}" class="item-info__btn item-info__btn_call"><span>Позвонить</span></a>
+					<div class="item-info__btn item-info__btn_book" data-listing-book>
+						Забронировать
+					</div>
 				</div>
 
 			</div>

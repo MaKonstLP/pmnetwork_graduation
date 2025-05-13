@@ -83,11 +83,15 @@
 	{% endif %}
 
 	<div class="content_block form_booking_wrapper">
-		{{ this.render('//components/generic/form_booking1.twig', {'items':other_rooms, 'city_dec':city_dec, 'cur_year':cur_year}) | raw }}
+		{{ this.render('//components/generic/form_booking1.twig', {'items':other_rooms, 'city_dec':city_dec, 'next_year':next_year}) | raw }}
 	</div>
 
 	<div class="content_block form_booking_wrapper form_booking_popup _hide">
-		{{ this.render('//components/generic/form_booking_header.twig', {'items':other_rooms, 'city_dec':city_dec, 'cur_year':cur_year}) | raw }}
+		{{ this.render('//components/generic/form_booking_header.twig', {'items':other_rooms, 'city_dec':city_dec, 'next_year':next_year}) | raw }}
+	</div>
+
+	<div class="content_block form_booking_wrapper form_booking_popup_reserve _hide">
+		{{ this.render('//components/generic/form_booking_item_reserve.twig', {'venue_id':items[0].restaurant_gorko_id, 'restaurant_name':items[0].restaurant_name}) | raw }}
 	</div>
 
 	<div class="content_loading"></div>

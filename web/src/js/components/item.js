@@ -9,6 +9,8 @@ export default class Item {
 		this.sliders = new Array();
 		self.mobileMode = self.getScrollWidth() < 768 ? true : false;
 
+		console.log('self.mobileMode: ', self.mobileMode);
+
 		$('[data-action="show_phone"]').on("click", function () {
 			$(".object_book").addClass("_active");
 			$(".object_book_hidden").addClass("_active");
@@ -17,12 +19,31 @@ export default class Item {
 			ym(86538649, 'reachGoal', 'show_number');
 			// dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Search', 'eventAction' : 'ShowPhone'});
 			// console.log('data: ' + $(this).data('action'));
-			gtag('event', 'show_number', { 'event_category': 'click' });
+			//gtag('event', 'show_number', { 'event_category': 'click' });
 
 			// ==== Gorko-calltracking ====
 			let phone = $(this).closest('.object_book_hidden').find('.object_real_phone').text();
-			self.sendCalltracking(phone);
+			if (typeof ym === 'function') {
+				self.sendCalltracking(phone);
+			} else {
+				setTimeout(function () {
+					self.sendCalltracking(phone);
+				}, 3000);
+			}
 		});
+
+		//клик по кнопке "Позвонить"
+		$('.item-info__btn_call').on('click', function () {
+			// ==== Gorko-calltracking ====
+			let phone = $(this).attr('href');
+			if (typeof ym === 'function') {
+				self.sendCalltracking(phone);
+			} else {
+				setTimeout(function () {
+					self.sendCalltracking(phone);
+				}, 3000);
+			}
+		})
 
 		$('[data-action="show_form"]').on("click", function () {
 			$(".object_book_send_mail").addClass("_hide");
@@ -197,6 +218,41 @@ export default class Item {
 				},
 			});
 		});
+
+		var block_show = null;
+		function scrollTracking() {
+			var wt = $(window).scrollTop();
+			var wh = $(window).height();
+			var ww = $(window).width();
+			var et = $('.item-info__btns').offset().top;
+			var eh = $('.item-info__btns').outerHeight();
+
+			if (wt + wh >= et && wt + wh - eh * 2 <= et + (wh - eh)) {
+				if (block_show == null || block_show == false) {
+					$('.display_bottom').removeClass('_active');
+					$('.footer_wrap').css('margin-bottom', '0');
+				}
+				block_show = true;
+			} else {
+				if (block_show == null || block_show == true) {
+					$('.display_bottom').addClass('_active');
+					$('.footer_wrap').css('margin-bottom', '50px');
+				}
+				block_show = false;
+			}
+		}
+
+		$(window).on('scroll', function () {
+			if (self.mobileMode) {
+				scrollTracking();
+			}
+		});
+
+		window.onload = function () {
+			if (self.mobileMode) {
+				scrollTracking();
+			}
+		};
 	}
 
 	getScrollWidth() {
@@ -209,34 +265,83 @@ export default class Item {
 
 	sendCalltracking(phone) {
 		let clientId = '';
-		ga.getAll().forEach((tracker) => {
-			clientId = tracker.get('clientId');
-		})
+		// if (typeof ga !== 'undefined') {
+		// 	ga.getAll().forEach((tracker) => {
+		// 		clientId = tracker.get('clientId');
+		// 	})
+		// }
+		if (typeof gtag !== 'undefined') {
+			const gtagPromise = new Promise(resolve => {
+				gtag('get', 'GTM-5GC6H8ZG', 'client_id', resolve)
+			});
 
-		const data = new FormData();
-
-		if (this.mobileMode) {
-			data.append('isMobile', 1);
+			gtagPromise.then((gaClientId) => {
+				clientId = gaClientId;
+			})
+		} else {
+			clientId = this.getGaClientId();
 		}
-		data.append('phone', phone);
-		data.append('clientId', clientId);
 
-		$.ajax({
-			type: 'post',
-			url: '/ajax/send-calltracking/',
-			data: data,
-			processData: false,
-			contentType: false,
-			success: function (response) {
-				// response = $.parseJSON(response);
-				// response = JSON.parse(response);
-				// self.resolve(response);
-				console.log('calltracking sent');
-			},
-			error: function (response) {
-				console.log('calltracking ERROR');
+		setTimeout(() => {
+			let yaClientId = '';
+			ym(86538649, 'getClientID', function (id) {
+				yaClientId = id;
+			});
+
+			const data = new FormData();
+
+			if (this.mobileMode) {
+				data.append('isMobile', 1);
 			}
-		});
+			data.append('phone', phone);
+			data.append('clientId', clientId);
+			data.append('yaClientId', yaClientId);
+
+			$.ajax({
+				type: 'post',
+				url: '/ajax/send-calltracking/',
+				data: data,
+				processData: false,
+				contentType: false,
+				success: function (response) {
+					// response = $.parseJSON(response);
+					// response = JSON.parse(response);
+					// self.resolve(response);
+					console.log('calltracking sent');
+				},
+				error: function (response) {
+					console.log('calltracking ERROR');
+				}
+			});
+
+			if ($('[data-premium-rest]').length > 0) {
+				let data = new FormData();
+				data.append('gorko_id', $('[data-premium-rest]').data('premium-rest'));
+				data.append('channel', $('[data-channel-id]').data('channel-id'));
+				fetch('/premium/premium-click/', {
+					method: 'POST',
+					body: data,
+				})
+					.then((response) => response.json())
+					.then((data) => {
+						console.log(data);
+					})
+					.catch((error) => {
+						console.error('Error:', error);
+					});
+			}
+		}, 2000);
+	}
+
+	getGaClientId() {
+		let match = document.cookie.match('(?:^|;)\\s*_ga=([^;]*)');
+		let raw = (match) ? decodeURIComponent(match[1]) : null;
+		if (raw) {
+			match = raw.match(/(\d+\.\d+)$/);
+		}
+		let gacid = (match) ? match[1] : '';
+
+		return gacid;
 	}
 }
 

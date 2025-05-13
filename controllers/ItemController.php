@@ -90,6 +90,15 @@ class ItemController extends Controller
 		$other_rests = array_slice($other_rests, 0, 2);
 
 		if($item->restaurant_premium) Yii::$app->params['premium_rest'] = true;
+		Yii::$app->params['page_rest'] = true;
+
+		// ===== schemaOrg Product START =====
+		$this->setSchema($item, $seo);
+		// ===== schemaOrg Product END =====
+
+		// echo ('<pre>');
+		// print_r($item);
+		// exit;
 
 		return $this->render('index.twig', array(
 			'item' => $item,
@@ -134,5 +143,67 @@ class ItemController extends Controller
 		$this->view->title = $seo['title'];
 		$this->view->params['desc'] = $seo['description'];
 		$this->view->params['kw'] = $seo['keywords'];
+	}
+
+	private function setSchema($rest, $seo)
+	{
+		$name = $rest->restaurant_name;
+		$count_rooms = 1;
+		if (!empty($rest['rooms'])) {
+			$count_rooms = count($rest['rooms']);
+		}
+
+		$json_str = '';
+		$json_str .= '{
+				"@context": "https://schema.org",
+				"@type": [
+					"LocalBusiness",
+					"Product"
+				],
+				"name": "' . $name . '",
+				"description": "' . $seo['description'] . '",
+				"image":"' . $rest['restaurant_images'][0]['waterpath'] . '",
+				"address": {
+					"@type": "PostalAddress",
+					"streetAddress": "' . $rest['restaurant_address'] . '",
+					"addressLocality": "' . Yii::$app->params['subdomen_name'] . '",
+					"addressCountry": "RUS"
+				},
+				"telephone": "' . $rest['restaurant_phone'] . '"';
+
+		if ($rest->restaurant_max_check) {
+			$json_str .= ',';
+			$json_str .= '
+				"offers": {
+					"@type": "AggregateOffer",
+					"priceCurrency": "RUB",
+					"highPrice": "' . $rest['restaurant_max_check'] . '",
+					"lowPrice": "' . $rest['restaurant_min_check'] . '",
+					"offerCount": "' . $count_rooms . '"
+				';
+
+			if (!empty($rest['rooms'])) {
+				$json_str .= ',';
+				$json_str .= '"offers" : [ ';
+				foreach ($rest['rooms'] as $key => $room) {
+					$json_str .= '
+					{
+						"@type": "Offer",
+						"price": "' . $room['price'] . '",
+						"priceCurrency": "RUB"
+					}';
+					if (($key + 1) < $count_rooms) {
+						$json_str .= ',';
+					}
+				}
+				$json_str .= ']}';
+			} else {
+				$json_str .= '}';
+			}
+		}
+
+		$json_str .= '}';
+
+		Yii::$app->params['schema_product'] = $json_str;
 	}
 }

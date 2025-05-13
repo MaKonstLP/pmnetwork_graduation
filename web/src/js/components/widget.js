@@ -57,4 +57,5 @@ export default class Widget{
 	    let swiper_var = $container.swiper;
 		this.swiperArr.push(swiper);
 	}
+
 }

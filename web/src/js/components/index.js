@@ -10,6 +10,8 @@ export default class Index{
 		this.filter = new Filter($('[data-filter-wrapper]'));
 		this.yaMap = new YaMapAll(this.filter);
 
+		self.initSwiperListingGallery();
+
 		//КЛИК ПО КНОПКЕ "ПОДОБРАТЬ"
 		$('[data-filter-button]').on('click', function(){
 			self.redirectToListing();
@@ -30,6 +32,20 @@ export default class Index{
 				$('[data-filter-button]').removeClass('_disabled');
 			}
 		});
+
+		//клик по кнопке "Позвонить" в листинге
+		// $('[data-listing-list]').on('click', '.item-info__btn_call', function () {
+		// 	ym(86538649, 'reachGoal', 'show_number');
+		// 	// ==== Gorko-calltracking ====
+		// 	let phone = $(this).attr('href');
+		// 	if (typeof ym === 'function') {
+		// 		self.sendCalltracking(phone);
+		// 	} else {
+		// 		setTimeout(function () {
+		// 			self.sendCalltracking(phone);
+		// 		}, 3000);
+		// 	}
+		// })
 
 		var topSlider = new Swiper('.swiper_top', {
 
@@ -71,4 +87,60 @@ export default class Index{
 			}
 		);
 	}
+
+	initSwiperListingGallery() {
+		let swiper = new Swiper('[data-item-gallery]', {
+			slidesPerView: 1,
+			spaceBetween: 0,
+			initialSlide: 1,
+			// loop: true,
+			pagination: {
+				el: '.item-gallery-pagination',
+				type: 'bullets',
+				dynamicBullets: true,
+				dynamicMainBullets: 1,
+			},
+		});
+	}
+
+	// sendCalltracking(phone) {
+	// 	let clientId = '';
+	// 	if (typeof ga !== 'undefined') {
+	// 		ga.getAll().forEach((tracker) => {
+	// 			clientId = tracker.get('clientId');
+	// 		})
+	// 	}
+
+	// 	let yaClientId = '';
+	// 	ym(86538649, 'getClientID', function (id) {
+	// 		yaClientId = id;
+	// 	});
+
+	// 	const data = new FormData();
+
+	// 	if (this.mobileMode) {
+	// 		data.append('isMobile', 1);
+	// 	}
+
+	// 	data.append('phone', phone);
+	// 	data.append('clientId', clientId);
+	// 	data.append('yaClientId', yaClientId);
+
+	// 	$.ajax({
+	// 		type: 'post',
+	// 		url: '/ajax/send-calltracking/',
+	// 		data: data,
+	// 		processData: false,
+	// 		contentType: false,
+	// 		success: function (response) {
+	// 			// response = $.parseJSON(response);
+	// 			// response = JSON.parse(response);
+	// 			// self.resolve(response);
+	// 			console.log('calltracking sent');
+	// 		},
+	// 		error: function (response) {
+	// 			console.log('calltracking ERROR');
+	// 		}
+	// 	});
+	// }
 }

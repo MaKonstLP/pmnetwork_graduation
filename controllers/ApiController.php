@@ -23,7 +23,7 @@ class ApiController extends BaseApiController
 		$slices_model = Slices::find()->all();
 		$elastic_model = new ElasticItems;
 		$params = $this->parseGetQuery(json_decode($_POST['filter'], true), $filter_model, $slices_model);
-		$map_all = new MapAll($elastic_model, $_POST['subdomain_id'], $params['params_filter'], 'restaurants', '/catalog/', 'slug');
+		$map_all = new MapAll($elastic_model, $_POST['subdomain_id'], $params['params_filter'], 'restaurants', '/catalog/', 'slug', true);
 
 		//echo '<pre>';
 		//print_r($map_all->coords);

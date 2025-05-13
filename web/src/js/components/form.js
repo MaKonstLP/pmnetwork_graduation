@@ -195,24 +195,29 @@ export default class Form {
 			case 'main':
 				//ym(66603799,'reachGoal','feedback');
 				//dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Order', 'eventAction' : 'Feedback'});
-				gtag('event', 'static_form', {'event_category': 'send_form'});
+				gtag('event', 'static_form', { 'event_category': 'send_form' });
 				break;
 
 			case 'item':
 				// $('.object_book_email._form').removeClass('_form').addClass('_success');
-				ym(86538649,'reachGoal','static_form');
+				ym(86538649, 'reachGoal', 'static_form');
 				//dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Order', 'eventAction' : 'Roomorder'});
-				gtag('event', 'static_form', {'event_category': 'send_form'});
+				gtag('event', 'static_form', { 'event_category': 'send_form' });
 				break;
 			case 'header':
-				ym(86538649,'reachGoal','podobrat_zal');
+				ym(86538649, 'reachGoal', 'podobrat_zal');
 				//dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Order', 'eventAction' : 'Quickorder'});
-				gtag('event', 'podobrat_zal', {'event_category': 'send_form'});
+				gtag('event', 'podobrat_zal', { 'event_category': 'send_form' });
 				break;
 			case 'item-reserve':
-				ym(86538649,'reachGoal','zabronirovat');
+				ym(86538649, 'reachGoal', 'zabronirovat');
 				//dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Order', 'eventAction' : 'Quickorder'});
-				gtag('event', 'zabronirovat', {'event_category': 'send_form'});
+				gtag('event', 'zabronirovat', { 'event_category': 'send_form' });
+				break;
+			case 'listing-book':
+				ym(86538649, 'reachGoal', 'zabronirovat');
+				//dataLayer.push({'event': 'event-to-ga', 'eventCategory' : 'Order', 'eventAction' : 'Quickorder'});
+				gtag('event', 'zabronirovat', { 'event_category': 'send_form' });
 				break;
 			case 'book':
 				//ym(66603799,'reachGoal','roominfo');
@@ -221,16 +226,9 @@ export default class Form {
 				break;
 		}
 		this.$submitButton.removeClass('button__pending');
-		console.log($("input[name='name']"));
 		this.reset();
 		this.$formWrap.find('[data-success] [data-success-name]').text(data.payload.name);
 		this.$formWrap.find('[data-success] [data-success-phone]').text(data.payload.phone);
-		// console.log($("input[name='name']"));
-		console.dir($(".header_form_popup_message").text());
-		// this.$formWrap.hasClass('header_form_popup_message').text('блаблабла');
-		// console.log(popupMessage);
-		// console.log(name);
-		// popupMessage = name + ', спасибо за проявленный интернет. Наш менеджер<br>перезвонит Вам в течение 15 минут.';
 		this.$formWrap.find('[data-success]').removeClass('_hide');
 	}
 
@@ -249,13 +247,19 @@ export default class Form {
 
 		var formData = new FormData(this.$form[0]);
 
-
 		var formType = this.$form.data('type');
 		formData.append('type', formType);
 		var formUrl = window.location.href;
 		formData.append('url', formUrl);
 		var cityID = $('[data-city-id]').data('city-id');
-	    formData.append('cityID', cityID);
+		formData.append('cityID', cityID);
+
+		if (formType == 'listing-book') {
+			var restName = this.$form.data('rest-name');
+			formData.append('restName', restName);
+			var restUrl = this.$form.data('rest-url');
+			formData.append('restUrl', restUrl);
+		}
 
 		for (var pair of formData.entries()) {
 			console.log(pair[0] + ', ' + pair[1]);
@@ -269,11 +273,12 @@ export default class Form {
 			.then(json)
 			.then(data => {
 				this.success(data, formType);
-				console.log(data);
+				console.log('success data');
 				// this.reset();
 				this.disabled = false;
 			})
 			.catch(() => {
+				console.log('error: ', this.error());
 				this.error();
 				this.disabled = false;
 			});

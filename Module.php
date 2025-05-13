@@ -58,8 +58,10 @@ class Module extends \yii\base\Module
 
         $cur_month = date('n');
         $cur_year = date('Y');
-        if($cur_month > 6) $cur_year++;
-        Yii::$app->params['cur_year'] = $cur_year;
+        $next_year = $cur_year;
+        if($cur_month > 7) $next_year = $cur_year + 1;
+        Yii::$app->params['next_year'] = $next_year;
+        Yii::$app->params['cur_year'] = date('Y');
         Yii::$app->params['cur_year_real'] = date('Y');
 
         $noindex_global = false;
@@ -69,6 +71,25 @@ class Module extends \yii\base\Module
             }
         }
         Yii::$app->params['noindex_global'] = $noindex_global;
+
+        Yii::$app->params['marked_bold_cities'] = [
+            'krasnodar',
+            'speterburg',
+            'samara',
+            'kazan',
+            'ekaterinburg',
+            'ufa',
+            'rostovnadonu',
+            'nnovgorod',
+            'omsk',
+            'voronezh',
+            'volgograd',
+            'sterlitamak',
+            'nabchelny',
+            'taganrog',
+            'novosibirsk',
+            'tumen',
+        ];
             
         //Yii::$app->setLayoutPath('@app/modules/svadbanaprirode/layouts');
         //Yii::$app->layout = 'svadbanaprirode';

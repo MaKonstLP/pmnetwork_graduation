@@ -32,6 +32,7 @@ export default class Main {
 		let utmExist = patternUtm.exec(currentUrl);
 		let utm = {};
 		if (utmExist) {
+			console.log('utmExist');
 			let rows = utmExist[1].split('|');
 
 			for (let i = 0; i < rows.length; i++) {
@@ -42,6 +43,7 @@ export default class Main {
 
 		if (Object.keys(utm).length != 0) {
 			let utmJson = JSON.stringify(utm);
+			console.log('utmJson: ', utmJson);
 			if (Cookies.get('a_utm_0') && Cookies.get('a_utm_0') != '{}') {
 				Cookies.set('a_utm_1', utmJson, { expires: 365 });
 			} else {
@@ -89,11 +91,11 @@ export default class Main {
 			}
 		}, { passive: true });
 
-		if (is_desktop === false) {
-			fired = true;
-			is_desktop = true;
-			load_other();
-		}
+		// if (is_desktop === false) {
+		// 	fired = true;
+		// 	is_desktop = true;
+		// 	load_other();
+		// }
 
 		$('[data-action="click_number"]').on("click", function () {
 			gtag('event', 'click_number', { 'event_category': 'click' });
@@ -103,8 +105,7 @@ export default class Main {
 			bookingPopupOpenClose();
 		});
 
-		$('.object_reserve').on('click', function () {
-			// bookingPopupOpenClose();
+		$('[data-item-book]').on('click', function () {
 			bookingPopupOpenCloseReserve();
 		});
 
@@ -116,37 +117,43 @@ export default class Main {
 			}
 		});
 
-
 		$('[data-success-close-popup]').on('click', function () {
-				if ($(this).hasClass('_reserve')) {
-					bookingPopupOpenCloseReserve();
-				} else {
-					bookingPopupOpenClose();
-				}
+			if ($(this).hasClass('_reserve')) {
+				bookingPopupOpenCloseReserve();
+			} else {
+				bookingPopupOpenClose();
+			}
 		});
 
 		$('.footer_callback_button').on('click', function () {
 			bookingPopupOpenClose();
 		});
 
+		//открытие формы на листинге при клике по кнопке забронировать на мобилах
+		$('body').on('click', '[data-listing-book]', function () {
+			bookingPopupOpenCloseReserve();
+			const restName = $(this).closest('.item').attr('data-restaurant-name');
+			const restUrl = $(this).closest('.item').attr('href');
+			const venueId = $(this).closest('.item').attr('data-venue-id');
+			const formReserve = $('.form_booking_popup_reserve');
 
+			formReserve.find('.form_title_main').html(`Хотите выпускной в&nbsp;${restName}`);
+			formReserve.find('.form_block').attr('data-type', 'listing-book');
+			formReserve.find('.form_block').attr('data-rest-name', restName);
+			formReserve.find('.form_block').attr('data-rest-url', 'https://vypusknoy-vecher.ru' + restUrl);
+			formReserve.find('input[name="venue_id"]').val(venueId);
+		});
 
 
 		// city search
 		$('.city_name_input input').on('keyup', function () {
 			var value = $(this).val().toLowerCase();
 
-			// $('.city_name').filter(function() {
-			// 	$(this).toggle($(this).text().toLowerCase().indexOf(value) == 0)
-			// });
 			$('.city_select_letter_block a').filter(function () {
 				$(this).toggle($(this).text().toLowerCase().indexOf(value) == 0)
 			});
-			console.log(value.length);
 
 			$('.city_select_letter_block').filter(function () {
-				// $(this).toggle(value.indexOf($(this).find('.capital_letter').text().toLowerCase()) == 0 && $(this).find('.city_name:visible').length > 0);
-
 				$(this).toggle(value.indexOf($(this).find('.capital_letter').text().toLowerCase()) == 0);
 			});
 
@@ -411,13 +418,8 @@ export default class Main {
 			$(".filter_cancel").addClass("fiter_cancel_fixed");
 		}
 
-		// function bookingPopupClose() {
-		// 	$('.form_booking_wrapper').removeClass('popup_form');
-		// 	$('.popup_form_close').addClass('_hide');
-		// 	$('body').removeClass('overflow')
-		// }
-
 		function load_other() {
+			console.log('load_other');
 			setTimeout(function () {
 				self.init();
 			}, 100);
@@ -470,16 +472,60 @@ export default class Main {
 			$("html, body").animate({ scrollTop: $(document).height() }, "slow");
 		})
 
+		//клик по кнопке "Позвонить" в листинге
+		$('[data-listing-list]').on('click', '.item-info__btn_call', function () {
+			// ==== Gorko-calltracking ====
+			let phone = $(this).attr('href');
+			if (typeof ym === 'function' && typeof gtag !== 'undefined') {
+				ym(86538649, 'reachGoal', 'show_number');
+				self.sendCalltracking(phone);
+			} else {
+				setTimeout(function () {
+					ym(86538649, 'reachGoal', 'show_number');
+					self.sendCalltracking(phone);
+				}, 3000);
+			}
+		})
+
+		// <!-- Google tag (gtag.js) -->
+		var googletagmanager_js = document.createElement('script');
+		googletagmanager_js.src = 'https://www.googletagmanager.com/gtag/js?id=GTM-5GC6H8ZG';
+		document.body.appendChild(googletagmanager_js);
+		// <!-- END Google tag (gtag.js) -->
 	}
 
 	init() {
-		//setTimeout(function() {
-		//	(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-		//	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-		//	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-		//	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-		//	})(window,document,'script','dataLayer','GTM-PTTPDSK');
-		//}, 100);
+		// setTimeout(function() {
+		// 	(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		// 	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		// 	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		// 	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		// 	})(window,document,'script','dataLayer','GTM-5GC6H8ZG');
+		// }, 100);
+
+		setTimeout(function () {
+			// (function (m, e, t, r, i, k, a) {
+			// 	m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
+			// 	m[i].l = 1 * new Date();
+			// 	for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
+			// 	k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+			// })
+			// 	(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+			// ym(86538649, "init", {
+			// 	clickmap: true,
+			// 	trackLinks: true,
+			// 	accurateTrackBounce: true,
+			// 	webvisor: true
+			// });
+
+			// <!-- Google tag (gtag.js) -->
+			// var googletagmanager_js = document.createElement('script');
+			// googletagmanager_js.src = 'https://www.googletagmanager.com/ns.html?id=GTM-5GC6H8ZG';
+			// document.body.appendChild(googletagmanager_js);
+			// <!-- END Google tag (gtag.js) -->
+		}, 100)
+
 
 		$(".header_phone_button").on("click", this.helpWhithBookingButtonHandler);
 		$(".footer_phone_button").on("click", this.helpWhithBookingButtonHandler);
@@ -645,14 +691,6 @@ export default class Main {
 				$(".filter_cancel").addClass("fiter_cancel_fixed");
 
 			}
-
-			// if (window.innerWidth < 768) {
-			// 	$(".filter").addClass("submit_cancel_fixed");
-
-			// 	$(".filter_submit").addClass("filter_submit_fixed");
-			// 	$(".filter_cancel").addClass("fiter_cancel_fixed");
-
-			// }
 		}
 
 		if (window.innerWidth < 768 && $("body").css("overflow") != "hidden") {
@@ -678,13 +716,68 @@ export default class Main {
 		}
 	}
 
+	sendCalltracking(phone) {
+		let clientId = '';
+		// if (typeof ga !== 'undefined') {
+		// 	ga.getAll().forEach((tracker) => {
+		// 		clientId = tracker.get('clientId');
+		// 	})
+		// }
+		if (typeof gtag !== 'undefined') {
+			const gtagPromise = new Promise(resolve => {
+				gtag('get', 'GTM-5GC6H8ZG', 'client_id', resolve)
+			});
 
-	// mapPopupOpenClose() {
-	// 	console.log('lalalalala')
-	// }
+			gtagPromise.then((gaClientId) => {
+				clientId = gaClientId;
+			})
+		} else {
+			clientId = this.getGaClientId();
+		}
 
-	// filterButtonFixed() {
-	// 	console.log(1);
-	// }
+		setTimeout(() => {
+			let yaClientId = '';
+			ym(86538649, 'getClientID', function (id) {
+				yaClientId = id;
+			});
 
+			const data = new FormData();
+
+			if (this.mobileMode) {
+				data.append('isMobile', 1);
+			}
+
+			data.append('phone', phone);
+			data.append('clientId', clientId);
+			data.append('yaClientId', yaClientId);
+
+			$.ajax({
+				type: 'post',
+				url: '/ajax/send-calltracking/',
+				data: data,
+				processData: false,
+				contentType: false,
+				success: function (response) {
+					// response = $.parseJSON(response);
+					// response = JSON.parse(response);
+					// self.resolve(response);
+					console.log('calltracking sent');
+				},
+				error: function (response) {
+					console.log('calltracking ERROR');
+				}
+			});
+		}, 2000)
+	}
+
+	getGaClientId() {
+		let match = document.cookie.match('(?:^|;)\\s*_ga=([^;]*)');
+		let raw = (match) ? decodeURIComponent(match[1]) : null;
+		if (raw) {
+			match = raw.match(/(\d+\.\d+)$/);
+		}
+		let gacid = (match) ? match[1] : '';
+
+		return gacid;
+	}
 }

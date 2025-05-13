@@ -121,6 +121,7 @@ class ListingController extends Controller
 				$type = 'all_items'
 			);
 		} else {
+			$this->view->params['menu'] = 'catalog';
 			$canonical = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . explode('?', $_SERVER['REQUEST_URI'], 2)[0];
 
 			return $this->actionListing(
@@ -136,12 +137,10 @@ class ListingController extends Controller
 
 	public function actionListing($page, $per_page, $params_filter, $breadcrumbs, $canonical, $type = false)
 	{
-		// echo ('<pre>');
-		// print_r(Yii::$app->params['subdomen_baseid']);
-		// exit;
 		$elastic_model = new ElasticItems;
 		// $items = new ItemsFilterElastic($params_filter, $per_page, $page, false, 'restaurants', $elastic_model);
 		$items = PremiumMixer::getItemsWithPremium($params_filter, $per_page, $page, false, 'restaurants', $elastic_model, false, false, false, false, false, true);
+		$all_items = PremiumMixer::getItemsWithPremium($params_filter, 9999, 1, false, 'restaurants', $elastic_model, false, false, false, false, false, true);
 
 		$itemsAllPages = new ItemsFilterElastic($params_filter, $items->total, $page, false, 'restaurants', $elastic_model);
 
@@ -192,15 +191,7 @@ class ListingController extends Controller
 		}
 		$this->setSeo($seo, $page, $canonical);
 
-		// $seo_texts = [];
-		// array_push($seo_texts, isset($seo['text_1']) ? $seo['text_1'] : '', isset($seo['text_2']) ? $seo['text_2'] : '', isset($seo['text_3']) ? $seo['text_3'] : '');
-		// shuffle($seo_texts);
-		// $random_seo_text = array_slice($seo_texts, 0, 1);
 		$random_seo_text = isset($seo['text_1']) ? $seo['text_1'] : '';
-
-		// echo ('<pre>');
-		// print_r($seo['text_1']);
-		// exit;
 
 		if ($seo_type == 'listing' and count($params_filter) > 0) {
 			$seo['text_top'] = '';
@@ -208,6 +199,12 @@ class ListingController extends Controller
 		}
 
 		$main_flag = ($seo_type == 'listing' and count($params_filter) == 0);
+
+		// ===== schemaOrg Product START =====
+		if ($type || count($params_filter) === 0) {//выводится на срезах и каталоге(/catalog/)
+			$this->setSchema($all_items, $seo);
+		}
+		// ===== schemaOrg Product END =====
 
 		// echo ('<pre>');
 		// print_r($items->items);
@@ -225,6 +222,7 @@ class ListingController extends Controller
 			'breadcrumbs' => $seo['breadcrumbs'],
 			'random_seo_text' => $random_seo_text,
 			'cur_year' => Yii::$app->params['cur_year'],
+			'next_year' => Yii::$app->params['next_year'],
 		));
 	}
 
@@ -402,5 +400,49 @@ class ListingController extends Controller
 			$this->view->params['canonical'] = $canonical;
 		}
 		$this->view->params['kw'] = $seo['keywords'];
+	}
+
+	private function setSchema($all_items, $seo)
+	{
+		$min_price = 99999;
+		$max_price = 0;
+		foreach ($all_items->items as $item) {
+			if (isset($item['restaurant_min_check']) && !empty($item['restaurant_min_check'])) {
+				if ($item['restaurant_min_check'] < $min_price) {
+					$min_price = $item['restaurant_min_check'];
+				}
+				
+			}
+			if (isset($item['restaurant_max_check']) && !empty($item['restaurant_max_check'])) {
+				if ($item['restaurant_max_check'] > $max_price) {
+					$max_price = $item['restaurant_max_check'];
+				}
+			}
+		}
+
+		$json_str = '';
+		$json_str .= '{
+			"@context": "https://schema.org",
+			"@type": [
+				"Product"
+			],
+			"name": "' . $seo['h1'] . '",
+			"description": "' . $seo['description'] . '"';
+
+		if ($max_price) {
+			$json_str .= ',';
+			$json_str .= '
+			"offers": {
+				"@type": "AggregateOffer",
+				"offerCount": "' . $all_items->total . '",
+				"priceCurrency": "RUB",
+				"highPrice": "' . $max_price . '",
+				"lowPrice": "' . $min_price . '"
+			}';
+		}
+
+		$json_str .= '}';
+
+		Yii::$app->params['schema_product'] = $json_str;
 	}
 }

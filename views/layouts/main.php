@@ -47,69 +47,62 @@ AppAsset::register($this);
 												echo $link;
 												?>" />
 	<meta property="og:site_name" content="Подбор площадки для выпускного вечера" />
+
 	<?php $this->head() ?>
 
 	<?= Html::csrfMetaTags() ?>
 
+	<!-- schemaOrg START -->
+	<?php if (isset(Yii::$app->params['schema_product']) && !empty(Yii::$app->params['schema_product'])) {
+		echo '<script type="application/ld+json">' . Yii::$app->params['schema_product'] . '</script>';
+	}
+	?>
+	<!-- schemaOrg END -->
 	<!-- Google Tag Manager -->
+	<!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-5GC6H8ZG');</script> -->
+	<!-- End Google Tag Manager -->
+	<!-- Google tag (gtag.js) -->
 	<script>
-		(function(w, d, s, l, i) {
-			w[l] = w[l] || [];
-			w[l].push({
-				'gtm.start': new Date().getTime(),
-				event: 'gtm.js'
-			});
-			var f = d.getElementsByTagName(s)[0],
-				j = d.createElement(s),
-				dl = l != 'dataLayer' ? '&l=' + l : '';
-			j.async = true;
-			j.src =
-				'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-			f.parentNode.insertBefore(j, f);
-		})(window, document, 'script', 'dataLayer', 'GTM-MZXPPH3');
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'GTM-5GC6H8ZG');
 	</script>
 	<!-- End Google Tag Manager -->
-
-</head>
-
-<body>
-	<!-- Google Tag Manager (noscript) -->
-	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZXPPH3" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-	<!-- End Google Tag Manager (noscript) -->
 	<!-- Yandex.Metrika counter -->
-	<script type="text/javascript">
-		(function(m, e, t, r, i, k, a) {
-			m[i] = m[i] || function() {
-				(m[i].a = m[i].a || []).push(arguments)
-			};
+	<script>
+		(function (m, e, t, r, i, k, a) {
+			m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
 			m[i].l = 1 * new Date();
+			for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
 			k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
 		})
-		(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+			(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-		ym(86538649, "init", {
-			clickmap: true,
-			trackLinks: true,
-			accurateTrackBounce: true,
-			webvisor: true
-		});
+			ym(86538649, "init", {
+				clickmap: true,
+				trackLinks: true,
+				accurateTrackBounce: true,
+				webvisor: true
+			});
 	</script>
+	<!-- Yandex.Metrika counter -->
+</head>
+
+<body data-channel-id="3">	
+	<!-- Google Tag Manager (noscript) -->
+	<!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5GC6H8ZG" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
+	<!-- End Google Tag Manager (noscript) -->
+	<!-- Yandex.Metrika counter -->
 	<noscript>
 		<div><img src="https://mc.yandex.ru/watch/86538649" style="position:absolute; left:-9999px;" alt="" /></div>
 	</noscript>
 	<!-- /Yandex.Metrika counter -->
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script>
-		window.dataLayer = window.dataLayer || [];
-
-		function gtag() {
-			dataLayer.push(arguments);
-		}
-		gtag('js', new Date());
-
-		gtag('config', 'UA-213343974-1');
-	</script>
-	<!-- /Global site tag (gtag.js) - Google Analytics -->
 	<?php $this->beginBody() ?>
 
 	<div class="main_wrap" data-city-id="<?= Yii::$app->params['subdomen_id'] ?>">
@@ -124,7 +117,7 @@ AppAsset::register($this);
 						<div class="header_logo_img"></div>
 						<div class="header_logo_text">
 
-							<div>Выпускной <?= Yii::$app->params['cur_year'] ?></div>
+							<div data-test="<?= Yii::$app->params['next_year'] ?>" data-test-test="<?= Yii::$app->params['cur_year'] ?>">Выпускной <?= Yii::$app->params['next_year'] ?></div>
 							<div>Подбор площадки для выпускного вечера</div>
 
 						</div>
@@ -132,94 +125,78 @@ AppAsset::register($this);
 					</a>
 
 					<div class="city_select_search_wrapper _hide">
+						<div class="city_select_search_subwrap">
+							<p class="back_to_header_menu">
+								<span>Назад в меню</span>
+							</p>
 
-						<!-- <p class="back_to_header_menu">Назад в меню</p>
+							<p class="city_select_title">Выберите город</p>
 
-						<h4>Выберите город</h4> -->
+							<div class="city_name_input">
+								<input type="text" placeholder="Название города">
+							</div>
 
-						<p class="back_to_header_menu">
-							<span>Назад в меню</span>
-						</p>
+							<div class="city_select_list">
 
-						<p class="city_select_title">Выберите город</p>
+								<?php
+								$subdomen_list = Subdomen::find()
+									->where(['active' => 1])
+									->orderBy(['name' => SORT_ASC])
+									->all();
 
-						<?php /*<div class="input_search_wrapper">
-
-                            <input type="search" placeholder="Название города">
-
-                        </div> */ ?>
-
-						<div class="city_name_input">
-							<input type="text" placeholder="Название города">
-						</div>
-
-						<div class="city_select_list">
-
-							<?php
-							$subdomen_list = Subdomen::find()
-								->where(['active' => 1])
-								->orderBy(['name' => SORT_ASC])
-								->all();
-
-							function createCityNameLine($city)
-							{
-								if ($city->alias) {
-									if (
-										$city->alias == 'krasnodar' ||
-										$city->alias == 'speterburg' ||
-										$city->alias == 'samara' ||
-										$city->alias == 'kazan' ||
-										$city->alias == 'ekaterinburg' ||
-										$city->alias == 'ufa' ||
-										$city->alias == 'rostovnadonu' ||
-										$city->alias == 'nnovgorod'
-									) {
-										$newLine = "<p><a class='city_name _bold' href='https://$city->alias.vypusknoy-vecher.ru'>$city->name</a></p>";
+								function createCityNameLine($city)
+								{
+									if ($city->alias) {
+										if (in_array($city->alias, Yii::$app->params['marked_bold_cities'])) {
+											$newLine = "<p><a class='city_name _bold' href='https://$city->alias.vypusknoy-vecher.ru'>$city->name</a></p>";
+										} else {
+											$newLine = "<p><a class='city_name' href='https://$city->alias.vypusknoy-vecher.ru'>$city->name</a></p>";
+										}
 									} else {
-										$newLine = "<p><a class='city_name' href='https://$city->alias.vypusknoy-vecher.ru'>$city->name</a></p>";
+										$newLine = "<p><a class='city_name _bold' href='https://vypusknoy-vecher.ru'>$city->name</a></p>";
 									}
-								} else {
-									$newLine = "<p><a class='city_name _bold' href='https://vypusknoy-vecher.ru'>$city->name</a></p>";
-								}
-								return $newLine;
-							}
-
-							function createLetterBlock($letter)
-							{
-								$newBlock = "<div class='city_select_letter_block' data-first-letter=$letter><span class='capital_letter'>$letter</span>";
-								return $newBlock;
-							}
-
-							function createCityList($subdomen_list)
-							{
-								$citiesListResult = "";
-								$currentLetterBlock = "";
-
-								foreach ($subdomen_list as $key => $subdomen) {
-									$currentFirstLetter = substr($subdomen->name, 0, 2);
-									if ($currentFirstLetter !== $currentLetterBlock) {
-										$currentLetterBlock = $currentFirstLetter;
-										$citiesListResult .= "</div>";
-										$citiesListResult .= createLetterBlock($currentLetterBlock);
-										$citiesListResult .= createCityNameLine($subdomen);
-									} else {
-										$citiesListResult .= createCityNameLine($subdomen);
-									}
+									return $newLine;
 								}
 
-								$citiesListResult .= "</div>";
-								echo substr($citiesListResult, 6);
-							}
+								function createLetterBlock($letter)
+								{
+									$newBlock = "<div class='city_select_letter_block' data-first-letter=$letter><span class='capital_letter'>$letter</span>";
+									return $newBlock;
+								}
 
-							createCityList($subdomen_list);
-							?>
+								function createCityList($subdomen_list)
+								{
+									$citiesListResult = "";
+									$currentLetterBlock = "";
 
+									foreach ($subdomen_list as $key => $subdomen) {
+										$currentFirstLetter = substr($subdomen->name, 0, 2);
+										if ($currentFirstLetter !== $currentLetterBlock) {
+											$currentLetterBlock = $currentFirstLetter;
+											$citiesListResult .= "</div>";
+											$citiesListResult .= createLetterBlock($currentLetterBlock);
+											$citiesListResult .= createCityNameLine($subdomen);
+										} else {
+											$citiesListResult .= createCityNameLine($subdomen);
+										}
+									}
+
+									$citiesListResult .= "</div>";
+									echo substr($citiesListResult, 6);
+								}
+
+								createCityList($subdomen_list);
+								?>
+
+							</div>
 						</div>
 					</div>
 
 					<div class="header_menu_wrapper">
+						<a class="header_menu_item <? if (!empty($this->params['menu']) and $this->params['menu'] == 'catalog') echo '_active'; ?>" href="/catalog/">Весь каталог</a>
 						<a class="header_menu_item <? if (!empty($this->params['menu']) and $this->params['menu'] == 'banquet-hall') echo '_active'; ?>" href="/catalog/banquet-hall/">Банкетные&ensp; залы</a>
 						<a class="header_menu_item <? if (!empty($this->params['menu']) and $this->params['menu'] == 'restaurant') echo '_active'; ?>" href="/catalog/restaurant/">Рестораны</a>
+						<a class="header_menu_item <? if (!empty($this->params['menu']) and $this->params['menu'] == 'cafe') echo '_active'; ?>" href="/catalog/cafe/">Кафе</a>
 						<a class="header_menu_item <? if (!empty($this->params['menu']) and $this->params['menu'] == '11-grade') echo '_active'; ?>" href="/catalog/11-grade/">11 класс</a>
 						<a class="header_menu_item <? if (!empty($this->params['menu']) and $this->params['menu'] == '9-grade') echo '_active'; ?>" href="/catalog/9-grade/">9 класс</a>
 						<a class="header_menu_item <? if (!empty($this->params['menu']) and $this->params['menu'] == 'blog') echo '_active'; ?>" href="https://vypusknoy-vecher.ru/ideas/">Идеи для выпускного</a>
@@ -230,7 +207,7 @@ AppAsset::register($this);
 					</div>
 
 					<div class="header_phone">
-						<?php if (!isset(Yii::$app->params['premium_rest'])) : ?>
+						<?php if (!isset(Yii::$app->params['premium_rest']) && !isset(Yii::$app->params['page_rest'])) : ?>
 							<a href="tel:<?= Yii::$app->params['subdomen_phone'] ?>" data-action="click_number"><?= Yii::$app->params['subdomen_phone_pretty'] ?></a>
 						<?php endif; ?>
 
@@ -268,7 +245,7 @@ AppAsset::register($this);
 				<div class="footer_wrap">
 					<div class="footer_row">
 						<div class="footer_block _left">
-							<?php if (!isset(Yii::$app->params['premium_rest'])) : ?>
+							<?php if (!isset(Yii::$app->params['premium_rest']) && !isset(Yii::$app->params['page_rest'])) : ?>
 								<div class="footer_phone">
 									<a href="tel:<?= Yii::$app->params['subdomen_phone'] ?>" data-action="click_number"><?= Yii::$app->params['subdomen_phone_pretty'] ?></a>
 								</div>
@@ -280,11 +257,11 @@ AppAsset::register($this);
 						<div class="footer_block _right">
 							<div class="footer_logo"></div>
 							<div class="footer_block_logo_text">
-								<div>Выпускной <?= Yii::$app->params['cur_year'] ?></div>
+								<div>Выпускной <?= Yii::$app->params['next_year'] ?></div>
 								<div>Подбор площадки для выпускного вечера</div>
 							</div>
 							<div class="footer_block_copyright">
-								<span>© Выпускной <?= Yii::$app->params['cur_year_real'] ?></span>
+								<span>© Выпускной <?= Yii::$app->params['next_year'] ?></span>
 								<a href="/privacy-policy/" class="footer_pc _link">
 									<p>Политика конфиденциальности</p>
 								</a>

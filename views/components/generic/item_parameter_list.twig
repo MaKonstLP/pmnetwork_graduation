@@ -93,7 +93,7 @@
 			Чек от
 			{% set lowestPrice = item.restaurant_price %}
 			{% for room in item.rooms %}
-				{% if room.price < lowestPrice and room.price%}
+				{% if room.price < lowestPrice and room.price %}
 					{% set lowestPrice = room.price %}
 				{% endif %}
 			{% endfor %}

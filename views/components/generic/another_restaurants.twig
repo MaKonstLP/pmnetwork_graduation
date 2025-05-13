@@ -1,6 +1,6 @@
-<a href="/catalog/{{item.restaurant_unique_id}}-{{item.restaurant_slug}}/" class="another_restaurant_link_wrapper">
+<div href="/catalog/{{item.restaurant_unique_id}}-{{item.restaurant_slug}}/" class="another_restaurant_link_wrapper item" data-venue-id="{{item.restaurant_gorko_id}}" data-restaurant-id="{{item.restaurant_unique_id}}" data-restaurant-name="{{item.restaurant_name}}">
 
-	<div class="another_restaurant_img">
+	<a href="/catalog/{{item.restaurant_unique_id}}-{{item.restaurant_slug}}/" class="another_restaurant_img">
 
 		{# <img src="{{item.restaurant_images.0.subpath}}=w416-h240-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/> #}
 
@@ -32,7 +32,7 @@
 				</div>
 		{% endif %}
 
-	</div>
+	</a>
 
 	<div class="another_restaurant_description">
 
@@ -125,5 +125,12 @@
 			{{lowestPrice|number_format(0, '.', ' ')}} ₽/чел.
 		</div>
 
+		<div class="item-info__btns">
+			<a href="tel:{{item.restaurant_phone}}" class="item-info__btn item-info__btn_call"><span>Позвонить</span></a>
+			<div class="item-info__btn item-info__btn_book" data-listing-book>
+				Забронировать
+			</div>
+		</div>
+
 	</div>
-</a>
+</div>

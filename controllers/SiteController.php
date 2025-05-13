@@ -81,6 +81,10 @@ class SiteController extends Controller
 			'city_rod' => Yii::$app->params['subdomen_rod'],
 		]);
 
+		// echo ('<pre>');
+		// print_r($items->items);
+		// exit;
+
 		return $this->render('index.twig', [
 			'items' => $items->items,
 			'filter' => $filter,
@@ -91,6 +95,7 @@ class SiteController extends Controller
 			'city_dec' => Yii::$app->params['subdomen_dec'],
 			'random_seo_text' => $random_seo_text,
 			'cur_year' => Yii::$app->params['cur_year'],
+			'next_year' => Yii::$app->params['next_year'],
 		]);
 	}
 
@@ -109,7 +114,11 @@ class SiteController extends Controller
 		}
 		echo "User-agent: *\n";
 		echo "Sitemap: https://".$subdomen_alias."vypusknoy-vecher.ru/sitemap/\n";
-		echo "Sitemap: https://".$subdomen_alias."vypusknoy-vecher.ru/sitemap-images.xml";
+		echo "Sitemap: https://".$subdomen_alias."vypusknoy-vecher.ru/sitemap-images.xml\n";
+		echo "User-agent: Yandex\n";
+		echo "Clean-param: __cf_chl_tk\n";
+		echo "Clean-param: __cf_chl_f_tk\n";
+		echo "Clean-param: __cf_chl_rt_tk\n";
 		exit;
 	}
 

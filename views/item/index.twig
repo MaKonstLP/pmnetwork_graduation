@@ -15,7 +15,7 @@
 {{this.registerMetaTag({'property':'vk:image:width','content':'510'})}}
 {{this.registerMetaTag({'property':'fb:image','content':restaurantImage})}}
 {{this.registerMetaTag({'property':'fb:image:width','content':'600'})}}
-<div class="item_page_wrapper" data-page-type="item">
+<div class="item_page_wrapper" data-page-type="item" {% if item.restaurant_premium %} data-premium-rest="{{item.restaurant_gorko_id}}" {% endif %}>
 
 	<div class="content_block" data-listing-title>
 		{# {{ this.render('//components/generic/item_title.twig', {'seo':seo, 'breadcrumbs':seo.breadcrumbs}) | raw }} #}
@@ -27,7 +27,7 @@
 			<div class="swiper-container swiper_top">
 
 				<div class="swiper-wrapper">
-					{% if item.restaurant_images|length > 0 %}
+					{% if item.restaurant_images|length > 1 %}
 						{% for image in item.restaurant_images %}
 							<div class="swiper-slide">
 								{# <img src="{{image.subpath}}=w1136-h400-n-l95" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/> #}
@@ -43,6 +43,20 @@
 								{% endif %}
 							</div>
 						{% endfor %}
+					{% elseif item.restaurant_images|length > 0 %}
+						<div class="empty-slide _one">
+						{% for image in item.restaurant_images %}
+								{% if image.subpath|length == 0 %}
+									{% if image.realpath|length == 0 %}
+										<img src="/image/no_photo.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
+									{% else %}
+										<img src="{{image.realpath}}=w1136-h400-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/>
+									{% endif %}
+								{% else %}
+									<img src="{{image.subpath}}=w1136-h400-n-l95" loading="lazy" alt="{{img_alt | replace({"**rest_name**" : item.restaurant_name})}}"/>
+								{% endif %}
+						{% endfor %}
+						</div>
 					{% else %}
 						<div class="empty-slide ">
 							<img src="/image/no_photo.svg" alt="Фото №{{loop.index}} зала {{item.restaurant_name}}"/>
@@ -60,6 +74,27 @@
 	</div>
 
 	<div class="content_block1 white" data-page-type="item">
+
+
+		<div class="item-price">
+		от {% set lowestPrice = item.restaurant_price %}
+			{% for room in item.rooms %}
+					{% if room.price < lowestPrice and room.price%}
+						{% set lowestPrice = room.price %}
+					{% endif %}
+			{% endfor %}
+			{{lowestPrice|number_format(0, '.', ' ')}} ₽/чел.
+		</div>
+
+		<div class="item-info__btns">
+			<a href="tel:{{item.restaurant_phone}}" class="item-info__btn item-info__btn_call"><span>Позвонить</span></a>
+			<div class="item-info__btn item-info__btn_book" data-item-book>
+				Забронировать
+			</div>
+		</div>
+
+
+
 		<div class="object_head1 flex">
 			<div class="object_parameters">
 
@@ -100,7 +135,7 @@
 
 				</div>
 
-				<div class="object_reserve">
+				<div class="object_reserve" data-item-book>
 					<div class="object_reserve_img"></div>
 					<div class="object_reserve_text">Забронировать</div>
 				</div>
@@ -144,7 +179,7 @@
 										
 								</div>
 
-								<div class="object_reserve">
+								<div class="object_reserve" data-item-book>
 										<div class="object_reserve_img"></div>
 										<div class="object_reserve_text">Забронировать</div>
 								</div>
@@ -228,6 +263,20 @@
 		</div>
 	</div>
 
+	{% if item.restaurant_rev_ya.id %}
+	<div class="content_block item__review">
+		<div class="item__review-yandex">
+			<h2 class="item__review-title">
+				Отзывы о {% if item.restaurant_main_type_prepositional %}{{item.restaurant_main_type_prepositional|lower}}{% endif %} «{{item.restaurant_name}}»
+			</h2>
+			<div style="width:auto;height:1320px;overflow:hidden;position:relative;">
+				<iframe style="width:100%;height:100%;border:1px solid #e6e6e6;border-radius:8px;box-sizing:border-box" src="https://yandex.ru/maps-reviews-widget/{{item.restaurant_rev_ya.id}}?comments"></iframe>
+				<a href="https://yandex.ru/maps/org/pansionat_sm_pension/{{item.restaurant_rev_ya.id}}" target="_blank" style="box-sizing:border-box;text-decoration:none;color:#b3b3b3;font-size:10px;font-family:YS Text,sans-serif;padding:0 20px;position:absolute;bottom:8px;width:100%;text-align:center;left:0;overflow:hidden;text-overflow:ellipsis;display:block;max-height:14px;white-space:nowrap;padding:0 16px;box-sizing:border-box">{{item.restaurant_name}} — Яндекс Карты</a>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+
 	<div class="content_block form_booking_wrapper">
 		{{ this.render('//components/generic/form_booking_item.twig', {'venue_id':item.restaurant_gorko_id, 'items':other_rooms, 'city_dec':city_dec, 'restaurant_name':item.restaurant_name}) | raw }}
 	</div>
@@ -248,6 +297,16 @@
 					{{ this.render('//components/generic/another_restaurants.twig', {'item':other_rest}) | raw }}
 				</div>
 			{% endfor %}
+		</div>
+	</div>
+
+
+	<div class="display_bottom">
+		<div class="item-info__btns">
+			<a href="tel:{{item.restaurant_phone}}" class="item-info__btn item-info__btn_call"><span>Позвонить</span></a>
+			<div class="item-info__btn item-info__btn_book" data-item-book>
+				Забронировать
+			</div>
 		</div>
 	</div>
 
