@@ -90,14 +90,7 @@
 		<div class="object_parameters_item">
 			{# <span class="problems">+/-</span> #}
 			{# Чек от 5500 Р/чел. #}
-			Чек от
-			{% set lowestPrice = item.restaurant_price %}
-			{% for room in item.rooms %}
-				{% if room.price < lowestPrice and room.price %}
-					{% set lowestPrice = room.price %}
-				{% endif %}
-			{% endfor %}
-			{{lowestPrice}} Р/чел.
+			Чек от {{item.restaurant_lowest_price|number_format(0, '.', ' ')}} Р/чел.
 		</div>
 	</div>
 
@@ -120,22 +113,22 @@
 		</p>
 	</div>
 
-	{% if item.restaurant_extra_services %}
+	{% if item.restaurant_extra_services or item.restaurant_premium_features[2].value %}
 		<div class="object_parameters_wrapper">
 			<div class="object_parameters_marker"></div>
 			<div class="object_parameters_item">
 				{# Фотограф, торт, Dj, живая музыка, ведущий — за доп. плату #}
-				{{ item.restaurant_extra_services }} - за доп.плату
+				{{ item.restaurant_premium_features[2].value ? item.restaurant_premium_features[2].value : item.restaurant_extra_services }} - за доп.плату
 			</div>
 		</div>
 	{% endif %}
 
-	{% if item.restaurant_special %}
+	{% if item.restaurant_special or item.restaurant_premium_features[3].value %}
 		<div class="object_parameters_wrapper">
 			<div class="object_parameters_marker"></div>
 			<div class="object_parameters_item">
 				{# Музыкальное оборудование, Велком зона, Wi-Fi / интернет, Сцена — на территории площадки #}
-				{{ item.restaurant_special }}
+				{{ item.restaurant_premium_features[3].value ? item.restaurant_premium_features[3].value : item.restaurant_special }}
 			</div>
 		</div>
 	{% endif %}

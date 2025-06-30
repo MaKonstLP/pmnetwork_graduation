@@ -73,18 +73,21 @@
 		</div>
 	</div>
 
+	{% if item.restaurant_premium_features[1].value != '' %}
+		<div class="content_block1 seo_text_wrapper _item-description" data-listing-text-bottom>
+			<div class="seo_text" data-seo-text>
+				{{item.restaurant_premium_features[1].value | raw}}
+				<div class="seo_text_control" data-seo-control>
+					<p class="_link_blue">Читать полностью</p>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+
+	
 	<div class="content_block1 white" data-page-type="item">
 
-
-		<div class="item-price">
-		от {% set lowestPrice = item.restaurant_price %}
-			{% for room in item.rooms %}
-					{% if room.price < lowestPrice and room.price%}
-						{% set lowestPrice = room.price %}
-					{% endif %}
-			{% endfor %}
-			{{lowestPrice|number_format(0, '.', ' ')}} ₽/чел.
-		</div>
+		<div class="item-price">от {{item.restaurant_lowest_price|number_format(0, '.', ' ')}} ₽/чел.</div>
 
 		<div class="item-info__btns">
 			<a href="tel:{{item.restaurant_phone}}" class="item-info__btn item-info__btn_call"><span>Позвонить</span></a>

@@ -152,13 +152,7 @@
 				</div>
 
 				<div class="item_row restaurant_price">
-					от {% set lowestPrice = item.restaurant_price %}
-					{% for room in item.rooms %}
-							{% if room.price < lowestPrice and room.price%}
-								{% set lowestPrice = room.price %}
-							{% endif %}
-					{% endfor %}
-					{{lowestPrice|number_format(0, '.', ' ')}} ₽/чел.
+					от {{item.restaurant_lowest_price|number_format(0, '.', ' ')}} ₽/чел.
 				</div>
 
 				<div class="item-info__btns">

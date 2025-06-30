@@ -89,6 +89,19 @@
 	z-index: -1;
 }
 
+.content_block1.seo_text_wrapper._item-description{
+    margin: 24px auto 0px;
+    width: 1136px;
+
+	@include for-notdesc {
+		margin: 24px 20px 24px;
+    	width: 100%;
+	}
+	@include for-mobile {
+		margin: 24px 16px 12px;
+	}
+}
+
 .top_slider_wrapper {
 	width: 100%;
 

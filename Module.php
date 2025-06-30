@@ -21,7 +21,7 @@ class Module extends \yii\base\Module
     public function init()
     {
         $subdomen = explode('.', $_SERVER['HTTP_HOST'])[0];
-        if($subdomen != 'vypusknoy-vecher'){
+        if($subdomen != 'vypusknoy-vecher_dev'){
             Yii::$app->params['subdomen'] = $subdomen;
 
             $subdomen_model = Subdomen::find()
